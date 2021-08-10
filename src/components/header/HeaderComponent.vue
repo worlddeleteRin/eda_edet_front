@@ -1,0 +1,152 @@
+<template>
+<div class="mx-auto max-w-screen-lg 2xl:max-w-screen-xl">
+	
+	<div class="h-[50px] md:h-[76px] flex items-center relative flex-shrink">
+
+	<!-- header logo -->
+	<div class="flex items-center flex-shrink w-4/12 h-full md:w-3/12">
+		<img 
+		:src="logoUrl"
+		class="object-contain w-full max-h-full h-11/12"
+		/>
+	</div>
+		<!-- 
+		<div class="ml-4 text-2xl">
+			{{ brandName }}
+		</div>
+		-->
+	<!-- eof header logo -->
+	<!-- header location -->
+	<div class="flex-row items-center hidden ml-8 lg:flex">
+		<Icon
+			icon="carbon:location-filled"
+			class="text-gray-800"
+			width="25"
+		/>
+		<span class="ml-1 text-lg tracking-wide">
+			Симферополь
+		</span>
+	</div>
+	<!-- eof header location -->
+	<!-- header contact -->
+	<div class="flex-col flex-1 hidden w-3/12 md:flex md:flex-0">
+		<div class="w-full text-center">
+			<a 
+			:href="'tel:'+ contactPhone"
+			class="text-xl font-medium text-black"	
+			>
+				{{ contactPhoneDisplay }}	
+			</a>
+		</div>
+		<div class="w-full text-center">
+		<Button
+		@click="requestCallClick"
+		class="block mx-auto mt-1 max-w-max"
+		textColor="white"
+		:title="'Заказать звонок'"
+		:size="'medium'"
+		/>
+		</div>
+	</div>
+	<!-- eof header contact -->
+
+	<!-- header profile links -->
+	<div class="justify-end flex-1 hidden md:flex">
+	<!-- if user authorized block -->	
+	<div
+	v-if="!userAuthorized"
+	>
+		<Button
+		title="&#x1F525; Войти"
+		rounded="full"
+		size="large"
+		shadow="small"
+		backgroundColor="#f3f3f7"
+		class="ml-2 text-[#5c6370] hover:text-gray-900"
+		/>
+	</div>
+
+	<!-- eof if user authorized block -->
+	<!-- if user not authorized -->
+	<div
+	v-else
+	>
+		<Button
+		title="&#x1F389; Бонусы"
+		rounded="full"
+		size="large"
+		backgroundColor="#f3f3f7"
+		shadow="small"
+		class="text-[#5c6370] hover:text-gray-900"
+		/>
+		<Button
+		title="&#x1F511; Кабинет"
+		rounded="full"
+		shadow="small"
+		size="large"
+		backgroundColor="#f3f3f7"
+		class="ml-2 text-[#5c6370] hover:text-gray-900"
+		/>
+	</div>
+	<!-- eof if user not authorized block -->
+	</div>
+	<!-- eof header profile links -->
+
+	<!-- open mobile menu button -->
+	<!-- eof open mobile menu button -->
+
+	</div>
+
+</div>
+</template>
+
+<script lang="ts">
+import { defineComponent } from "vue";
+import { Icon } from '@iconify/vue';
+import Button from '@/components/buttons/Button.vue';
+
+export default defineComponent({
+	name: "HeaderComponent",
+	props: {
+		brandName: {
+			type: String,
+			required: true,
+			default: "BrandName",
+		},
+		logoUrl: {
+			type: String,
+			default: 'https://placeholder.com/wp-content/uploads/2018/10/placeholder.com-logo3.jpg',
+		},
+		contactPhone: {
+			type: String,
+			required: true,
+			default: "79780000000",
+		},
+		contactPhoneDisplay: {
+			type: String,
+			required: true,
+			default: "7 978-000-00-00",
+		},
+		userAuthorized: {
+			type: Boolean,
+			required: true,
+			default: false,
+		}
+	},
+	components: {
+		Icon,
+		Button,
+	},
+	emits: ['request-call'],
+	setup (props, {emit}) {
+		function requestCallClick () {
+			emit('request-call')
+		}
+		return {
+			// functions
+			requestCallClick,
+		}
+	}
+})
+	
+</script>
