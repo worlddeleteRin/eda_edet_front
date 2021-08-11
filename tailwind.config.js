@@ -5,6 +5,11 @@ module.exports = {
 	theme: {
 		fontFamily: {
 		},
+		colors: {
+		white: "white",
+		black: "black",
+		default: "#00d954",
+		},
 		extend: {},	
 	},
 	variants: {

@@ -107,6 +107,34 @@
 
 	</div>
 
+
+
+	<!-- subheader -->
+	<div class="relative hidden md:flex h-[58px] items-center justify-between">
+		<!-- desktop nav links -->				
+		<div class="flex items-center">
+			<div
+			v-for="nav_link in menuLinks"
+			:key="nav_link"
+			class="py-4 mr-4 text-sm font-medium cursor-pointer select-none hover:text-default transition duration-200"
+			>
+				{{ nav_link.link_name }}
+			</div>
+		</div>
+		<!-- eof desktop nav links -->
+		<!-- header cart -->
+		<div class="px-5 py-2 rounded-full cursor-pointer bg-default">
+			<span class="text-[white] select-none">
+				Корзина
+			</span>
+			<span>
+			</span>
+		</div>
+		<!-- eof header cart -->
+	</div>
+	<!-- eof subheader -->
+
+
 </div>
 </template>
 
@@ -117,6 +145,40 @@ import Button from '@/components/buttons/Button.vue';
 export default defineComponent({
 	name: "HeaderComponent",
 	props: {
+		menuLinks: {
+			type: Array,
+			required: true,
+			default: () => [
+				{
+					'link_name': "Пицца",
+					'link_path': "/",
+				},
+				{
+					'link_name': "Другие товары",
+					'link_path': "/",
+				},
+				{
+					'link_name': "Пицца",
+					'link_path': "/",
+				},
+				{
+					'link_name': "Другие товары",
+					'link_path': "/",
+				},
+				{
+					'link_name': "Пицца",
+					'link_path': "/",
+				},
+				{
+					'link_name': "Другие товары",
+					'link_path': "/",
+				},
+				{
+					'link_name': "Пицца",
+					'link_path': "/",
+				},
+			],
+		},
 		brandName: {
 			type: String,
 			required: true,
@@ -124,7 +186,7 @@ export default defineComponent({
 		},
 		logoUrl: {
 			type: String,
-			default: 'https://placeholder.com/wp-content/uploads/2018/10/placeholder.com-logo3.jpg',
+			default: "https://placeholder.com/wp-content/uploads/2018/10/placeholder.com-logo3.jpg",
 		},
 		contactPhone: {
 			type: String,
@@ -146,14 +208,12 @@ export default defineComponent({
 		Icon,
 		Button,
 	},
-	emits: ['request-call', 'open-mobile-header-menu'],
+	emits: ["request-call", "open-mobile-menu"],
 	setup (props, {emit}) {
-		function requestCallClick () {
-			emit('request-call')
-		}
-		function openMobileMenuClick () {
-			emit('open-mobile-header-menu')
-		}
+
+		var requestCallClick  = () => emit("request-call")
+		var openMobileMenuClick = () => emit("open-mobile-menu")
+
 		return {
 			// functions
 			requestCallClick,
