@@ -1,12 +1,12 @@
-import HeaderComponent from './HeaderComponent.vue';
+import MobileHeaderMenu from '@/components/header/MobileHeaderMenu';
 import { Icon }  from '@iconify/vue';
 // import Button from '../buttons/Button.vue';
 import '@/main.css';
 //import { action } from '@storybook/addon-actions';
 
 export default {
-	component: HeaderComponent,
-	title: 'Components/Header/HeaderMain',
+	component: MobileHeaderMenu,
+	title: 'Components/Headers/MobileHeaderMenu',
 	argTypes: {
 	},
 }
@@ -15,16 +15,17 @@ const actionsData = {
 }
 
 const Template = args => ({
-	components: { HeaderComponent },
+	components: { MobileHeaderMenu },
 	setup () {
 		return { args, ...actionsData };
 	},
-	template: "<HeaderComponent v-bind='args' />",
+	template: "<MobileHeaderMenu v-bind='args' />",
 })
 
-export const Primary = Template.bind({})
-Primary.args = {
+export const Default = Template.bind({})
+Default.args = {
 }
+
 
 
 

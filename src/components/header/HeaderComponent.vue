@@ -1,7 +1,7 @@
 <template>
 <div class="mx-auto max-w-screen-lg 2xl:max-w-screen-xl">
 	
-	<div class="h-[50px] md:h-[76px] flex items-center relative flex-shrink">
+	<div class="h-[50px] md:h-[76px] flex items-center justify-between relative flex-shrink">
 
 	<!-- header logo -->
 	<div class="flex items-center flex-shrink w-4/12 h-full md:w-3/12">
@@ -93,6 +93,16 @@
 	<!-- eof header profile links -->
 
 	<!-- open mobile menu button -->
+	<div 
+	@click="openMobileMenuClick"
+	class="flex px-2 py-1"
+	>
+		<Icon
+		icon="feather:menu"
+		width="22"
+		class="block md:hidden"
+		/>
+	</div>
 	<!-- eof open mobile menu button -->
 
 	</div>
@@ -104,7 +114,6 @@
 import { defineComponent } from "vue";
 import { Icon } from '@iconify/vue';
 import Button from '@/components/buttons/Button.vue';
-
 export default defineComponent({
 	name: "HeaderComponent",
 	props: {
@@ -137,14 +146,18 @@ export default defineComponent({
 		Icon,
 		Button,
 	},
-	emits: ['request-call'],
+	emits: ['request-call', 'open-mobile-header-menu'],
 	setup (props, {emit}) {
 		function requestCallClick () {
 			emit('request-call')
 		}
+		function openMobileMenuClick () {
+			emit('open-mobile-header-menu')
+		}
 		return {
 			// functions
 			requestCallClick,
+			openMobileMenuClick,
 		}
 	}
 })
