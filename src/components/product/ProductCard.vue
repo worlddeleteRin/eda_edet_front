@@ -7,7 +7,9 @@
 <div class="relative z-0 flex md:flex-col md:items-center md:max-w-[300px]">
 
 	<!-- image -->
-	<div class="max-w-[250px] h-[150px] w-5/12 h-full relative rounded md:w-full">
+	<div 
+	@click="goToProductPage"
+	class="max-w-[250px] h-[150px] w-5/12 h-full relative rounded md:w-full">
 		<lazy-image
 			lazySrc="https://dodopizza-a.akamaihd.net/static/Img/Products/5dffe4c7d3bc49668f50c1d08d920992_292x292.jpeg"
 			class_styles="object-contain w-full h-full rounded"
@@ -18,7 +20,9 @@
 	<div class="flex flex-col justify-center w-10/12 ml-2 md:w-full">
 
 		<!-- name -->
-		<div>
+		<div
+		@click="goToProductPage"
+		>
 			<span>
 				{{ product.name }}
 			</span>
@@ -75,6 +79,9 @@ import ProductInterface from '@/interfaces/ProductInterface';
 import Button from '@/components/buttons/Button.vue';
 import LazyImage from '@/components/image/LazyImage.vue';
 
+// delete below code
+import { useRouter } from 'vue-router';
+
 export default defineComponent({
 	name: "ProductCard",
 	components: {
@@ -100,10 +107,14 @@ export default defineComponent({
 	emits: ['add-cart'],
 
 	setup (props, { emit }) {	
+		const router = useRouter()
+
+		var goToProductPage  = () => router.push('/product/123123')
 		var addCartClick = () => emit('add-cart')
 		return {
 			// functions
 			addCartClick,
+			goToProductPage,
 		}
 	}
 });

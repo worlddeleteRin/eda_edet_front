@@ -1,7 +1,8 @@
 <template>
 	<header-component
 		@open-mobile-menu="setMobileMenu(true)"
-		:userAuthorized="true"
+		:userAuthorized="false"
+		:logoUrl="'http://192.168.1.141:8080/logo_variant.png'"
 		class="px-3 mt-1 md:px-2 md:mt-4"
 	/>
 	<mobile-header-menu

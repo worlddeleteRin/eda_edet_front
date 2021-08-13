@@ -1,7 +1,8 @@
 <template>
 <div>
-	<product-card
-	/>
+	main page is here
+	<product-card />
+	<router-view></router-view>
 </div>
 </template>
 

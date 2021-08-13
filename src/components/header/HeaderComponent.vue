@@ -4,12 +4,13 @@
 	<div class="h-[50px] md:h-[76px] flex items-center justify-between relative flex-shrink">
 
 	<!-- header logo -->
-	<div class="flex items-center flex-shrink w-4/12 h-full md:w-3/12">
+	<router-link :to="'/'" 
+	class="flex items-center flex-shrink w-4/12 h-full md:w-3/12">
 		<img 
 		:src="logoUrl"
 		class="object-contain w-full max-h-full h-11/12"
 		/>
-	</div>
+	</router-link>
 		<!-- 
 		<div class="ml-4 text-2xl">
 			{{ brandName }}
@@ -149,35 +150,39 @@ export default defineComponent({
 			type: Array,
 			required: true,
 			default: () => [
-				{
-					'link_name': "Пицца",
-					'link_path': "/",
-				},
-				{
-					'link_name': "Другие товары",
-					'link_path': "/",
-				},
-				{
-					'link_name': "Пицца",
-					'link_path': "/",
-				},
-				{
-					'link_name': "Другие товары",
-					'link_path': "/",
-				},
-				{
-					'link_name': "Пицца",
-					'link_path': "/",
-				},
-				{
-					'link_name': "Другие товары",
-					'link_path': "/",
-				},
-				{
-					'link_name': "Пицца",
-					'link_path': "/",
-				},
-			],
+					{
+						'link_name': "Меню доставки",
+						'link_path': "/",
+					},
+					{
+						'link_name': "Пицца",
+						'link_path': "/",
+					},
+					{
+						'link_name': "Роллы",
+						'link_path': "/",
+					},
+					{
+						'link_name': "Сеты",
+						'link_path': "/",
+					},
+					{
+						'link_name': "Напитки",
+						'link_path': "/",
+					},
+					{
+						'link_name': "Бургеры",
+						'link_path': "/",
+					},
+					{
+						'link_name': "Акции",
+						'link_path': "/",
+					},
+					{
+						'link_name': "Контакты",
+						'link_path': "/",
+					},
+				],
 		},
 		brandName: {
 			type: String,

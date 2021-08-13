@@ -1,12 +1,22 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import MainPage from "@/pages/MainPage.vue";
 
+const productPage = () => import(/* webpackChunkName: "product-page" */ '@/components/product/ProductPage.vue')
+
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "MainPage",
     component: MainPage,
+	children: [
+		{
+			path: "/product/:id",
+			name: "ProductPage",
+			component: productPage,
+		},
+	] as Array<RouteRecordRaw>
   },
+
   /*
   {
     path: "/about",
