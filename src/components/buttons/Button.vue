@@ -58,7 +58,7 @@ export default defineComponent({
 		},
 		backgroundColor: {
 			type: String,
-			default: "#00db5e",
+			default: null,
 		},
 		textColor: {
 			type: String,

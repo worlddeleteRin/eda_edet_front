@@ -41,7 +41,7 @@
 		<div class="w-full text-center">
 		<Button
 		@click="requestCallClick"
-		class="block mx-auto mt-1 max-w-max"
+		class="block mx-auto mt-1 max-w-max bg-default"
 		textColor="white"
 		:title="'Заказать звонок'"
 		:size="'medium'"

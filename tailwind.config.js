@@ -9,7 +9,8 @@ module.exports = {
 		},
 		colors: {
 		...colors,
-		default: "#00d954",
+		default: "#ff6900",
+		defaultText: "#d15700",
 		},
 		extend: {},	
 	},

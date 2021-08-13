@@ -1,8 +1,8 @@
 <template>
 	<header-component
 		@open-mobile-menu="setMobileMenu(true)"
-		userAuthorized="user_authorized"
-		class="px-3 md:px-2 mt-1 md:mt-4"
+		:userAuthorized="true"
+		class="px-3 mt-1 md:px-2 md:mt-4"
 	/>
 	<mobile-header-menu
 		v-if="mobile_menu_open"
@@ -21,6 +21,7 @@
 <script>
 import { useStore } from 'vuex';
 import { computed, defineAsyncComponent } from 'vue'
+
 // local components
 import HeaderComponent from '@/components/header/HeaderComponent';
 const MobileHeaderMenu  = defineAsyncComponent (() => import('@/components/header/MobileHeaderMenu'));

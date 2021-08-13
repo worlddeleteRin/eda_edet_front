@@ -4,18 +4,18 @@
 	but at tylewindcss "md" default screen responsive breakpoint 
 	wraps to horizontail view
 -->
-<div class="flex">
+<div class="relative z-0 flex md:flex-col md:items-center md:max-w-[300px]">
 
 	<!-- image -->
-	<div class="max-w-[250px] w-5/12 h-full relative rounded">
-		<img
-		:src="product.imgsrc[0]"
-		class="object-contain w-full h-full rounded"
+	<div class="max-w-[250px] h-[150px] w-5/12 h-full relative rounded md:w-full">
+		<lazy-image
+			lazySrc="https://dodopizza-a.akamaihd.net/static/Img/Products/5dffe4c7d3bc49668f50c1d08d920992_292x292.jpeg"
+			class_styles="object-contain w-full h-full rounded"
 		/>
 	</div>
 	<!-- eof image -->
 	<!-- details -->
-	<div class="w-7/12 ml-2">
+	<div class="flex flex-col justify-center w-10/12 ml-2 md:w-full">
 
 		<!-- name -->
 		<div>
@@ -27,7 +27,7 @@
 		<!-- description -->
 		<div
 		v-if="product.description"
-		class="mt-2"
+		class="mt-1"
 		>
 			<span class="text-sm text-gray-500">
 				{{ product.description }}
@@ -35,11 +35,28 @@
 		</div>
 		<!-- eof description -->
 		<!-- addcart -->
-		<div class="px-5 py-1 mt-3 rounded-full cursor-pointer select-none bg-default max-w-max">
-			<span class="font-medium">
-				от {{ product.price }} &#8381;
-			</span>
-		</div>
+			<!-- mobile add cart -->
+			<div class="mt-3 md:hidden">
+				<Button
+					:title="product.price + ' &#8381;'"
+					rounded="full"
+					class="px-4 py-2 font-medium text-defaultText bg-default bg-opacity-10"
+				/>
+			</div>	
+			<!-- eof mobile add cart -->
+			<!-- desktop add cart -->
+			<div class="items-center justify-between hidden mt-4 md:flex">
+				<div>
+					 {{ product.price }} &#8381;
+				</div>
+				<Button
+				title="В корзину"
+				rounded="full"
+				size="large"
+				class="font-medium bg-default bg-opacity-10 text-defaultText"
+				/>
+			</div>
+			<!-- eof desktop add cart -->
 		<!-- eof addcart -->
 
 	</div>
@@ -51,14 +68,19 @@
 </template>
 
 <script lang="ts">
+
 import { defineComponent, PropType } from 'vue';
 import { Icon } from '@iconify/vue';
 import ProductInterface from '@/interfaces/ProductInterface';
+import Button from '@/components/buttons/Button.vue';
+import LazyImage from '@/components/image/LazyImage.vue';
 
 export default defineComponent({
 	name: "ProductCard",
 	components: {
 		Icon,
+		Button,
+		LazyImage,
 	},
 	props: {
 		product: {
@@ -76,6 +98,7 @@ export default defineComponent({
 		},
 	},
 	emits: ['add-cart'],
+
 	setup (props, { emit }) {	
 		var addCartClick = () => emit('add-cart')
 		return {

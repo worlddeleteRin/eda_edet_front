@@ -1,6 +1,5 @@
 <template>
 <div>
-	main page is here
 	<product-card
 	/>
 </div>
