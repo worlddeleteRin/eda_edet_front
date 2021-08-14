@@ -58,6 +58,7 @@
 	v-if="!userAuthorized"
 	>
 		<Button
+		@click="openUserAuthorizeClicked"
 		title="&#x1F525; Войти"
 		rounded="full"
 		size="large"
@@ -213,16 +214,18 @@ export default defineComponent({
 		Icon,
 		Button,
 	},
-	emits: ["request-call", "open-mobile-menu"],
+	emits: ["open-mobile-menu", "open-call-request", "open-user-authorize"],
 	setup (props, {emit}) {
 
-		var requestCallClick  = () => emit("request-call")
+		var requestCallClick  = () => emit("open-call-request")
 		var openMobileMenuClick = () => emit("open-mobile-menu")
+		var openUserAuthorizeClicked = () => emit("open-user-authorize")
 
 		return {
 			// functions
 			requestCallClick,
 			openMobileMenuClick,
+			openUserAuthorizeClicked,
 		}
 	}
 })

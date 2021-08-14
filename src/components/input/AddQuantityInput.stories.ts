@@ -1,14 +1,12 @@
-import ProductCard from '@/components/product/ProductCard.vue';
+import AddQuantityInput from '@/components/input/AddQuantityInput.vue';
 import { Icon }  from '@iconify/vue';
-//import VueLazyLoad  from "vue3-lazyload";
-
 //import Button from '@/components/buttons/Button.vue';
 import '@/main.css';
 //import { action } from '@storybook/addon-actions';
 
 export default {
-	component: ProductCard,
-	title: 'Components/ProductCards/ProductCard',
+	component: AddQuantityInput,
+	title: 'Components/Inputs/AddQuantityInput',
 	argTypes: {
 	},
 }
@@ -17,11 +15,11 @@ const actionsData = {
 }
 
 const Template = args => ({
-	components: { ProductCard },
+	components: { AddQuantityInput },
 	setup () {
 		return { args, ...actionsData };
 	},
-	template: "<ProductCard v-bind='args' />",
+	template: "<AddQuantityInput v-bind='args' />",
 })
 
 export const Default = Template.bind({})

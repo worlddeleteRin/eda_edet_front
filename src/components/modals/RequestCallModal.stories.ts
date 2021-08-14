@@ -1,14 +1,12 @@
-import ProductCard from '@/components/product/ProductCard.vue';
+import RequestCallModal from '@/components/modals/RequestCallModal.vue';
 import { Icon }  from '@iconify/vue';
-//import VueLazyLoad  from "vue3-lazyload";
-
-//import Button from '@/components/buttons/Button.vue';
+// import Button from '../buttons/Button.vue';
 import '@/main.css';
 //import { action } from '@storybook/addon-actions';
 
 export default {
-	component: ProductCard,
-	title: 'Components/ProductCards/ProductCard',
+	component: RequestCallModal,
+	title: 'Components/Modals/RequestCallModal',
 	argTypes: {
 	},
 }
@@ -17,11 +15,11 @@ const actionsData = {
 }
 
 const Template = args => ({
-	components: { ProductCard },
+	components: { RequestCallModal },
 	setup () {
 		return { args, ...actionsData };
 	},
-	template: "<ProductCard v-bind='args' />",
+	template: "<RequestCallModal v-bind='args' />",
 })
 
 export const Default = Template.bind({})

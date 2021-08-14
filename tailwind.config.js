@@ -11,6 +11,8 @@ module.exports = {
 		...colors,
 		default: "#ff6900",
 		defaultText: "#d15700",
+		defaultGray: "#f3f3f7",
+		defaultGrayText: "#5c6370",
 		},
 		extend: {},	
 	},

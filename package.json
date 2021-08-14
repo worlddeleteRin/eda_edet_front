@@ -11,15 +11,15 @@
   },
   "dependencies": {
     "@iconify/vue": "^3.0.0",
-    "@storybook/vue": "^6.3.6",
+    "@popperjs/core": "^2.9.3",
     "autoprefixer": "^9",
     "core-js": "^3.6.5",
-    "lozad": "^1.16.0",
+    "maska": "^1.4.5",
     "postcss": "^7",
-    "sb": "^6.3.6",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
+    "vue3-lazyload": "^0.2.2-beta",
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {

@@ -1,8 +1,18 @@
 <template>
 <div>
 	main page is here
+
+	<div class="grid grid-cols-3">
+
 	<product-card />
+	<product-card
+		:isInCart="true"
+	/>
+
+	</div>
+
 	<router-view></router-view>
+
 </div>
 </template>
 

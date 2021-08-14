@@ -10,9 +10,9 @@
 	<div 
 	@click="goToProductPage"
 	class="max-w-[250px] h-[150px] w-5/12 h-full relative rounded md:w-full">
-		<lazy-image
-			lazySrc="https://dodopizza-a.akamaihd.net/static/Img/Products/5dffe4c7d3bc49668f50c1d08d920992_292x292.jpeg"
-			class_styles="object-contain w-full h-full rounded"
+		<img
+			v-lazy="'https://dodopizza-a.akamaihd.net/static/Img/Products/5dffe4c7d3bc49668f50c1d08d920992_292x292.jpeg'"
+			class="object-contain w-full h-full rounded"
 		/>
 	</div>
 	<!-- eof image -->
@@ -42,10 +42,16 @@
 			<!-- mobile add cart -->
 			<div class="mt-3 md:hidden">
 				<Button
+					v-if="!isInCart"
 					:title="product.price + ' &#8381;'"
 					rounded="full"
 					class="px-4 py-2 font-medium text-defaultText bg-default bg-opacity-10"
 				/>
+
+				<add-quantity-input
+				v-if="isInCart"
+				/>
+
 			</div>	
 			<!-- eof mobile add cart -->
 			<!-- desktop add cart -->
@@ -54,11 +60,17 @@
 					 {{ product.price }} &#8381;
 				</div>
 				<Button
+				v-if="!isInCart"
 				title="В корзину"
 				rounded="full"
 				size="large"
 				class="font-medium bg-default bg-opacity-10 text-defaultText"
 				/>
+
+				<add-quantity-input 
+				v-if="isInCart"
+				/>
+
 			</div>
 			<!-- eof desktop add cart -->
 		<!-- eof addcart -->
@@ -77,7 +89,8 @@ import { defineComponent, PropType } from 'vue';
 import { Icon } from '@iconify/vue';
 import ProductInterface from '@/interfaces/ProductInterface';
 import Button from '@/components/buttons/Button.vue';
-import LazyImage from '@/components/image/LazyImage.vue';
+//import LazyImage from '@/components/image/LazyImage.vue';
+import AddQuantityInput from '@/components/input/AddQuantityInput.vue';
 
 // delete below code
 import { useRouter } from 'vue-router';
@@ -87,7 +100,8 @@ export default defineComponent({
 	components: {
 		Icon,
 		Button,
-		LazyImage,
+		AddQuantityInput,
+//		LazyImage,
 	},
 	props: {
 		product: {
@@ -102,6 +116,10 @@ export default defineComponent({
 					"https://i.picsum.photos/id/527/1000/1000.jpg?hmac=58DhmNmoflyEtAQW8CtzqGN1tItgvnytquSC23qjhdQ"
 				],
 			} as ProductInterface,
+		},
+		isInCart: {
+			type: Boolean,
+			default: false, 
 		},
 	},
 	emits: ['add-cart'],
