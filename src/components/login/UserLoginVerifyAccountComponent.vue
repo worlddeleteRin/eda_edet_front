@@ -77,12 +77,10 @@ export default defineComponent({
 		var user_login_info_local =  reactive(
 			props.userLoginInfo
 		);
-
 		// emit user login data from local, when local changes
 		var updateUserLoginInfo = (event: Record<string,any>) => {
 			emit('user-login-info', user_login_info_local)	
 		}					
-
 		// emit user check verify code, when button clicked
 		var loginCheckVerifyClicked = () => emit('login-check-verify')
 		// emit go login state, when button clicked

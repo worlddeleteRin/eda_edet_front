@@ -71,7 +71,6 @@ export default defineComponent({
 		var updateUserLoginInfo = (event: Record<string,any>) => {
 			emit('user-login-info', user_login_info_local)	
 		}					
-
 		// emit user register click button
 		var userRegisterClick = () => emit('user-check-register')
 

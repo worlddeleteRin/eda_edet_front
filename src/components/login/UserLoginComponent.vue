@@ -7,7 +7,6 @@
 <!-- user login form -->
 <div>
 	<!-- user phone -->
-
 	<div class="mt-5 text-center">
 		Номер телефона
 	</div>
@@ -20,21 +19,6 @@
 	/>
 	<!-- eof user phone -->
 
-	<!-- user password-->
-	<!--
-	<div class="mt-3 text-center">
-		Пароль
-	</div>
-	<input
-	type="password"
-	v-model="user_login_info_local.user_password"
-	placeholder="Ваш пароль"
-	@input="updateUserLoginInfo"
-	class="w-full px-4 py-3 mt-2 text-lg rounded-md bg-defaultGray focus:outline-none focus:ring-2 ring-default"
-	/>
-	-->
-	<!-- eof user password -->
-	
 	<!-- login button -->
 	<div class="mt-8">
 		<Button
@@ -45,28 +29,6 @@
 		/>
 	</div>
 	<!-- eof login button -->
-	<!-- register button -->
-	<!--
-	<div class="mt-3">
-		<Button
-		:title="'Регистрация'"
-		rounded="full"
-		class="flex justify-center px-5 py-3 text-white bg-defaultDim text-defaultText"
-		/>
-	</div>
-	-->
-	<!-- eof register button -->
-	<!-- forget password button -->
-	<!--
-	<div class="mt-3">
-		<Button
-		:title="'Забыли пароль?'"
-		rounded="full"
-		class="flex justify-center px-3 py-2 text-white text-red-500"
-		/>
-	</div>
-	-->
-	<!-- eof forget password button -->
 </div>
 <!-- eof user login form -->	
 </template>
@@ -93,16 +55,17 @@ export default defineComponent({
 	emits: ['user-login-info', 'toast-error', 'toast-success', 'user-login'],
 	setup(props, {emit}) {
 
+		// user_login info from vuex, inherited by parent
 		var user_login_info_local =  reactive(
 			props.userLoginInfo
 		);
-
+		// emit user_login_local changes to parent
 		var updateUserLoginPhone = (event: Record<string,any>) => {
 			user_login_info_local.user_phone = event.target.getAttribute('data-mask-raw-value')
 			emit('user-login-info', user_login_info_local)	
 		}					
+		// emit user login button click
 		var userLoginClick = () => emit('user-login')
-
 
 		return {
 			// reactive
