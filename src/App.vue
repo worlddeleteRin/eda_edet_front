@@ -11,6 +11,7 @@
 		v-if="mobile_menu_open"
 		@close-mobile-menu="setMobileMenu(false)"
 	/>
+
 	{{ user_login_info }}
 
 	<!-- 
@@ -69,7 +70,6 @@ export default {
 		var setCallRequestModal = (is_open) => store.commit('setCallRequestModalOpen', is_open)
 		var setUserAuthorizeModal = (is_open) => store.commit('setUserAuthorizeOpen', is_open)
 		var setUserLoginInfo = (new_user_login_info) => { 
-			console.log('user login info is', new_user_login_info)
 			store.commit("setUserLoginInfo", new_user_login_info)
 		}
 		return {

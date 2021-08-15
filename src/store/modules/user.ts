@@ -1,8 +1,15 @@
+const user_authorize_states = {
+	NEED_LOGIN: "NEED_LOGIN",
+	NEED_PASSWORD: "NEED_PASSWORD",
+	NEED_REGISTER: "NEED_REGISTER",
+	RESTORE_ACCESS: "RESTORE_ACCESS",
+}
 
 export default {
   state: {
 	user_authorized: true,
 	user_login_info: {
+		user_authorize_state: user_authorize_states.NEED_REGISTER,
 		user_phone: '',
 		user_phone_mask: '+7',
 		user_password: '',

@@ -10,6 +10,7 @@ module.exports = {
 		colors: {
 		...colors,
 		default: "#ff6900",
+		defaultDim: "#fff0e6",
 		defaultText: "#d15700",
 		defaultGray: "#f3f3f7",
 		defaultGrayText: "#5c6370",

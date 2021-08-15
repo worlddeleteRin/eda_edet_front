@@ -15,34 +15,29 @@
 >
 	<div 
 	v-if="is_mounted"
-	class="absolute w-11/12 bg-white rounded-lg top-1/3 -translate-y-1/2 -translate-x-1/2 left-1/2 max-w-[600px]">
-		<div class="px-12 py-8">
+	class="absolute w-11/12 bg-white rounded-lg top-1/2 -translate-y-1/2 -translate-x-1/2 left-1/2 max-w-[600px]">
+		<div class="flex flex-col items-center px-5 py-8 md:px-12">
 
-			<div class="text-3xl font-medium">
-				Вход на сайт
-			</div>
+				
+			<!-- user login -->
+			<user-login-component
+				v-if="user_login_info_local.user_authorize_state == 'NEED_LOGIN'"
+				@user-login-info="updateUserLoginInfo"
+				:userLoginInfo="user_login_info_local"
+				@toast-error="errorToast"
+				@toast-success="successToast"
+			/>
+			<!-- eof user login -->
 
-			<!-- user login form -->
-			<div>
-
-				<!-- user phone -->
-				<input
-				v-model="user_login_info_local.user_phone_mask"
-				v-maska="'+7 (###)-###-##-##'"
-				placeholder="+7 (xxx)-xxx-xx-xx"
-				@maska="updateUserLoginPhone"
-				class=""
-				/>
-				<!-- eof user phone -->
-
-				<!-- user password -->
-				<!-- eof user password -->
-			</div>
-
-			<!-- eof user login form -->	
+			<!-- user register -->
+			<user-register-component
+				v-if="user_login_info_local.user_authorize_state == 'NEED_REGISTER'"
+			/>
+			<!-- user register -->
 
 		</div>
 	</div>
+		
 
 </transition>
 	
@@ -51,12 +46,17 @@
 
 <script lang="ts">
 import { onMounted, ref, reactive, defineComponent } from 'vue';
-import { maska } from 'maska';
+// toast import
+import { createToast } from 'mosha-vue-toastify';
+
+// import user login component
+import UserLoginComponent from '@/components/login/UserLoginComponent.vue';
+import UserRegisterComponent from '@/components/login/UserRegisterComponent.vue';
 
 export default defineComponent({
 	name: "UserAuthorizeModal",
-	directives: {
-		maska,
+	components: {
+		UserLoginComponent,
 	},
 	props: {
 		userLoginInfo: {
@@ -66,7 +66,32 @@ export default defineComponent({
 	},
 	emits: ['close-modal', 'user-login-info'],
 	setup (props, {emit}) {
+		// toast 
+		const inputErrorToast = (title: string) => {
+			createToast(
+				title, {
+					'type': 'danger',
+					'showIcon': true,
+					'hideProgressBar': true,	
+				}
+			);
+		};
+		const inputSuccessToast = (title: string) => {
+			createToast(
+				title, {
+					'type': 'success',
+					'showIcon': true,
+					'hideProgressBar': true,
+				}
+			);
+		};
+
+		var errorToast = (title) => inputErrorToast(title)
+		var successToast =  (title) => inputSuccessToast(title)
+
+
 		const is_mounted = ref(false)
+
 		var user_login_info_local =  reactive(
 			props.userLoginInfo
 		)
@@ -74,15 +99,15 @@ export default defineComponent({
 		onMounted(() => {
 			is_mounted.value = true
 		})
+
 		var closeModalClick = () => emit('close-modal')	
 		var updateUserLoginInfo = () => emit("user-login-info", user_login_info_local)
-		var updateUserLoginPhone = (event: Record<string,any>) => {
-			var user_phone = event.target.getAttribute('data-mask-raw-value')
-	//		var user_phone_mask = event.target.getAttribute('data-mask')
-			user_login_info_local.user_phone = user_phone
-//			user_login_info.user_phone_mask = user_phone_mask
+
+		var updateUserLoginInfoLocal = (new_user_login_info) => {
+			user_login_info_local = { ...new_user_login_info }
 			updateUserLoginInfo()
 		}
+
 
 		return {
 			// reactive
@@ -92,7 +117,8 @@ export default defineComponent({
 			// functions
 			closeModalClick,
 			updateUserLoginInfo,
-			updateUserLoginPhone,
+			errorToast,
+			successToast,
 		}
 	}
 });

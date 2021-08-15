@@ -6,6 +6,7 @@ import store from "./store";
 import VueLazyLoad  from "vue3-lazyload";
 // import main styles file
 import "./main.css"
+import 'mosha-vue-toastify/dist/style.css'
 
 const app = createApp(App)
 
