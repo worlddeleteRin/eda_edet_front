@@ -21,7 +21,8 @@
 				
 			<!-- user login -->
 			<user-login-component
-				v-if="user_login_info_local.user_authorize_state == 'NEED_LOGIN'"
+				v-if="user_login_info_local.user_authorize_state == userAuthorizeStates.NEED_LOGIN"
+				@user-login="loginCheckAccount"
 				@user-login-info="updateUserLoginInfo"
 				:userLoginInfo="user_login_info_local"
 				@toast-error="errorToast"
@@ -31,9 +32,40 @@
 
 			<!-- user register -->
 			<user-register-component
-				v-if="user_login_info_local.user_authorize_state == 'NEED_REGISTER'"
+				v-if="user_login_info_local.user_authorize_state == userAuthorizeStates.NEED_REGISTER"
+				@user-login-info="updateUserLoginInfo"
+				@user-check-register="loginCheckRegister"
+				:userLoginInfo="user_login_info_local"
+				@toast-error="errorToast"
+				@toast-success="successToast"
 			/>
 			<!-- user register -->
+
+			<!-- need password -->
+			<user-login-password-component
+				v-if="user_login_info_local.user_authorize_state == userAuthorizeStates.NEED_PASSWORD"
+				@user-login-info="updateUserLoginInfo"
+				@login-check-password="loginCheckPassword"
+				@go-restore-account="goLoginRestoreAccount"
+				:userLoginInfo="user_login_info_local"
+				@toast-error="errorToast"
+				@toast-success="successToast"
+			/>
+			<!-- eof need password -->
+
+			<!-- login restore account -->
+			<user-login-restore-account-component
+				v-if="user_login_info_local.user_authorize_state == userAuthorizeStates.RESTORE_ACCOUNT"
+				:userLoginInfo="user_login_info_local"
+				@user-login-info="updateUserLoginInfo"
+				@login-check-restore="loginCheckRestore"
+				@toast-error="errorToast"
+				@toast-success="successToast"
+			/>
+			<!-- eof login restore account -->
+
+			<!-- login verify account -->
+			<!-- eof login verify account -->
 
 		</div>
 	</div>
@@ -43,29 +75,44 @@
 	
 
 </template>
+			}
 
 <script lang="ts">
 import { onMounted, ref, reactive, defineComponent } from 'vue';
+import { useStore } from 'vuex';
 // toast import
 import { createToast } from 'mosha-vue-toastify';
 
 // import user login component
 import UserLoginComponent from '@/components/login/UserLoginComponent.vue';
 import UserRegisterComponent from '@/components/login/UserRegisterComponent.vue';
+import UserLoginPasswordComponent from '@/components/login/UserLoginPasswordComponent.vue';
+import UserLoginRestoreAccountComponent from '@/components/login/UserLoginRestoreAccountComponent.vue';
 
 export default defineComponent({
 	name: "UserAuthorizeModal",
 	components: {
 		UserLoginComponent,
+		UserRegisterComponent,
+		UserLoginPasswordComponent,
+		UserLoginRestoreAccountComponent,
 	},
 	props: {
 		userLoginInfo: {
 			type: Object,
+			required: true,
+			default: null,
+		},
+		userAuthorizeStates: {
+			type: Object,
+			required: true,
 			default: null,
 		},
 	},
 	emits: ['close-modal', 'user-login-info'],
 	setup (props, {emit}) {
+		// store
+		const store = useStore()
 		// toast 
 		const inputErrorToast = (title: string) => {
 			createToast(
@@ -86,8 +133,8 @@ export default defineComponent({
 			);
 		};
 
-		var errorToast = (title) => inputErrorToast(title)
-		var successToast =  (title) => inputSuccessToast(title)
+		var errorToast = (title: string) => inputErrorToast(title)
+		var successToast =  (title: string) => inputSuccessToast(title)
 
 
 		const is_mounted = ref(false)
@@ -100,12 +147,67 @@ export default defineComponent({
 			is_mounted.value = true
 		})
 
-		var closeModalClick = () => emit('close-modal')	
+		var closeModalClick = () => {
+			// close modal and set modal state to NEED_LOGIN
+			emit('close-modal')	
+			user_login_info_local.user_authorize_state = props.userAuthorizeStates.NEED_LOGIN
+			updateUserLoginInfo()
+		}
+
 		var updateUserLoginInfo = () => emit("user-login-info", user_login_info_local)
 
-		var updateUserLoginInfoLocal = (new_user_login_info) => {
+		var updateUserLoginInfoLocal = (new_user_login_info: Record<string,any>) => {
 			user_login_info_local = { ...new_user_login_info }
 			updateUserLoginInfo()
+		}
+
+		var goLoginRestoreAccount = () => {
+			user_login_info_local.user_authorize_state = props.userAuthorizeStates.RESTORE_ACCOUNT
+		}
+
+		var loginCheckRegister = async () => {
+			const validate_info = await store.dispatch('validateCheckRegister')	
+			if (!validate_info.is_valid) {
+				return inputErrorToast(validate_info.v_msg)
+			} else {
+				// set modal state to NEED_VERIFY, to send and verify code
+				user_login_info_local.user_authorize_state = props.userAuthorizeStates.NEED_VERIFY
+				return successToast('register is valid, can go verify with sms code')
+			}
+		}
+		var loginCheckAccount = async () => {
+			const validate_info = await store.dispatch('validateCheckAccount')	
+			if (!validate_info.is_valid) {
+				return inputErrorToast(validate_info.v_msg)
+			} else {
+				// go to need register, if need
+				user_login_info_local.user_authorize_state = props.userAuthorizeStates.NEED_REGISTER
+				updateUserLoginInfo()
+				// need to check, if accounts exist
+				// go to register, if account exist
+				// go to type password, if accounts not exist
+				return successToast('login is valid, can go further')
+			}
+		}
+		var loginCheckPassword = async () => {
+			const validate_info = await store.dispatch('validateCheckPassword')	
+			if (!validate_info.is_valid) {
+				return inputErrorToast(validate_info.v_msg)
+			} else {
+				// need to send data on server and check, if password is corrent
+				// login user and close modal, if password is corrent
+				// display error, if password is not correct
+				return successToast('password  verified, need to send on server')
+			}
+		}
+		var loginCheckRestore = async () => {
+			const validate_info = await store.dispatch('validateCheckRestore')
+			if (!validate_info.is_valid) {
+				return inputErrorToast(validate_info.v_msg)
+			} else {
+				// need to send code on server, and check, if it is right
+				return successToast('code verified, need to send and check on server')
+			}
 		}
 
 
@@ -117,6 +219,11 @@ export default defineComponent({
 			// functions
 			closeModalClick,
 			updateUserLoginInfo,
+			loginCheckRegister,
+			loginCheckAccount,
+			loginCheckPassword,
+			loginCheckRestore,
+			goLoginRestoreAccount,
 			errorToast,
 			successToast,
 		}

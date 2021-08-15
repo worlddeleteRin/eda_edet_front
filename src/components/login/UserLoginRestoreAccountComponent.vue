@@ -1,7 +1,7 @@
 <template>
 <!-- user login modal -->			
 <div class="text-3xl font-medium">
-	Вход на сайт
+	Восстановление доступа	
 </div>
 
 <!-- user login form -->
@@ -12,34 +12,29 @@
 		Номер телефона
 	</div>
 	<input
-	v-model="user_login_info_local.user_phone_mask"
-	v-maska="'+7 ###-###-##-##'"
-	placeholder="+7 999-999-99-99"
-	@maska="updateUserLoginPhone"
-	class="w-full px-4 py-3 mt-2 text-lg rounded-md bg-defaultGray focus:outline-none focus:ring-2 ring-default"
+		disabled
+		v-model="user_login_info_local.user_phone_mask"
+		placeholder="+7 999-999-99-99"
+		class="w-full px-4 py-3 mt-2 text-lg text-gray-400 select-none rounded-md bg-defaultGray"
 	/>
 	<!-- eof user phone -->
 
-	<!-- user password-->
-	<!--
 	<div class="mt-3 text-center">
-		Пароль
+		Код из смс	
 	</div>
 	<input
-	type="password"
-	v-model="user_login_info_local.user_password"
-	placeholder="Ваш пароль"
-	@input="updateUserLoginInfo"
-	class="w-full px-4 py-3 mt-2 text-lg rounded-md bg-defaultGray focus:outline-none focus:ring-2 ring-default"
+		v-model="user_login_info_local.restore_code"
+		placeholder="Ваш код"
+		@input="updateUserLoginInfo"
+		class="w-full px-4 py-3 mt-2 text-lg rounded-md bg-defaultGray focus:outline-none focus:ring-2 ring-default"
 	/>
-	-->
-	<!-- eof user password -->
+	<!-- eof user phone -->
 	
 	<!-- login button -->
 	<div class="mt-8">
 		<Button
-		@button-click="userLoginClick"
-		:title="'Войти'"
+		@button-click="loginCheckRestoreClicked"
+		:title="'Продолжить'"
 		rounded="full"
 		class="flex justify-center px-5 py-3 text-white bg-default"
 		/>
@@ -72,15 +67,11 @@
 </template>
 
 <script lang="ts">
-import { maska } from 'maska';
 import { defineComponent, reactive } from 'vue';
 import Button from '@/components/buttons/Button.vue';
 
 export default defineComponent({
-	name: "UserLoginComponent",
-	directives: {
-		maska,
-	},
+	name: "UserLoginRestoreAccountComponent",
 	components: {
 		Button,
 	},
@@ -90,26 +81,28 @@ export default defineComponent({
 			default: null,
 		}
 	},
-	emits: ['user-login-info', 'toast-error', 'toast-success', 'user-login'],
+	emits: ['user-login-info', 'toast-error', 'toast-success', 'login-check-restore'],
 	setup(props, {emit}) {
-
+		// user_login data
 		var user_login_info_local =  reactive(
 			props.userLoginInfo
 		);
 
-		var updateUserLoginPhone = (event: Record<string,any>) => {
-			user_login_info_local.user_phone = event.target.getAttribute('data-mask-raw-value')
+		// emit user login data from local, when local changes
+		var updateUserLoginInfo = (event: Record<string,any>) => {
 			emit('user-login-info', user_login_info_local)	
 		}					
-		var userLoginClick = () => emit('user-login')
+
+		// emit user check password, when button clicked
+		var loginCheckRestoreClicked = () => emit('login-check-restore')
 
 
 		return {
 			// reactive
 			user_login_info_local,
 			// functions
-			updateUserLoginPhone,
-			userLoginClick,
+			updateUserLoginInfo,
+			loginCheckRestoreClicked,
 		}
 	}
 });

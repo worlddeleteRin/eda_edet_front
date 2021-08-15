@@ -33,6 +33,7 @@
 		@close-modal="setUserAuthorizeModal(false)"
 		@user-login-info="setUserLoginInfo"
 		:userLoginInfo="user_login_info"
+		:userAuthorizeStates="user_authorize_states"
 	/>
 
 </template>
@@ -45,7 +46,7 @@ import { computed, defineAsyncComponent } from 'vue'
 import HeaderComponent from '@/components/header/HeaderComponent';
 const MobileHeaderMenu  = defineAsyncComponent (() => import('@/components/header/MobileHeaderMenu'));
 const RequestCallModal = defineAsyncComponent ( () => import('@/components/modals/RequestCallModal'));
-const UserAuthorizeModal = defineAsyncComponent( () => import('@/components/modals/UserAuthorizeModal'));
+const UserAuthorizeModal = defineAsyncComponent( () => import(/* webpackChunkName: "authorize-modal" */ '@/components/modals/UserAuthorizeModal'));
 //import MobileHeaderMenu from '@/components/header/MobileHeaderMenu';
 
 export default {
@@ -59,12 +60,16 @@ export default {
 	setup () {
 		const store = useStore()
 		// computed
+		// user info
 		const user_authorized = computed(() => store.state.user.user_authorized)
+		const user_login_info = computed( () => store.state.user.user_login_info)
+		const user_authorize_states = computed(() => store.state.user.user_authorize_states)
+		const user_authorize_open = computed( () => store.state.modals.user_authorize_open)
+
+
 		const mobile_menu_open = computed (() => store.state.modals.mobile_menu_open)
 		const theme_colors = computed(() => store.state.theme.colors)
 		const call_request_open = computed(() => store.state.modals.call_request_open)
-		const user_authorize_open = computed( () => store.state.modals.user_authorize_open)
-		const user_login_info = computed( () => store.state.user.user_login_info)
 		// functions
 		var setMobileMenu = (is_open) => store.commit('setMobileMenuOpen', is_open)	
 		var setCallRequestModal = (is_open) => store.commit('setCallRequestModalOpen', is_open)
@@ -74,12 +79,15 @@ export default {
 		}
 		return {
 			// computed
-			mobile_menu_open,
-			user_authorized,
 			theme_colors,
-			call_request_open,
+				// user
+			user_authorize_states,
+			user_authorized,
 			user_authorize_open,
 			user_login_info,
+
+			mobile_menu_open,
+			call_request_open,
 			// functions
 			setMobileMenu,
 			setCallRequestModal,
