@@ -35,7 +35,7 @@
 	<div class="mt-8">
 		<Button
 		@button-click="userRegisterClick"
-		:title="'Создать аккаунт'"
+		:title="'Продолжить'"
 		rounded="full"
 		class="flex justify-center px-5 py-3 text-white bg-default"
 		/>
@@ -72,6 +72,7 @@ export default defineComponent({
 			emit('user-login-info', user_login_info_local)	
 		}					
 
+		// emit user register click button
 		var userRegisterClick = () => emit('user-check-register')
 
 		return {

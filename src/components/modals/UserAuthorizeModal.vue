@@ -65,6 +65,15 @@
 			<!-- eof login restore account -->
 
 			<!-- login verify account -->
+			<user-login-verify-account-component
+				v-if="user_login_info_local.user_authorize_state == userAuthorizeStates.VERIFY_ACCOUNT"
+				:userLoginInfo="user_login_info_local"
+				@user-login-info="updateUserLoginInfo"
+				@login-check-verify="loginCheckVerify"
+				@toast-error="errorToast"
+				@toast-success="successToast"
+				@go-login="goLoginAccount"
+			/>
 			<!-- eof login verify account -->
 
 		</div>
@@ -88,6 +97,7 @@ import UserLoginComponent from '@/components/login/UserLoginComponent.vue';
 import UserRegisterComponent from '@/components/login/UserRegisterComponent.vue';
 import UserLoginPasswordComponent from '@/components/login/UserLoginPasswordComponent.vue';
 import UserLoginRestoreAccountComponent from '@/components/login/UserLoginRestoreAccountComponent.vue';
+import UserLoginVerifyAccountComponent from '@/components/login/UserLoginVerifyAccountComponent.vue';
 
 export default defineComponent({
 	name: "UserAuthorizeModal",
@@ -96,6 +106,7 @@ export default defineComponent({
 		UserRegisterComponent,
 		UserLoginPasswordComponent,
 		UserLoginRestoreAccountComponent,
+		UserLoginVerifyAccountComponent,
 	},
 	props: {
 		userLoginInfo: {
@@ -164,17 +175,23 @@ export default defineComponent({
 		var goLoginRestoreAccount = () => {
 			user_login_info_local.user_authorize_state = props.userAuthorizeStates.RESTORE_ACCOUNT
 		}
+		var goLoginAccount = () => {
+			user_login_info_local.user_authorize_state = props.userAuthorizeStates.NEED_LOGIN
+			updateUserLoginInfo()
+		}
 
 		var loginCheckRegister = async () => {
 			const validate_info = await store.dispatch('validateCheckRegister')	
 			if (!validate_info.is_valid) {
 				return inputErrorToast(validate_info.v_msg)
 			} else {
-				// set modal state to NEED_VERIFY, to send and verify code
-				user_login_info_local.user_authorize_state = props.userAuthorizeStates.NEED_VERIFY
+				// set modal state to VERIFY_ACCOUNT, to send and verify code
+				user_login_info_local.user_authorize_state = props.userAuthorizeStates.VERIFY_ACCOUNT
 				return successToast('register is valid, can go verify with sms code')
 			}
 		}
+
+
 		var loginCheckAccount = async () => {
 			const validate_info = await store.dispatch('validateCheckAccount')	
 			if (!validate_info.is_valid) {
@@ -210,6 +227,18 @@ export default defineComponent({
 			}
 		}
 
+		var loginCheckVerify = async () => {
+			const validate_info = await store.dispatch('validateCheckVerify')	
+			if (!validate_info.is_valid) {
+				return inputErrorToast(validate_info.v_msg)
+			} else {
+				// need to send verify code on server
+				// create account and login user, if code is right
+				// show errorToast, if code is not right
+				return successToast('verify is valid, can send code to check on server')
+			}
+		}
+
 
 		return {
 			// reactive
@@ -223,7 +252,9 @@ export default defineComponent({
 			loginCheckAccount,
 			loginCheckPassword,
 			loginCheckRestore,
+			loginCheckVerify,
 			goLoginRestoreAccount,
+			goLoginAccount,
 			errorToast,
 			successToast,
 		}

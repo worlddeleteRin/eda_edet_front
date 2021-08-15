@@ -1,6 +1,6 @@
 <template>
 <div class="text-3xl font-medium">
-	Восстановление доступа	
+	Валидация аккаунта	
 </div>
 
 <!-- user verify form -->
@@ -9,12 +9,19 @@
 	<div class="mt-5 text-center">
 		Номер телефона
 	</div>
-	<input
-		disabled
-		v-model="user_login_info_local.user_phone_mask"
-		placeholder="+7 999-999-99-99"
-		class="w-full px-4 py-3 mt-2 text-lg text-gray-400 select-none rounded-md bg-defaultGray"
-	/>
+	<div
+		class="flex w-full px-4 py-3 mt-2 text-lg text-gray-400 border-2 border-black select-none rounded-md bg-defaultGray"
+	>
+		<input
+			disabled
+			v-model="user_login_info_local.user_phone_mask"
+			placeholder="+7 999-999-99-99"
+			class="text-lg bg-defaultGray"
+		/>
+		<div>
+			Изменить
+		</div>
+	</div>
 	<!-- eof user phone -->
 
 	<!-- user code -->
@@ -22,26 +29,27 @@
 		Код из смс	
 	</div>
 	<input
-		v-model="user_login_info_local.restore_code"
+		v-model="user_login_info_local.verify_code"
 		placeholder="Ваш код"
 		@input="updateUserLoginInfo"
 		class="w-full px-4 py-3 mt-2 text-lg rounded-md bg-defaultGray focus:outline-none focus:ring-2 ring-default"
 	/>
 	<!-- eof user code -->
 	
-	<!-- restore button -->
+	<!-- verify button -->
 	<div class="mt-8">
 		<Button
-		@button-click="loginCheckRestoreClicked"
+		@button-click="loginCheckVerifyClicked"
 		:title="'Продолжить'"
 		rounded="full"
 		class="flex justify-center px-5 py-3 text-white bg-default"
 		/>
 	</div>
-	<!-- eof restore button -->
+	<!-- eof verify button -->
 
 </div>
 <!-- eof user verify form -->	
+
 </template>
 
 <script lang="ts">
@@ -49,7 +57,7 @@ import { defineComponent, reactive } from 'vue';
 import Button from '@/components/buttons/Button.vue';
 
 export default defineComponent({
-	name: "UserLoginRestoreAccountComponent",
+	name: "UserLoginVerifyAccountComponent",
 	components: {
 		Button,
 	},
@@ -59,7 +67,7 @@ export default defineComponent({
 			default: null,
 		}
 	},
-	emits: ['user-login-info', 'toast-error', 'toast-success', 'login-check-restore'],
+	emits: ['user-login-info', 'toast-error', 'toast-success', 'login-check-verify'],
 	setup(props, {emit}) {
 		// user_login data
 		var user_login_info_local =  reactive(
@@ -71,8 +79,8 @@ export default defineComponent({
 			emit('user-login-info', user_login_info_local)	
 		}					
 
-		// emit user check password, when button clicked
-		var loginCheckRestoreClicked = () => emit('login-check-restore')
+		// emit user check verify code, when button clicked
+		var loginCheckVerifyClicked = () => emit('login-check-verify')
 
 
 		return {
@@ -80,7 +88,7 @@ export default defineComponent({
 			user_login_info_local,
 			// functions
 			updateUserLoginInfo,
-			loginCheckRestoreClicked,
+			loginCheckVerifyClicked,
 		}
 	}
 });

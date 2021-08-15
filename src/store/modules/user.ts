@@ -12,6 +12,7 @@ const user_login_info_default = {
 	user_password: '',
 	user_password_repeat: '',
 	restore_code: '',
+	verify_code: '',
 }
 
 export default {
@@ -81,6 +82,18 @@ export default {
 			v_msg: '',
 		}
 		if (state.user_login_info.restore_code.length == 0) {	
+				v_info.v_msg = 'Введите код, высланный Вам по смс'	
+				return v_info 
+		}
+		v_info.is_valid = true
+		return v_info
+	},
+	validateCheckVerify({ state }: Record<string,any>) {
+		const v_info = {
+			is_valid: false,
+			v_msg: '',
+		}
+		if (state.user_login_info.verify_code.length == 0) {	
 				v_info.v_msg = 'Введите код, высланный Вам по смс'	
 				return v_info 
 		}
