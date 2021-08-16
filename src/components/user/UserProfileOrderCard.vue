@@ -14,11 +14,11 @@
 		</div>
 	</div>
 	<!-- eof order is and status -->
-	<div class="hidden md:flex flex-col justify-between w-3/12 mx-2">
+	<div class="flex-col justify-between hidden w-3/12 mx-2 md:flex">
 		<div class="text-sm font-semibold">
 			Адрес доставки
 		</div>		
-		<div>
+		<div class="text-sm">
 			Симферополь, Балаклавская ул, д. 73g, подъезд № 2
 		</div>
 	</div>
