@@ -25,7 +25,10 @@
 	<!-- call request popup modal -->	
 	<request-call-modal
 		v-if="call_request_open"
+		:requestCallInfo="request_call_info"
 		@close-modal="setCallRequestModal(false)" 
+		@request-call="sendRequestCall"
+		@request-call-info="updateRequestCallInfo"
 		class="z-40"
 	/>
 	<!-- eof call request popup modal -->
@@ -74,12 +77,22 @@ export default {
 		const mobile_menu_open = computed (() => store.state.modals.mobile_menu_open)
 		const theme_colors = computed(() => store.state.theme.colors)
 		const call_request_open = computed(() => store.state.modals.call_request_open)
+
+		const request_call_info = computed(() => store.state.site.request_call_info)
 		// functions
 		var setMobileMenu = (is_open) => store.commit('setMobileMenuOpen', is_open)	
 		var setCallRequestModal = (is_open) => store.commit('setCallRequestModalOpen', is_open)
 		var setUserAuthorizeModal = (is_open) => store.commit('setUserAuthorizeOpen', is_open)
 		var setUserLoginInfo = (new_user_login_info) => { 
 			store.commit("setUserLoginInfo", new_user_login_info)
+		}
+		// update request call info
+		var updateRequestCallInfo = (new_call_info) => {
+			store.commit('setRequestCallInfo', new_call_info)
+		}
+		// send request call
+		var sendRequestCall = async () => {
+			store.dispatch('sendRequestCallAPI')	
 		}
 		return {
 			// computed
@@ -92,11 +105,15 @@ export default {
 
 			mobile_menu_open,
 			call_request_open,
+
+			request_call_info,
 			// functions
 			setMobileMenu,
 			setCallRequestModal,
 			setUserAuthorizeModal,
 			setUserLoginInfo,
+			sendRequestCall,
+			updateRequestCallInfo,
 		}
 	}
 }

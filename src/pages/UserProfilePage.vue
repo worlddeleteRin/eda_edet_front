@@ -3,6 +3,7 @@
 
 	<UserProfileMain 
 		:userInfo="user_info"
+		class="max-w-[500px]"
 	/>
 
 	<UserProfileLinks

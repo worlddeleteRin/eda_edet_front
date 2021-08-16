@@ -1,5 +1,5 @@
 <template>
-<div class="flex">
+<div class="flex mx-4">
 	<div
 	v-for="profile_link in profileLinks"
 	:key="profile_link"
@@ -7,9 +7,11 @@
 	>
 		<router-link 
 			:to="profile_link.link_path"
-			:class="[isRouteActive(profile_link.link_path) ? 'bg-defaultDim text-defaultTextBg': '', 'px-4 py-1 rounded-full']"	
+			:class="[isRouteActive(profile_link.link_path) ? 'bg-defaultDim text-defaultTextBg font-medium': '', 'px-6 py-2 rounded-full']"	
 		>
-			{{ profile_link.link_name }}
+			<span class="">
+				{{ profile_link.link_name }}
+			</span>
 		</router-link>
 	</div>
 	<!-- user profile link here -->

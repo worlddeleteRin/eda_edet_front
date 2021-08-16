@@ -1,6 +1,6 @@
 <template>
 
-<div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-40"
+<div class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-40"
 	@click="closeModalClick"
 >
 </div>
@@ -15,29 +15,54 @@
 >
 	<div 
 	v-if="is_mounted"
-	class="absolute bg-white rounded-lg top-1/3 -translate-y-1/2 -translate-x-1/2 left-1/2">
+	class="fixed w-11/12 bg-white rounded-lg top-1/2 -translate-y-1/2 -translate-x-1/2 left-1/2 max-w-[600px]">
 		<div class="px-12 py-8">
 
-			{{ user_login_info }}
-			<div class="text-3xl font-medium">
-				Заказать звонок
+			<div class="text-3xl font-medium text-center">
+				Заказать звонок	
 			</div>
+			{{ requestCallInfo }}
 
-			<!-- user login form -->
+			<!-- user request call form -->
 			<div>
-
-				<!-- user phone -->
-				<input
-				v-model="user_login_info.user_phone"
-				@change="updateUserLoginInfo"
-				/>
-				<!-- eof user phone -->
-
 				<!-- user password -->
+				<div class="mt-5 text-center">
+					Ваше Имя	
+				</div>
+				<input
+				v-model="request_call_info_local.name"
+				@input="updateRequestCallInfoClick"
+				placeholder="Ваше Имя"
+				class="w-full px-4 py-3 mt-2 text-lg rounded-md bg-defaultGray focus:outline-none focus:ring-2 ring-default"
+				/>
 				<!-- eof user password -->
+
+				<!-- user password repeat -->
+				<div class="mt-2 text-center">
+					Ваш номер телефона	
+				</div>
+				<input
+				v-model="request_call_info_local.phone_mask"
+				@maska="setRequestPhone"
+				v-maska="'+7 ###-###-##-##'"
+				placeholder="+7 999-999-99-99"
+				class="w-full px-4 py-3 mt-2 text-lg rounded-md bg-defaultGray focus:outline-none focus:ring-2 ring-default"
+				/>
+				<!-- eof user password repeat -->
+
+				<!-- register button -->
+				<div class="mt-8">
+					<Button
+					@button-click="requestCallClick"
+					:title="'Заказать звонок'"
+					rounded="full"
+					class="flex justify-center px-5 py-3 text-white bg-default"
+					/>
+				</div>
+				<!-- eof register button -->
+
 			</div>
 
-			<!-- eof user login form -->	
 
 		</div>
 	</div>
@@ -47,32 +72,109 @@
 
 </template>
 
-<script>
-import { onMounted, ref, reactive } from 'vue';
-export default {
+<script lang="ts">
+import { onMounted, ref, reactive, defineComponent } from 'vue';
+import { maska } from 'maska';
+import { createToast } from 'mosha-vue-toastify';
+// local components
+import Button from '@/components/buttons/Button.vue';
+
+
+export default defineComponent({
 	name: "RequestCallModal",
-	emits: ['close-modal', 'user-login-info'],
+	emits: ['close-modal', 'request-call', 'request-call-info'],
+	components: {
+		Button,
+	},
+	directives: {
+		maska,
+	},
+	props: {
+		requestCallInfo: {
+			type: Object,
+			required: true,
+			default: null,
+		},
+	},
 	setup (props, {emit}) {
+		// toast 
+		const inputErrorToast = (title: string) => {
+			createToast(
+				title, {
+					'type': 'danger',
+					'showIcon': true,
+					'hideProgressBar': true,	
+				}
+			);
+		};
+		const inputSuccessToast = (title: string) => {
+			createToast(
+				title, {
+					'type': 'success',
+					'showIcon': true,
+					'hideProgressBar': true,
+				}
+			);
+		};
+		var errorToast = (title: string) => inputErrorToast(title)
+		var successToast =  (title: string) => inputSuccessToast(title)
+		// eof toasts
+		const request_call_info_local = reactive(props.requestCallInfo)
+
 		const is_mounted = ref(false)
-		const user_login_info = reactive({
-			user_phone: '',
-		})
+		// functions
 		onMounted(() => {
 			is_mounted.value = true
 		})
 		var closeModalClick = () => emit('close-modal')		
-		var updateUserLoginInfo = (value) => emit('user-login-info')
-
+		// validate request call
+		var validateRequestCall = () => {
+			const phone = request_call_info_local.phone
+			const name = request_call_info_local.name
+			const v_info = {
+				is_valid: false,
+				v_msg: ''
+			}
+			if (name.length == 0 || phone.length == 0) {
+				v_info.v_msg = "Заполните все необходимые поля"
+				return v_info
+			}
+			if (phone.length != 10) {
+				v_info.v_msg = "Корректно введите номер телефона"
+				return v_info
+			}
+			v_info.is_valid = true
+			return v_info
+		}
+		// send request call info, if it is valid
+		var requestCallClick = () => { 
+			const validate_info = validateRequestCall()
+			if (!validate_info.is_valid) {
+				return errorToast(validate_info.v_msg)
+			} else {
+				// can emit request call and send call request
+				emit('request-call')
+				return successToast('request-call emited')
+			}
+		}
+		var setRequestPhone = (event: Record<string,any>) => {
+			request_call_info_local.phone = event.target.getAttribute('data-mask-raw-value')
+			updateRequestCallInfoClick()
+		}	
+		var updateRequestCallInfoClick = () => emit('request-call-info', request_call_info_local)
 
 		return {
 			// reactive
-			user_login_info,
+			request_call_info_local,
 			// computed
 			is_mounted,
 			// functions
 			closeModalClick,
-			updateUserLoginInfo,
+			requestCallClick,
+			setRequestPhone,
+			updateRequestCallInfoClick,
 		}
 	}
-}
+});
+
 </script>
