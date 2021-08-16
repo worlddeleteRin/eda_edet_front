@@ -14,6 +14,14 @@
 		</div>
 	</div>
 	<!-- eof order is and status -->
+	<div class="hidden md:flex flex-col justify-between w-3/12 mx-2">
+		<div class="text-sm font-semibold">
+			Адрес доставки
+		</div>		
+		<div>
+			Симферополь, Балаклавская ул, д. 73g, подъезд № 2
+		</div>
+	</div>
 	<!-- order delivery info -->
 	<div>
 
