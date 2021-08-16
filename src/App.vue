@@ -92,7 +92,7 @@ export default {
 		}
 		// send request call
 		var sendRequestCall = async () => {
-			store.dispatch('sendRequestCallAPI')	
+			await store.dispatch('sendRequestCallAPI')	
 		}
 		return {
 			// computed

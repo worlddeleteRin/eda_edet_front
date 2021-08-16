@@ -157,11 +157,13 @@ export default defineComponent({
 				return successToast('request-call emited')
 			}
 		}
+		var updateRequestCallInfoClick = () => emit('request-call-info', request_call_info_local)
+
 		var setRequestPhone = (event: Record<string,any>) => {
 			request_call_info_local.phone = event.target.getAttribute('data-mask-raw-value')
-			updateRequestCallInfoClick()
+			request_call_info_local.phone_mask = event
+			// updateRequestCallInfoClick()
 		}	
-		var updateRequestCallInfoClick = () => emit('request-call-info', request_call_info_local)
 
 		return {
 			// reactive
