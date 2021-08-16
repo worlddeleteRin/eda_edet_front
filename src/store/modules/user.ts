@@ -1,3 +1,10 @@
+import { Commit } from 'vuex';
+
+const user_order_status_colors = {
+	IN_PROGRESS: "#ff6900",
+	CANCELLED: "gray",
+	COMPLETED: "#00c304",
+}
 const user_authorize_states = {
 	NEED_LOGIN: "NEED_LOGIN",
 	NEED_PASSWORD: "NEED_PASSWORD",
@@ -17,6 +24,9 @@ const user_login_info_default = {
 
 export default {
   state: {
+	user: {},
+	user_order_status_colors: user_order_status_colors,
+	user_orders: [],
 	user_authorized: true,
 	user_authorize_states: user_authorize_states,
 	user_login_info: user_login_info_default,
@@ -28,8 +38,19 @@ export default {
 	setUserLoginInfo(state: Record<string, any>, new_user_login_info: Record<string, any>) {
 		state.user_login_info = { ...new_user_login_info }
 	},
+	setUserOrders(state: Record<string,any>, user_orders: Array<Record<string,any>>) {
+		// replace Array<object> to someting like Array<UserOrder> ? 
+		state.user_orders = user_orders;
+	},
   },
   actions: {
+	async loadUserOrdersAPI({commit}: { commit: Commit}) {
+		console.log('run load user orders api')
+		const user_orders: Array<Record<string,any>> = []
+		// load user order from api and commit them 
+		commit('setUserOrders', user_orders)
+	},
+	// validators
 	validateCheckAccount({ state }: Record<string,any>) {
 		const v_info = {
 			is_valid: false,

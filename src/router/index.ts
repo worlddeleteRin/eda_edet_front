@@ -3,6 +3,8 @@ import MainPage from "@/pages/MainPage.vue";
 
 const productPage = () => import(/* webpackChunkName: "product-page" */ '@/components/product/ProductPage.vue')
 const userProfilePage = () => import(/* webpackChunkName: "user-profile" */ '@/pages/UserProfilePage.vue')
+const userProfilePagePersonalData = () => import(/* webpackChunkName: "group-user-profile" */ '@/components/user/UserProfilePagePersonalData.vue')
+const userProfilePageOrders = () => import(/* webpackChunkName: "group-user-profile" */ '@/components/user/UserProfilePageOrders.vue')
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -22,6 +24,16 @@ const routes: Array<RouteRecordRaw> = [
 	name: "UserProfilePage",
 	component: userProfilePage,
 	children: [
+		{
+			path: "",
+			name: "UserProfilePagePersonalData",
+			component: userProfilePagePersonalData,
+		},
+		{
+			path: "orders",
+			name: "UserProfilePageOrders",
+			component: userProfilePageOrders,
+		},
 	]
   },
 

@@ -1,0 +1,55 @@
+<template>
+<div>
+	<div class="flex">
+	<!-- order id and status -->
+	<div>
+		<div>
+			# 15779652
+		</div>
+		<div>
+			Завершен
+		</div>
+	</div>
+	<!-- eof order is and status -->
+	<!-- order main info -->
+	<div>
+		<!-- order payment method and amount -->
+		<div>
+			Картой курьеру 
+			<span>
+				1091 &#8381;
+			</span>
+		</div>
+		<!-- eof order payment methods and amount -->
+		<!-- order items images -->	
+		<div>
+			<img
+				v-for='"
+			/>
+		</div>
+		<!-- eof order items images -->
+	</div>
+	<!-- eof order main info -->
+
+	</div>
+</div>
+</template>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+	name: "UserProfileOrderCard",
+	props: {
+		order: {
+			type: Object,
+			required: true,
+			default: null,
+		},
+	},
+	setup(props, {emit}) {
+		return {
+		}
+	}
+});
+</script>
