@@ -4,7 +4,7 @@ export default {
   state: {
 	mobile_menu_open: false,
 	call_request_open: false,
-	user_authorize_open: true,
+	user_authorize_open: false,
   },
   mutations: {
 	setMobileMenuOpen(state: Record<string, any>, is_visible: boolean) {

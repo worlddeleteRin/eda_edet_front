@@ -81,6 +81,9 @@
 		shadow="small"
 		class="text-[#5c6370] hover:text-gray-900"
 		/>
+
+		<!-- user profile link button -->
+		<router-link :to="'/profile'">
 		<Button
 		title="&#x1F511; Кабинет"
 		rounded="full"
@@ -89,6 +92,9 @@
 		backgroundColor="#f3f3f7"
 		class="ml-2 text-[#5c6370] hover:text-gray-900"
 		/>
+		</router-link>
+		<!-- eof user profile link button -->
+
 	</div>
 	<!-- eof if user not authorized block -->
 	</div>

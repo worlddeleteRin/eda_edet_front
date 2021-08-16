@@ -61,6 +61,7 @@
 				@login-check-restore="loginCheckRestore"
 				@toast-error="errorToast"
 				@toast-success="successToast"
+				@go-login="goLoginAccount"
 			/>
 			<!-- eof login restore account -->
 
@@ -198,7 +199,7 @@ export default defineComponent({
 				return inputErrorToast(validate_info.v_msg)
 			} else {
 				// go to need register, if need
-				user_login_info_local.user_authorize_state = props.userAuthorizeStates.NEED_REGISTER
+				user_login_info_local.user_authorize_state = props.userAuthorizeStates.NEED_PASSWORD
 				updateUserLoginInfo()
 				// need to check, if accounts exist
 				// go to register, if account exist

@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import MainPage from "@/pages/MainPage.vue";
 
 const productPage = () => import(/* webpackChunkName: "product-page" */ '@/components/product/ProductPage.vue')
+const userProfilePage = () => import(/* webpackChunkName: "user-profile" */ '@/pages/UserProfilePage.vue')
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -16,18 +17,14 @@ const routes: Array<RouteRecordRaw> = [
 		},
 	] as Array<RouteRecordRaw>
   },
-
-  /*
   {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import("../views/About.vue"),
-  }, 
-  */
+	path: "/profile",
+	name: "UserProfilePage",
+	component: userProfilePage,
+	children: [
+	]
+  },
+
 ];
 
 const router = createRouter({
