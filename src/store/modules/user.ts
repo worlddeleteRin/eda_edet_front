@@ -38,17 +38,29 @@ export default {
 	setUserLoginInfo(state: Record<string, any>, new_user_login_info: Record<string, any>) {
 		state.user_login_info = { ...new_user_login_info }
 	},
+	setUserInfo(state: Record<string,any>, user_info: Record<string,any>) {
+		state.user = user_info
+	},
 	setUserOrders(state: Record<string,any>, user_orders: Array<Record<string,any>>) {
 		// replace Array<object> to someting like Array<UserOrder> ? 
 		state.user_orders = user_orders;
 	},
   },
   actions: {
+	// load user orders from API and mutate them
 	async loadUserOrdersAPI({commit}: { commit: Commit}) {
 		console.log('run load user orders api')
 		const user_orders: Array<Record<string,any>> = []
 		// load user order from api and commit them 
 		commit('setUserOrders', user_orders)
+	},
+	async updateUserNameAPI({commit}: { commit: Commit}, new_user_name: string) {
+		// send new user_name to update
+		// await apiUpdateUserName(new_user_name)
+		// renew user info from api and mutate it
+		console.log(new_user_name)
+		const user_info = {}
+		commit('setUserInfo', user_info)	
 	},
 	// validators
 	validateCheckAccount({ state }: Record<string,any>) {

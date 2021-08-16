@@ -3,7 +3,7 @@
 	<div
 	v-for="profile_link in profileLinks"
 	:key="profile_link"
-	class="px-2"
+	class=""
 	>
 		<router-link 
 			:to="profile_link.link_path"

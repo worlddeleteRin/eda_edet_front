@@ -36,7 +36,7 @@ export default defineComponent({
 
 		const user_profile_links = [
 			{
-				link_name: "Личные данные",
+				link_name: "Профиль",
 				link_path: "/profile",
 			},
 			{

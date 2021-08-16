@@ -1,10 +1,5 @@
 <template>
-<div>
-	user profile orders subpage
-
-	<div>
-	user orders are{{ user_orders }}
-	</div>	
+<div class="mt-5">
 
 	<div
 	v-for="order in 10"

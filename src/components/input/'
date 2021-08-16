@@ -1,0 +1,86 @@
+<template>
+<div
+:class="['flex items-center justify-between px-3 border border-gray-300 rounded-xl',
+		is_disabled ? 'bg-defaultGray': '',]"	
+>
+	<input
+	:disabled="is_disabled"
+	v-model="input_value_local"
+	:class="['flex w-full py-3 mx-1 outline-none',
+			is_disabled ? 'bg-defaultGray':'',]"
+	/>
+
+	<!-- change and save helpers, if input is changable -->
+	<div
+		v-if="canChange"
+	>
+		<!-- change block -->
+		<div 
+		v-if="is_disabled"
+		@click="enableInput"
+		class="cursor-pointer select-none text-normal text-defaultText">
+			Изменить
+		</div>
+		<!-- change block -->
+		<!-- save block -->
+		<div 
+		v-if="!is_disabled"
+		:class="['cursor-pointer select-none text-normal',
+				isValid ? 'text-defaultText': 'text-gray-400']">
+			Сохранить
+		</div>
+		<!-- eof save block -->
+	</div>
+	<!-- eof change and save helpers, if input is changable -->
+</div>
+
+</template>
+
+<script lang="ts">
+import { defineComponent, ref, computed } from 'vue';
+
+export default defineComponent({
+	name: "UserProfileInput",
+	props: {
+		canChange: {
+			type: Boolean,
+			default: false,
+		},
+		inputValue: {
+			// passed input value
+			type: String,
+			required: true,
+			default: null,
+		},
+	},
+	setup(props, {emit}) {
+		const input_value_local = ref(props.inputValue)
+		const is_disabled = ref(true)
+		if (input_value_local.value.length == 0) {
+			is_disabled.value = false
+		}
+		// functions
+		var isValid = computed(() => {
+			if (input_value_local.value.length == 0) {
+				return false
+			} 
+			return true
+		});
+		var enableInput = () {
+			if (props.canChange) {
+				is_disabled.value = false
+			}
+		}
+
+		return {
+			is_disabled,
+			input_value_local,
+			// computed
+			isValid,
+			// functions
+			enableInput,
+		}
+	},
+});
+
+</script>

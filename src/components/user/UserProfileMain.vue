@@ -13,7 +13,6 @@ export default defineComponent({
 	name: "UserProfileMain",
 	setup(props, {emit}) {
 		return {
-			
 		}
 	}
 });
