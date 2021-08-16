@@ -35,6 +35,12 @@ export default {
 	setUserAuthorized(state: Record<string, any>, is_authorized: boolean) {
 		state.user_authorized = is_authorized 
 	},
+	resetUserLoginInfo(state: Record<string,any>) {
+		state.user_login_info.user_password = ''
+		state.user_login_info.user_password_repeat = ''
+		state.user_login_info.restore_code = ''
+		state.user_login_info.verify_code = ''
+	},
 	setUserLoginInfo(state: Record<string, any>, new_user_login_info: Record<string, any>) {
 		state.user_login_info = { ...new_user_login_info }
 	},
@@ -60,7 +66,7 @@ export default {
 		// renew user info from api and mutate it
 		console.log(new_user_name)
 		const user_info = {}
-		commit('setUserInfo', user_info)	
+		commit('setUserInfo', user_info)
 	},
 	// validators
 	validateCheckAccount({ state }: Record<string,any>) {

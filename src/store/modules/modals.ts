@@ -5,6 +5,7 @@ export default {
 	mobile_menu_open: false,
 	call_request_open: false,
 	user_authorize_open: false,
+	user_change_password_open: false,
   },
   mutations: {
 	setMobileMenuOpen(state: Record<string, any>, is_visible: boolean) {
@@ -15,6 +16,9 @@ export default {
 	},
 	setUserAuthorizeOpen(state: Record<string, any>, is_open: boolean) {
 		state.user_authorize_open = is_open; 
+	},
+	setUserChangePasswordOpen(state: Record<string,any>, is_open: boolean) {
+		state.user_change_password_open = is_open
 	},
   },
   actions: {

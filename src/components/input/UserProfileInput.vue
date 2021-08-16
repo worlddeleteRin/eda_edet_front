@@ -1,4 +1,9 @@
 <template>
+
+<div class="mb-1 ml-1">
+	{{ title }}
+</div>
+
 <div
 :class="['flex items-center justify-between px-3 border border-gray-300 rounded-xl',
 		is_disabled ? 'bg-defaultGray': '',]"	
@@ -41,7 +46,6 @@ v-if="is_on_change && !is_disabled"
 class="mx-1 mt-1 cursor-pointer select-none text-defaultText">
 	Отменить
 </div>
-
 </template>
 
 <script lang="ts">
@@ -58,6 +62,10 @@ export default defineComponent({
 			// passed input value
 			type: String,
 			required: true,
+			default: null,
+		},
+		title: {
+			type: String,
 			default: null,
 		},
 	},

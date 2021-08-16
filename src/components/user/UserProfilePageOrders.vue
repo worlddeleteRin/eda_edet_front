@@ -27,8 +27,8 @@ export default defineComponent({
 	setup(props, {emit}) {
 		const store = useStore()
 		// computed
-		const user_orders = computed(() => store.state.user.user_orders)
-		const user_order_status_colors = computed(() => store.state.user.user_order_status_colors)
+		var user_orders = computed(() => store.state.user.user_orders)
+		var user_order_status_colors = computed(() => store.state.user.user_order_status_colors)
 		// functions
 		onBeforeMount(async () => {
 			// emit parent to get user orders from api

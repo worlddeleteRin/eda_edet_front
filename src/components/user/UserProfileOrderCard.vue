@@ -61,7 +61,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
 	name: "UserProfileOrderCard",
@@ -69,7 +69,7 @@ export default defineComponent({
 		order: {
 			type: Object,
 			required: true,
-			default: function () {
+			default: () => {
 				return {
 					image_src: "https://cdn.farfor.ru/media/menu/products/%D0%B3%D1%83%D1%80%D0%BC%D0%B0%D0%BD.png",
 					order_status: "COMPLETED", 
@@ -82,8 +82,9 @@ export default defineComponent({
 		}
 	},
 	setup(props, {emit}) {
-		// computed
-		const order_status_color  = computed(() => props.userOrderStatusColors[props.order.order_status]);
+		// ref 
+		const order_status = ref(props.order.order_status)
+		const order_status_color  = ref(props.userOrderStatusColors[order_status.value])
 
 		return {
 			// computed
