@@ -131,13 +131,15 @@
 		</div>
 		<!-- eof desktop nav links -->
 		<!-- header cart -->
-		<div class="px-5 py-2 rounded-full cursor-pointer bg-default">
+		<router-link 
+		:to="'/cart'"
+		class="px-5 py-2 rounded-full cursor-pointer bg-default">
 			<span class="text-[white] select-none">
 				Корзина
 			</span>
 			<span>
 			</span>
-		</div>
+		</router-link>
 		<!-- eof header cart -->
 	</div>
 	<!-- eof subheader -->

@@ -1,6 +1,7 @@
 // import { Store } from 'vuex';
 
 export default {
+	namespaced: true,
   state: {
 	mobile_menu_open: false,
 	call_request_open: false,

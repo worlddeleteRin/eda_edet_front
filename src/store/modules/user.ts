@@ -21,10 +21,34 @@ const user_login_info_default = {
 	restore_code: '',
 	verify_code: '',
 }
+const user_test = {
+	deliveryAddressList: [
+		{
+			id: "some_address_id_1",
+			city: "Симферополь",
+			street: "Кирова",
+			houseNumber: "14",
+			flatNumber: "19",
+			entranceNumber: "2",
+			floorNumber: "4",
+			comment: "Комментарий к адресу",
+		},
+		{
+			id: "some_address_id_2",
+			city: "Симферополь",
+			street: "Кирова",
+			houseNumber: "14",
+			flatNumber: "19",
+			entranceNumber: "2",
+			floorNumber: "4",
+			comment: "Комментарий к адресу",
+		},
+	]
+}
 
 export default {
   state: {
-	user: {},
+	user: { ...user_test },
 	user_order_status_colors: user_order_status_colors,
 	user_orders: [],
 	user_authorized: true,

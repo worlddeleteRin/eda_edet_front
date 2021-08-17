@@ -11,7 +11,6 @@ export default {
   },
   mutations: {
 	setRequestCallInfo(state: Record<string,any>, request_call_info: Record<string,any>) {
-		console.log('mutate request call info')
 		state.request_call_info = { ...request_call_info }
 	},
 	resetRequestCallInfo(state: Record<string,any>) {
@@ -19,8 +18,7 @@ export default {
 	},	
   },
   actions: {
-	sendRequestCallAPI(state: Record<string,any>) {
-		//console.log(context)
+	sendRequestCallAPI({state}: Record<string,any>) {
 		console.log('try to send action request call API', state.request_call_info)
 		// code goes here
 	},

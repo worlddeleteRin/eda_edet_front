@@ -15,14 +15,12 @@
 >
 	<div 
 	v-if="is_mounted"
-	class="fixed w-11/12 bg-white rounded-lg top-1/2 -translate-y-1/2 -translate-x-1/2 left-1/2 max-w-[600px]">
+	class="fixed w-11/12 bg-white rounded-lg top-1/2 -translate-y-1/2 -translate-x-1/2 left-1/2 max-w-[600px] z-40">
 		<div class="px-12 py-8">
 
 			<div class="text-3xl font-medium text-center">
 				Заказать звонок	
 			</div>
-			{{ requestCallInfo }}
-			{{ request_call_info_local }}
 
 			<!-- user request call form -->
 			<div>

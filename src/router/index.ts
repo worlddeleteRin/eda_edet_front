@@ -5,6 +5,9 @@ const productPage = () => import(/* webpackChunkName: "product-page" */ '@/compo
 const userProfilePage = () => import(/* webpackChunkName: "user-profile" */ '@/pages/UserProfilePage.vue')
 const userProfilePagePersonalData = () => import(/* webpackChunkName: "group-user-profile" */ '@/components/user/UserProfilePagePersonalData.vue')
 const userProfilePageOrders = () => import(/* webpackChunkName: "group-user-profile" */ '@/components/user/UserProfilePageOrders.vue')
+const cartPage = () => import(/* webpackChunkName: "cart-page" */ '@/pages/CartPage.vue')
+const checkoutPage = () => import(/* webpackChunkName: "checkout-page" */ '@/pages/CheckoutPage.vue')
+
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -36,7 +39,16 @@ const routes: Array<RouteRecordRaw> = [
 		},
 	]
   },
-
+  {
+	path: "/cart",
+	name: "CartPage",
+	component: cartPage,
+  },
+  {
+	path: "/checkout",
+	name: "CheckoutPage",
+	component: checkoutPage,
+  },
 ];
 
 const router = createRouter({
