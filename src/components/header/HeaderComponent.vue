@@ -157,7 +157,6 @@ export default defineComponent({
 	props: {
 		menuLinks: {
 			type: Array,
-			required: true,
 			default: () => [
 					{
 						'link_name': "Меню доставки",
@@ -195,7 +194,6 @@ export default defineComponent({
 		},
 		brandName: {
 			type: String,
-			required: true,
 			default: "BrandName",
 		},
 		logoUrl: {
@@ -204,17 +202,14 @@ export default defineComponent({
 		},
 		contactPhone: {
 			type: String,
-			required: true,
 			default: "79780000000",
 		},
 		contactPhoneDisplay: {
 			type: String,
-			required: true,
 			default: "7 978-000-00-00",
 		},
 		userAuthorized: {
 			type: Boolean,
-			required: true,
 			default: false,
 		}
 	},

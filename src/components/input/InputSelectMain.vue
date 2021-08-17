@@ -29,13 +29,13 @@ export default defineComponent({
 	emits: ['select-value'],
 	setup(props, {emit}) {
 
-		var isActive = (select_value) => {
+		var isActive = (select_value: string) => {
 			if (props.activeValue == select_value) {
 				return true
 			}
 			return false
 		}
-		var setActiveSelect = (select_value) => {
+		var setActiveSelect = (select_value: string) => {
 			emit('select-value', select_value)
 		}
 		return {

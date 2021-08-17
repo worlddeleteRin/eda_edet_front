@@ -7,9 +7,11 @@
 	<div>
 		{{ checkout_info }}
 	</div>
+	<!-- 
 	<div>
 		{{ user_info }}
 	</div>
+	-->
 	<!-- select delivery method -->
 	<div>
 		<input-select-main
@@ -27,11 +29,10 @@
 			<select-checkout-main
 				v-if="checkout_info.delivery_method == 'delivery'"
 				@click="openCheckoutChooseDeliveryAddress(true)"
-				:dataNew="true"
+				:dataNew="checkout_info.delivery_address == undefined"
 				:showIconSelected="true"
 				:titleNew="'Выберите адрес доставки'"
-				:title="'some title is here'"
-				:subtitle="'some subtitle is here'"
+				:title="getCheckoutDeliveryAddressDisplay"
 			/>
 		<!-- eof select delivery address -->
 		<!-- select pickup address -->
@@ -63,7 +64,7 @@
 <!-- modals -->
 </template>
 
-<script>
+<script lang="ts">
 import { computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
 // local components
@@ -91,8 +92,9 @@ export default defineComponent({
 	// checkout modals open state
 	const checkout_modals = computed(() => store.state.checkout.modals)
 	// functions
-	const updateDeliveryMethod = (new_delivery_method) => store.commit('checkout/setCheckoutInfoDeliveryMethod', new_delivery_method)
-	const openCheckoutChooseDeliveryAddress = (is_open) => {
+	const updateDeliveryMethod = (new_delivery_method:string) => store.commit('checkout/setCheckoutInfoDeliveryMethod', new_delivery_method)
+
+	const openCheckoutChooseDeliveryAddress = (is_open:boolean) => {
 		// open checkout choose delivery address modal
 		store.commit('checkout/openChooseDeliveryAddressModal', is_open)
 	}
@@ -100,7 +102,22 @@ export default defineComponent({
 		window.alert('asdlf')	
 	}
 	// set checkout delivery address to checkout_info
-	updateDeliveryAddress = (address) => store.commit("checkout/setCheckoutInfoDeliveryAddress", address)
+	const updateDeliveryAddress = (address: Record<string,any>) => { 
+		store.commit("checkout/setCheckoutInfoDeliveryAddress", address)
+		// close the modal
+		openCheckoutChooseDeliveryAddress(false)
+	}
+	// set checkout pickup address to checkout_info
+	const updatePickupAddress = (address: Record<string,any>) => store.commit("checkout/setCheckoutInfoPickupAddress", address)
+
+	// helper to get checkout delivery address display
+	var getCheckoutDeliveryAddressDisplay = computed(() => {
+		if (checkout_info.value.delivery_address != null) {
+			return checkout_info.value.delivery_address.address_display
+		} else {
+			return ''
+		}
+	});
 		return {
 			// computed
 			user_info,
@@ -110,8 +127,12 @@ export default defineComponent({
 			// functions
 			updateDeliveryMethod,
 			updateDeliveryAddress,
+			updatePickupAddress,
+
 			openCheckoutChooseDeliveryAddress,
 			openCheckoutChoosePickupAddress,
+
+			getCheckoutDeliveryAddressDisplay,
 		}
 	}
 });

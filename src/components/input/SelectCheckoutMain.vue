@@ -100,7 +100,7 @@ export default defineComponent({
 		const goIcon = computed(() => {
 			const go_icon = {
 				icon: "",
-				width: "",
+				width: 0,
 				class: "",
 			}
 			if(!props.dataNew) {

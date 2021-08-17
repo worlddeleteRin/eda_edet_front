@@ -28,9 +28,10 @@
 				<div
 					v-for="address in addressList"
 					:key="address.id"
-					@click="chooseDeliveryAddressClick"
+					@click="chooseDeliveryAddressClick(address)"
+					class="px-4 py-3 my-3 bg-gray-100 rounded-lg"
 				>
-					{{ address }}
+					{{ address.address_display }}
 				</div>
 				<!-- eof address -->
 			</div>
@@ -50,7 +51,7 @@ import { onMounted, ref, reactive, defineComponent } from 'vue';
 
 export default defineComponent({
 	name: "CheckoutChoooseDeliveryAddressModal",
-	emits: ['close-modal'],
+	emits: ['close-modal', 'delivery-address'],
 	components: {
 //		Button,
 	},
@@ -67,7 +68,8 @@ export default defineComponent({
 			is_mounted.value = true
 		})
 		var closeModalClick = () => emit('close-modal')		
-		var chooseDeliveryAddressClick = (delivery_address) => ('delivery-address', delivery_address)
+		// emit choosed address to set on click
+		var chooseDeliveryAddressClick = (delivery_address: Record<string,any>) => emit("delivery-address", delivery_address)
 
 		return {
 			// reactive
@@ -75,6 +77,7 @@ export default defineComponent({
 			is_mounted,
 			// functions
 			closeModalClick,
+			chooseDeliveryAddressClick,
 		}
 	}
 });

@@ -31,16 +31,18 @@ const user_test = {
 			flatNumber: "19",
 			entranceNumber: "2",
 			floorNumber: "4",
+			address_display: "Симферополь, ул. Кирова, д.14, кв.19, подъезд 2, этаж 4",
 			comment: "Комментарий к адресу",
 		},
 		{
 			id: "some_address_id_2",
-			city: "Симферополь",
-			street: "Кирова",
-			houseNumber: "14",
-			flatNumber: "19",
-			entranceNumber: "2",
-			floorNumber: "4",
+			city: "Феодосия",
+			street: "Киевская",
+			houseNumber: "",
+			flatNumber: "",
+			entranceNumber: "",
+			floorNumber: "",
+			address_display: "Феодосия, ул. Киевская, д.22",
 			comment: "Комментарий к адресу",
 		},
 	]
@@ -54,6 +56,8 @@ export default {
 	user_authorized: true,
 	user_authorize_states: user_authorize_states,
 	user_login_info: user_login_info_default,
+  },
+  getters: {
   },
   mutations: {
 	setUserAuthorized(state: Record<string, any>, is_authorized: boolean) {
