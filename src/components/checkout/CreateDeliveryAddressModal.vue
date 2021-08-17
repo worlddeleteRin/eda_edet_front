@@ -19,7 +19,7 @@
 		<div class="flex flex-col h-full px-4 h-11/12 md:px-12">
 
 			<div class="mt-6 text-xl font-medium text-center md:text-2xl">
-				Выберите адрес доставки	
+				Новый адрес	
 			</div>
 
 			<!-- addresses list -->
