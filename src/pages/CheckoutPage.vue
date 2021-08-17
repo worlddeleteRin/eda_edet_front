@@ -4,16 +4,18 @@
 	<div class="text-2xl font-medium">
 		Оформление заказа
 	</div>
+	<!--
 	<div>
 		{{ checkout_info }}
 	</div>
+	-->
 	<!-- 
 	<div>
 		{{ user_info }}
 	</div>
 	-->
 	<!-- select delivery method -->
-	<div>
+	<div class="mt-4">
 		<input-select-main
 			:selectValues="delivery_methods"
 			:activeValue="checkout_info.delivery_method"
@@ -23,7 +25,7 @@
 	<!-- eof select delivery method -->
 	<!-- select address and time -->
 	<div 
-	class="py-1 pl-4 mt-4 bg-white rounded-lg"
+	class="py-1 pl-4 mt-6 bg-white rounded-lg"
 	>
 		<!-- select delivery address -->
 			<select-checkout-main
@@ -57,6 +59,7 @@
 	<checkout-choose-delivery-address-modal
 		v-if="checkout_modals.choose_delivery_address_modal_open"
 		:addressList="user_info.deliveryAddressList"
+		:activeAddress="checkout_info.delivery_address"
 		@delivery-address="updateDeliveryAddress"
 		@close-modal="openCheckoutChooseDeliveryAddress(false)"
 	/>

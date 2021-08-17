@@ -73,7 +73,7 @@ import { Icon } from '@iconify/vue';
 import Button from '@/components/buttons/Button.vue';
 
 export default defineComponent({
-	name: "CheckoutChoooseDeliveryAddressModal",
+	name: "CreateDeliveryAddressModal",
 	emits: ['close-modal', 'delivery-address'],
 	components: {
 		Icon,
