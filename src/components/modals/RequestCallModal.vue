@@ -22,6 +22,7 @@
 				Заказать звонок	
 			</div>
 			{{ requestCallInfo }}
+			{{ request_call_info_local }}
 
 			<!-- user request call form -->
 			<div>
@@ -31,7 +32,6 @@
 				</div>
 				<input
 				v-model="request_call_info_local.name"
-				@input="updateRequestCallInfoClick"
 				placeholder="Ваше Имя"
 				class="w-full px-4 py-3 mt-2 text-lg rounded-md bg-defaultGray focus:outline-none focus:ring-2 ring-default"
 				/>
@@ -119,7 +119,7 @@ export default defineComponent({
 		var errorToast = (title: string) => inputErrorToast(title)
 		var successToast =  (title: string) => inputSuccessToast(title)
 		// eof toasts
-		const request_call_info_local = reactive(props.requestCallInfo)
+		const request_call_info_local = reactive({...props.requestCallInfo})
 
 		const is_mounted = ref(false)
 		// functions
@@ -149,6 +149,7 @@ export default defineComponent({
 		// send request call info, if it is valid
 		var requestCallClick = () => { 
 			const validate_info = validateRequestCall()
+			updateRequestCallInfoClick()
 			if (!validate_info.is_valid) {
 				return errorToast(validate_info.v_msg)
 			} else {
@@ -160,9 +161,9 @@ export default defineComponent({
 		var updateRequestCallInfoClick = () => emit('request-call-info', request_call_info_local)
 
 		var setRequestPhone = (event: Record<string,any>) => {
+//			window.alert('set Request phone triggered')
 			request_call_info_local.phone = event.target.getAttribute('data-mask-raw-value')
-			request_call_info_local.phone_mask = event
-			// updateRequestCallInfoClick()
+		//	updateRequestCallInfoClick()
 		}	
 
 		return {

@@ -10,6 +10,7 @@
 		class="px-3 mt-1 md:px-2 md:mt-4"
 	/>
 	<!-- eof site main header -->
+	{{ request_call_info }}
 
 	<!-- mobile main header -->
 	<mobile-header-menu
@@ -81,7 +82,12 @@ export default {
 		const request_call_info = computed(() => store.state.site.request_call_info)
 		// functions
 		var setMobileMenu = (is_open) => store.commit('setMobileMenuOpen', is_open)	
-		var setCallRequestModal = (is_open) => store.commit('setCallRequestModalOpen', is_open)
+		var setCallRequestModal = (is_open) => {
+			if (!is_open) {
+				store.commit('resetRequestCallInfo')
+			}
+			store.commit('setCallRequestModalOpen', is_open)
+		}
 		var setUserAuthorizeModal = (is_open) => store.commit('setUserAuthorizeOpen', is_open)
 		var setUserLoginInfo = (new_user_login_info) => { 
 			store.commit("setUserLoginInfo", new_user_login_info)
