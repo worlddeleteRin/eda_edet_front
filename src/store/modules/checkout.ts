@@ -16,7 +16,7 @@ const pickup_address_list_test = [
 		info: "some additional info is here",
 	},
 	{
-		id: "some_id",
+		id: "some_id2",
 		name: "Феодосия, ул. Кирова, 28",
 		info: "some additional info is here",
 	},
@@ -28,7 +28,7 @@ export default {
 	modals: {
 		choose_delivery_address_modal_open: false,
 		create_delivery_address_modal_open: false,
-		choose_pickup_address_modal_open: true,
+		choose_pickup_address_modal_open: false,
 	},
 	delivery_methods: delivery_methods_test,
 	pickup_address_list: pickup_address_list_test,

@@ -41,11 +41,10 @@
 			<select-checkout-main
 				v-if="checkout_info.delivery_method == 'pickup'"
 				@click="openCheckoutChoosePickupAddress"
-				:dataNew="true"
+				:dataNew="checkout_info.pickup_address == undefined"
 				:showIconSelected="true"
 				:titleNew="'Выберите пункт выдачи'"
-				:title="'some title is here'"
-				:subtitle="'some subtitle is here'"
+				:title="getCheckoutPickupAddressDisplay"
 			/>
 		<!-- eof select pickup address -->
 	</div>
@@ -72,6 +71,8 @@
 	<!-- eof choose delivery address modal -->
 	<checkout-choose-pickup-address-modal
 		v-if="checkout_modals.choose_pickup_address_modal_open"
+		:addressList="pickup_address_list"
+		:activeAddress="checkout_info.pickup_address"
 		@close-modal="openCheckoutChoosePickupAddress(false)"
 		@pickup-address="updatePickupAddress"	
 	/>
@@ -189,6 +190,14 @@ export default defineComponent({
 			return ''
 		}
 	});
+	// helper to get checkout pickup address display
+	var getCheckoutPickupAddressDisplay = computed(() => {
+		if (checkout_info.value.pickup_address != null) {
+			return checkout_info.value.pickup_address.name
+		} else {
+			return ''
+		}
+	});
 		return {
 			// computed
 			user_info,
@@ -209,7 +218,7 @@ export default defineComponent({
 			openCheckoutChoosePickupAddress,
 
 			getCheckoutDeliveryAddressDisplay,
-
+			getCheckoutPickupAddressDisplay,
 		}
 	}
 });

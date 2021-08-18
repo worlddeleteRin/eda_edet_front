@@ -19,7 +19,7 @@
 		<div class="flex flex-col h-full px-4 h-11/12 md:px-12">
 
 			<div class="mt-6 text-xl font-medium text-center md:text-2xl">
-				Выберите адрес доставки	
+				Выберите пункт выдачи	
 			</div>
 
 			<!-- addresses list -->
@@ -33,7 +33,7 @@
 					isActive(address.id) ? 'border-2 border-green-500':'']"
 				>
 					<div class="select-none">
-						{{ address.address_display }}
+						{{ address.name }}
 					</div>
 					<div 
 					v-if="isActive(address.id)"
@@ -94,8 +94,7 @@ export default defineComponent({
 		})
 		var closeModalClick = () => emit('close-modal')		
 		// emit choosed address to set on click
-		var choosePickupAddressClick = (delivery_address: Record<string,any>) => emit("pickup-address", delivery_address)
-		// emit open create new delivery address modal
+		var choosePickupAddressClick = (pickup_address: Record<string,any>) => emit("pickup-address", pickup_address)
 
 		return {
 			// reactive
