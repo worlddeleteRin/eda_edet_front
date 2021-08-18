@@ -143,6 +143,7 @@ export default {
 		// load user order from api and commit them 
 		commit('setUserOrders', user_orders)
 	},
+	// updates user name, request API
 	async updateUserNameAPI({commit}: { commit: Commit}, new_user_name: string) {
 		// send new user_name to update
 		// await apiUpdateUserName(new_user_name)
@@ -150,6 +151,10 @@ export default {
 		console.log(new_user_name)
 		const user_info = {}
 		commit('setUserInfo', user_info)
+	},
+	async createDeliveryAddressAPI({commit}: { commit: Commit}, new_delivery_address: Record<string,any>) {
+		console.log('commit is', commit)
+		console.log('run create new delivery address api', new_delivery_address)
 	},
 	// validators
 	validateCheckAccount({ state }: Record<string,any>) {

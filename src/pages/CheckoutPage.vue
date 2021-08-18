@@ -62,6 +62,12 @@
 		:activeAddress="checkout_info.delivery_address"
 		@delivery-address="updateDeliveryAddress"
 		@close-modal="openCheckoutChooseDeliveryAddress(false)"
+		@open-create-delivery="openCreateDeliveryAddressModal(true)"
+	/>
+	<create-delivery-address-modal
+		v-if="checkout_modals.create_delivery_address_modal_open"
+		@close-modal="openCreateDeliveryAddressModal(false)"
+		@create-delivery-address="createDeliveryAddress"
 	/>
 	<!-- eof choose delivery address modal -->
 <!-- modals -->
@@ -75,6 +81,7 @@ import InputSelectMain from '@/components/input/InputSelectMain.vue';
 import SelectCheckoutMain from '@/components/input/SelectCheckoutMain.vue';
 
 import CheckoutChooseDeliveryAddressModal from '@/components/checkout/CheckoutChooseDeliveryAddressModal.vue';
+import CreateDeliveryAddressModal from '@/components/checkout/CreateDeliveryAddressModal.vue';
 
 export default defineComponent({
 	name: "CheckoutPage",
@@ -82,6 +89,7 @@ export default defineComponent({
 		InputSelectMain,
 		SelectCheckoutMain,
 		CheckoutChooseDeliveryAddressModal,
+		CreateDeliveryAddressModal,
 	},
 	setup () {
 	const store = useStore()
@@ -96,11 +104,20 @@ export default defineComponent({
 	const checkout_modals = computed(() => store.state.checkout.modals)
 	// functions
 	const updateDeliveryMethod = (new_delivery_method:string) => store.commit('checkout/setCheckoutInfoDeliveryMethod', new_delivery_method)
+	const createDeliveryAddress = async (new_delivery_address: Record<string,any>) => {
+		await store.commit('createDeliveryAddressAPI', new_delivery_address)
+	}
 
 	const openCheckoutChooseDeliveryAddress = (is_open:boolean) => {
 		// open checkout choose delivery address modal
 		store.commit('checkout/openChooseDeliveryAddressModal', is_open)
 	}
+	const openCreateDeliveryAddressModal = (is_open:boolean) => {
+		// open checkout choose delivery address modal
+		store.commit('checkout/openCreateDeliveryAddressModal', is_open)
+		openCheckoutChooseDeliveryAddress(false)
+	}
+
 	const openCheckoutChoosePickupAddress = () => {
 		window.alert('asdlf')	
 	}
@@ -133,6 +150,7 @@ export default defineComponent({
 			updatePickupAddress,
 
 			openCheckoutChooseDeliveryAddress,
+			openCreateDeliveryAddressModal,
 			openCheckoutChoosePickupAddress,
 
 			getCheckoutDeliveryAddressDisplay,

@@ -15,6 +15,7 @@ export default {
   state: {
 	modals: {
 		choose_delivery_address_modal_open: false,
+		create_delivery_address_modal_open: false,
 		choose_pickup_address_modal_open: false,
 	},
 	delivery_methods: delivery_methods_test,
@@ -38,6 +39,9 @@ export default {
 	},
 	openChooseDeliveryAddressModal(state:Record<string,any>, is_open: boolean) {
 		state.modals.choose_delivery_address_modal_open = is_open
+	},
+	openCreateDeliveryAddressModal(state:Record<string,any>, is_open: boolean) {
+		state.modals.create_delivery_address_modal_open = is_open
 	},
 	openChoosePickupAddressModal(state:Record<string,any>, is_open: boolean) {
 		state.modals.choose_pickup_address_modal_open = is_open

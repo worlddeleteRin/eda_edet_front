@@ -15,7 +15,7 @@
 >
 	<div 
 	v-if="is_mounted"
-	class="fixed w-11/12 bg-white rounded-lg top-1/2 -translate-y-1/2 -translate-x-1/2 left-1/2 max-w-[600px] max-h-[80%] h-[700px]">
+	class="fixed w-11/12 bg-white rounded-lg top-1/2 -translate-y-1/2 -translate-x-1/2 left-1/2 max-w-[700px] max-h-[700px] h-[70%]">
 		<div class="flex flex-col h-full px-4 h-11/12 md:px-12">
 
 			<div class="mt-6 text-xl font-medium text-center md:text-2xl">
@@ -52,6 +52,7 @@
 			<!-- add new address button -->
 			<div class="mb-2">
 				<Button
+					@click="openCreateDeliveryClick"
 					:title="'Добавить адрес'"
 					rounded="full"
 					class="flex justify-center items-center px-5 min-h-[45px] text-white bg-default"
@@ -74,7 +75,7 @@ import Button from '@/components/buttons/Button.vue';
 
 export default defineComponent({
 	name: "CheckoutChoooseDeliveryAddressModal",
-	emits: ['close-modal', 'delivery-address'],
+	emits: ['close-modal', 'delivery-address', 'open-create-delivery'],
 	components: {
 		Icon,
 		Button,
@@ -105,6 +106,8 @@ export default defineComponent({
 		var closeModalClick = () => emit('close-modal')		
 		// emit choosed address to set on click
 		var chooseDeliveryAddressClick = (delivery_address: Record<string,any>) => emit("delivery-address", delivery_address)
+		// emit open create new delivery address modal
+		var openCreateDeliveryClick = () => emit('open-create-delivery')
 
 		return {
 			// reactive
@@ -114,6 +117,7 @@ export default defineComponent({
 			// functions
 			closeModalClick,
 			chooseDeliveryAddressClick,
+			openCreateDeliveryClick,
 		}
 	}
 });

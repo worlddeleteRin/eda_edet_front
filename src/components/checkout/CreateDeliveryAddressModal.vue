@@ -15,46 +15,92 @@
 >
 	<div 
 	v-if="is_mounted"
-	class="fixed w-11/12 bg-white rounded-lg top-1/2 -translate-y-1/2 -translate-x-1/2 left-1/2 max-w-[600px] max-h-[80%] h-[700px]">
+	class="fixed w-11/12 bg-white rounded-lg top-1/2 -translate-y-1/2 -translate-x-1/2 left-1/2 max-w-[700px] max-h-[500px] h-[75%]">
 		<div class="flex flex-col h-full px-4 h-11/12 md:px-12">
 
 			<div class="mt-6 text-xl font-medium text-center md:text-2xl">
 				Новый адрес	
 			</div>
 
-			<!-- addresses list -->
-			<div class="mt-5 overflow-y-scroll">
-				<!-- address -->
-				<div
-					v-for="address in addressList"
-					:key="address.id"
-					@click="chooseDeliveryAddressClick(address)"
-					:class="['px-4 py-3 my-3 bg-gray-100 rounded-lg min-h-[60px] flex items-center cursor-pointer',
-					isActive(address.id) ? 'border-2 border-green-500':'']"
-				>
-					<div class="select-none">
-						{{ address.address_display }}
-					</div>
-					<div 
-					v-if="isActive(address.id)"
-					class="flex justify-end flex-1 ml-5">
-						<Icon 
-							icon="akar-icons:circle-check"
-							width="30"
-							class="text-green-500"
+			<!-- create address form -->
+			<div class="px-2 pt-2 pb-12 overflow-y-scroll">
+				<!-- first line -->
+				<div class="flex w-full mt-2">
+					<!-- address city -->
+					<div class="flex flex-col flex-1 w-8/12 mr-4">
+						<div class="text-lg text-gray-500">Улица</div>				
+						<input 
+							class="px-3 py-3 bg-gray-100 outline-none rounded-xl focus:ring-2 ring-default"
+							placeholder="Название улицы"
 						/>
 					</div>
+					<!-- address city -->
+					<!-- houseNumber -->
+					<div class="flex flex-col w-3/12">
+						<div class="text-lg text-gray-500">Дом</div>				
+						<input 
+							class="px-3 py-3 bg-gray-100 outline-none rounded-xl focus:ring-2 ring-default"
+							placeholder="###"
+						/>
+					</div>
+					<!-- eof houseNumber -->
 				</div>
-				<!-- eof address -->
+				<!-- eof first line -->
+				<!-- second line -->
+				<div class="flex w-full mt-2">
+					<!-- address city -->
+					<div class="flex flex-col flex-1 w-3/12 mr-4">
+						<div class="text-lg text-gray-500">Квартира</div>				
+						<input 
+							class="px-3 py-3 bg-gray-100 outline-none rounded-xl focus:ring-2 ring-default"
+							placeholder="###"
+						/>
+					</div>
+					<!-- address city -->
+					<!-- houseNumber -->
+					<div class="flex flex-col flex-1 w-3/12 mr-4">
+						<div class="text-lg text-gray-500">Подьезд</div>				
+						<input 
+							class="px-3 py-3 bg-gray-100 outline-none rounded-xl focus:ring-2 ring-default"
+							placeholder="###"
+						/>
+					</div>
+					<!-- eof houseNumber -->
+					<!-- houseNumber -->
+					<div class="flex flex-col flex-1 w-3/12">
+						<div class="text-lg text-gray-500">Этаж</div>				
+						<input 
+							class="px-3 py-3 bg-gray-100 outline-none rounded-xl focus:ring-2 ring-default"
+							placeholder="###"
+						/>
+					</div>
+					<!-- eof houseNumber -->
+				</div>
+				<!-- eof second line -->
+				<!-- third line -->
+				<div class="flex w-full mt-2">
+					<!-- address comment -->
+					<div class="flex flex-col flex-1 w-full">
+						<div class="text-lg text-gray-500">Комментарий к адресу</div>				
+						<textarea
+							rows="4"
+							class="px-3 py-3 bg-gray-100 outline-none rounded-xl focus:ring-2 ring-default"
+							placeholder="Ваш комментарий к адресу"
+						/>
+					</div>
+					<!-- address comment -->
+				</div>
+				<!-- eof third line -->
 			</div>
-			<!-- eof addresses list -->
+			<!-- eof create address form -->
 
 			<!-- add new address button -->
-			<div class="mb-2">
+			<div class="w-full mb-2 bg-white">
 				<Button
+					@button-click="createDeliveryAddressClick"
 					:title="'Добавить адрес'"
 					rounded="full"
-					class="flex justify-center items-center px-5 min-h-[45px] text-white bg-default"
+					class="flex justify-center items-center px-5 min-h-[45px] text-white bg-default w-11/12 mx-auto max-w-[400px]"
 					/>
 			</div>
 			<!-- eof add new address button -->
@@ -68,52 +114,37 @@
 </template>
 
 <script lang="ts">
-import { onMounted, ref, reactive, defineComponent, computed } from 'vue';
-import { Icon } from '@iconify/vue';
+import { onMounted, ref, defineComponent } from 'vue';
+//import { Icon } from '@iconify/vue';
 import Button from '@/components/buttons/Button.vue';
 
 export default defineComponent({
 	name: "CreateDeliveryAddressModal",
-	emits: ['close-modal', 'delivery-address'],
+	emits: ['close-modal', 'create-delivery-address'],
 	components: {
-		Icon,
+//		Icon,
 		Button,
 	},
 	props: {
-		addressList: {
-			type: Array,
-			deafult: null,
-		},
-		activeAddress: {
-			type: Object,
-			default: null,
-		},
 	},
 	setup (props, {emit}) {
 		const is_mounted = ref(false)
-		// computed
-		const isActive = (address_id: string) => { 
-			if (props.activeAddress) {
-				return props.activeAddress.id == address_id
-			}
-			return false
-		}
+
 		// functions
 		onMounted(() => {
 			is_mounted.value = true
 		})
 		var closeModalClick = () => emit('close-modal')		
 		// emit choosed address to set on click
-		var chooseDeliveryAddressClick = (delivery_address: Record<string,any>) => emit("delivery-address", delivery_address)
+		var createDeliveryAddressClick = () => {
+		}
 
 		return {
 			// reactive
 			// computed
 			is_mounted,
-			isActive,
 			// functions
 			closeModalClick,
-			chooseDeliveryAddressClick,
 		}
 	}
 });
