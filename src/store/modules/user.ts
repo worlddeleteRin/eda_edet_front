@@ -45,61 +45,6 @@ const user_test = {
 			address_display: "Феодосия, ул. Киевская, д.22",
 			comment: "Комментарий к адресу",
 		},
-		{
-			id: "some_address_id_2",
-			city: "Феодосия",
-			street: "Киевская",
-			houseNumber: "",
-			flatNumber: "",
-			entranceNumber: "",
-			floorNumber: "",
-			address_display: "Феодосия, ул. Киевская, д.22",
-			comment: "Комментарий к адресу",
-		},
-		{
-			id: "some_address_id_2",
-			city: "Феодосия",
-			street: "Киевская",
-			houseNumber: "",
-			flatNumber: "",
-			entranceNumber: "",
-			floorNumber: "",
-			address_display: "Феодосия, ул. Киевская, д.22",
-			comment: "Комментарий к адресу",
-		},
-		{
-			id: "some_address_id_2",
-			city: "Феодосия",
-			street: "Киевская",
-			houseNumber: "",
-			flatNumber: "",
-			entranceNumber: "",
-			floorNumber: "",
-			address_display: "Феодосия, ул. Киевская, д.22",
-			comment: "Комментарий к адресу",
-		},
-		{
-			id: "some_address_id_2",
-			city: "Феодосия",
-			street: "Киевская",
-			houseNumber: "",
-			flatNumber: "",
-			entranceNumber: "",
-			floorNumber: "",
-			address_display: "Феодосия, ул. Киевская, д.22",
-			comment: "Комментарий к адресу",
-		},
-		{
-			id: "some_address_id_2",
-			city: "Феодосия",
-			street: "Киевская",
-			houseNumber: "",
-			flatNumber: "",
-			entranceNumber: "",
-			floorNumber: "",
-			address_display: "Феодосия, ул. Киевская, д.22",
-			comment: "Комментарий к адресу",
-		},
 	]
 }
 
@@ -227,5 +172,6 @@ export default {
 		v_info.is_valid = true
 		return v_info
 	},
+
   },
 }

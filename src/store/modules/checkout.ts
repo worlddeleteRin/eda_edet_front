@@ -9,6 +9,18 @@ const delivery_methods_test = [
 		name_display: "Самовывоз"
 	},
 ]
+const pickup_address_list_test = [
+	{
+		id: "some_id",
+		name: "Симферополь, ул. Володарского, 12",
+		info: "some additional info is here",
+	},
+	{
+		id: "some_id",
+		name: "Феодосия, ул. Кирова, 28",
+		info: "some additional info is here",
+	},
+]
 
 export default {
 	namespaced: true,
@@ -16,13 +28,14 @@ export default {
 	modals: {
 		choose_delivery_address_modal_open: false,
 		create_delivery_address_modal_open: false,
-		choose_pickup_address_modal_open: false,
+		choose_pickup_address_modal_open: true,
 	},
 	delivery_methods: delivery_methods_test,
+	pickup_address_list: pickup_address_list_test,
 	checkout_info: {
 		delivery_method: "delivery",
 		delivery_address: null,
-		pickup_address: {},
+		pickup_address: null,
 	},
   },
   getters: {

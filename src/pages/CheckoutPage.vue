@@ -70,18 +70,29 @@
 		@create-delivery-address="createDeliveryAddress"
 	/>
 	<!-- eof choose delivery address modal -->
+	<checkout-choose-pickup-address-modal
+		v-if="checkout_modals.choose_pickup_address_modal_open"
+		@close-modal="openCheckoutChoosePickupAddress(false)"
+		@pickup-address="updatePickupAddress"	
+	/>
 <!-- modals -->
 </template>
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
+
+import { createToast } from 'mosha-vue-toastify';
 // local components
 import InputSelectMain from '@/components/input/InputSelectMain.vue';
 import SelectCheckoutMain from '@/components/input/SelectCheckoutMain.vue';
 
 import CheckoutChooseDeliveryAddressModal from '@/components/checkout/CheckoutChooseDeliveryAddressModal.vue';
+import CheckoutChoosePickupAddressModal from '@/components/checkout/CheckoutChoosePickupAddressModal.vue';
 import CreateDeliveryAddressModal from '@/components/checkout/CreateDeliveryAddressModal.vue';
+
+// validators 
+import { validateCreateDeliveryAddress } from '@/validators/checkout';
 
 export default defineComponent({
 	name: "CheckoutPage",
@@ -89,24 +100,46 @@ export default defineComponent({
 		InputSelectMain,
 		SelectCheckoutMain,
 		CheckoutChooseDeliveryAddressModal,
+		CheckoutChoosePickupAddressModal,
 		CreateDeliveryAddressModal,
 	},
 	setup () {
+	// toast 
+	const inputErrorToast = (title: string) => {
+		createToast(
+			title, {
+				'type': 'danger',
+				'showIcon': true,
+				'hideProgressBar': true,	
+			}
+		);
+	};
+	const inputSuccessToast = (title: string) => {
+		createToast(
+			title, {
+				'type': 'success',
+				'showIcon': true,
+				'hideProgressBar': true,
+			}
+		);
+	};
+	var errorToast = (title: string) => inputErrorToast(title)
+	var successToast =  (title: string) => inputSuccessToast(title)
 	const store = useStore()
 	// computed
 	// get current user info
 	const user_info = computed(() => store.state.user.user)
 	// available delivery methods
 	const delivery_methods = computed(() => store.state.checkout.delivery_methods)
+	// available pick up addresses
+	const pickup_address_list = computed(() => store.state.checkout.pickup_address_list)
 	// common checkout_info, that user choosed
 	const checkout_info = computed(() => store.state.checkout.checkout_info)
 	// checkout modals open state
 	const checkout_modals = computed(() => store.state.checkout.modals)
 	// functions
 	const updateDeliveryMethod = (new_delivery_method:string) => store.commit('checkout/setCheckoutInfoDeliveryMethod', new_delivery_method)
-	const createDeliveryAddress = async (new_delivery_address: Record<string,any>) => {
-		await store.commit('createDeliveryAddressAPI', new_delivery_address)
-	}
+
 
 	const openCheckoutChooseDeliveryAddress = (is_open:boolean) => {
 		// open checkout choose delivery address modal
@@ -118,8 +151,8 @@ export default defineComponent({
 		openCheckoutChooseDeliveryAddress(false)
 	}
 
-	const openCheckoutChoosePickupAddress = () => {
-		window.alert('asdlf')	
+	const openCheckoutChoosePickupAddress = (is_open: boolean) => {
+		store.commit('checkout/openChoosePickupAddressModal', is_open)
 	}
 	// set checkout delivery address to checkout_info
 	const updateDeliveryAddress = (address: Record<string,any>) => { 
@@ -128,7 +161,25 @@ export default defineComponent({
 		openCheckoutChooseDeliveryAddress(false)
 	}
 	// set checkout pickup address to checkout_info
-	const updatePickupAddress = (address: Record<string,any>) => store.commit("checkout/setCheckoutInfoPickupAddress", address)
+	const updatePickupAddress = (address: Record<string,any>) => { 
+		store.commit("checkout/setCheckoutInfoPickupAddress", address)
+		// close the modal
+		openCheckoutChoosePickupAddress(false)
+	}
+	// make API call and create delivery address
+	const createDeliveryAddress = async (new_delivery_address: Record<string,any>) => {
+		// need to validate form
+		const validate_info = validateCreateDeliveryAddress(new_delivery_address)
+		if (!validate_info.is_valid) {
+			errorToast(validate_info.v_msg)
+		} else {
+			successToast('commit createDeliveryAddressAPI')
+			await store.dispatch('createDeliveryAddressAPI', new_delivery_address)
+			openCreateDeliveryAddressModal(false)
+		}
+		// close form, call action, is form is valid and pass address
+		// show error toast, if it is any error, dont close the form
+	}
 
 	// helper to get checkout delivery address display
 	var getCheckoutDeliveryAddressDisplay = computed(() => {
@@ -144,16 +195,21 @@ export default defineComponent({
 			delivery_methods,
 			checkout_info,
 			checkout_modals,
+
+			pickup_address_list,
 			// functions
 			updateDeliveryMethod,
 			updateDeliveryAddress,
 			updatePickupAddress,
+
+			createDeliveryAddress,
 
 			openCheckoutChooseDeliveryAddress,
 			openCreateDeliveryAddressModal,
 			openCheckoutChoosePickupAddress,
 
 			getCheckoutDeliveryAddressDisplay,
+
 		}
 	}
 });

@@ -28,7 +28,7 @@
 				<div
 					v-for="address in addressList"
 					:key="address.id"
-					@click="chooseDeliveryAddressClick(address)"
+					@click="choosePickupAddressClick(address)"
 					:class="['px-4 py-3 my-3 bg-gray-100 rounded-lg min-h-[60px] flex items-center cursor-pointer',
 					isActive(address.id) ? 'border-2 border-green-500':'']"
 				>
@@ -49,17 +49,6 @@
 			</div>
 			<!-- eof addresses list -->
 
-			<!-- add new address button -->
-			<div class="flex items-end flex-1 mb-2">
-				<Button
-					@click="openCreateDeliveryClick"
-					:title="'Добавить адрес'"
-					rounded="full"
-					class="flex justify-center items-center px-5 min-h-[45px] text-white bg-default w-11/12 mx-auto max-w-[400px]"
-					/>
-			</div>
-			<!-- eof add new address button -->
-
 		</div>
 	</div>
 
@@ -71,14 +60,14 @@
 <script lang="ts">
 import { onMounted, ref, reactive, defineComponent, computed } from 'vue';
 import { Icon } from '@iconify/vue';
-import Button from '@/components/buttons/Button.vue';
+//import Button from '@/components/buttons/Button.vue';
 
 export default defineComponent({
-	name: "CheckoutChoooseDeliveryAddressModal",
-	emits: ['close-modal', 'delivery-address', 'open-create-delivery'],
+	name: "CheckoutChoosePickupAddressModal",
+	emits: ['close-modal', 'pickup-address'],
 	components: {
 		Icon,
-		Button,
+//		Button,
 	},
 	props: {
 		addressList: {
@@ -105,9 +94,8 @@ export default defineComponent({
 		})
 		var closeModalClick = () => emit('close-modal')		
 		// emit choosed address to set on click
-		var chooseDeliveryAddressClick = (delivery_address: Record<string,any>) => emit("delivery-address", delivery_address)
+		var choosePickupAddressClick = (delivery_address: Record<string,any>) => emit("pickup-address", delivery_address)
 		// emit open create new delivery address modal
-		var openCreateDeliveryClick = () => emit('open-create-delivery')
 
 		return {
 			// reactive
@@ -116,8 +104,7 @@ export default defineComponent({
 			isActive,
 			// functions
 			closeModalClick,
-			chooseDeliveryAddressClick,
-			openCreateDeliveryClick,
+			choosePickupAddressClick,
 		}
 	}
 });

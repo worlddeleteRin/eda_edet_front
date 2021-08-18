@@ -5,8 +5,7 @@
 >
 </div>
 
-<transition 
-	enter-active-class="transition ease-out duration-200" 
+<transition enter-active-class="transition ease-out duration-200" 
 	enter-from-class="opacity-0 translate-y-1 scale-90" 
 	enter-to-class="opacity-100 translate-y-0 scale-100" 
 	leave-active-class="transition ease-in duration-1000" 
@@ -30,6 +29,7 @@
 					<div class="flex flex-col flex-1 w-8/12 mr-4">
 						<div class="text-lg text-gray-500">Улица</div>				
 						<input 
+							v-model="address.street"
 							class="px-3 py-3 bg-gray-100 outline-none rounded-xl focus:ring-2 ring-default"
 							placeholder="Название улицы"
 						/>
@@ -39,6 +39,7 @@
 					<div class="flex flex-col w-3/12">
 						<div class="text-lg text-gray-500">Дом</div>				
 						<input 
+							v-model="address.houseNumber"
 							class="px-3 py-3 bg-gray-100 outline-none rounded-xl focus:ring-2 ring-default"
 							placeholder="###"
 						/>
@@ -48,33 +49,36 @@
 				<!-- eof first line -->
 				<!-- second line -->
 				<div class="flex w-full mt-2">
-					<!-- address city -->
+					<!-- address flatNumber -->
 					<div class="flex flex-col flex-1 w-3/12 mr-4">
 						<div class="text-lg text-gray-500">Квартира</div>				
 						<input 
+							v-model="address.flatNumber"
 							class="px-3 py-3 bg-gray-100 outline-none rounded-xl focus:ring-2 ring-default"
 							placeholder="###"
 						/>
 					</div>
-					<!-- address city -->
-					<!-- houseNumber -->
+					<!-- address flatNumber -->
+					<!-- entranceNumber -->
 					<div class="flex flex-col flex-1 w-3/12 mr-4">
 						<div class="text-lg text-gray-500">Подьезд</div>				
 						<input 
+							v-model="address.entranceNumber"
 							class="px-3 py-3 bg-gray-100 outline-none rounded-xl focus:ring-2 ring-default"
 							placeholder="###"
 						/>
 					</div>
-					<!-- eof houseNumber -->
-					<!-- houseNumber -->
+					<!-- eof entranceNumber -->
+					<!-- floorNumber -->
 					<div class="flex flex-col flex-1 w-3/12">
 						<div class="text-lg text-gray-500">Этаж</div>				
 						<input 
+							v-model="address.floorNumber"
 							class="px-3 py-3 bg-gray-100 outline-none rounded-xl focus:ring-2 ring-default"
 							placeholder="###"
 						/>
 					</div>
-					<!-- eof houseNumber -->
+					<!-- eof floorNumber -->
 				</div>
 				<!-- eof second line -->
 				<!-- third line -->
@@ -83,6 +87,7 @@
 					<div class="flex flex-col flex-1 w-full">
 						<div class="text-lg text-gray-500">Комментарий к адресу</div>				
 						<textarea
+							v-model="address.comment"
 							rows="4"
 							class="px-3 py-3 bg-gray-100 outline-none rounded-xl focus:ring-2 ring-default"
 							placeholder="Ваш комментарий к адресу"
@@ -114,7 +119,7 @@
 </template>
 
 <script lang="ts">
-import { onMounted, ref, defineComponent } from 'vue';
+import { onMounted, ref, reactive, defineComponent } from 'vue';
 //import { Icon } from '@iconify/vue';
 import Button from '@/components/buttons/Button.vue';
 
@@ -129,22 +134,35 @@ export default defineComponent({
 	},
 	setup (props, {emit}) {
 		const is_mounted = ref(false)
+		// reactive
+			// new address 
+		const address = reactive({
+			street: '',
+			houseNumber: '',
+			flatNumber: '',
+			entranceNumber: '',
+			floorNumber: '',
+			comment: '',
+		});
 
 		// functions
 		onMounted(() => {
 			is_mounted.value = true
 		})
-		var closeModalClick = () => emit('close-modal')		
-		// emit choosed address to set on click
+		var closeModalClick = () => emit("close-modal")		
+		// emit to create new delivery address
 		var createDeliveryAddressClick = () => {
+			emit("create-delivery-address", address)
 		}
 
 		return {
 			// reactive
+			address,
 			// computed
 			is_mounted,
 			// functions
 			closeModalClick,
+			createDeliveryAddressClick,
 		}
 	}
 });
