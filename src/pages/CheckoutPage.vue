@@ -34,7 +34,7 @@
 		<!-- select delivery address -->
 			<select-checkout-main
 				v-if="checkout_info.delivery_method == 'delivery'"
-				@click="openCheckoutChooseDeliveryAddress(true)"
+				@click="openCheckoutModal('choose_delivery_address_modal_open',true)"
 				:dataNew="checkout_info.delivery_address == undefined"
 				:showIconSelected="true"
 				:titleNew="'Выберите адрес доставки'"
@@ -44,7 +44,7 @@
 		<!-- select pickup address -->
 			<select-checkout-main
 				v-if="checkout_info.delivery_method == 'pickup'"
-				@click="openCheckoutChoosePickupAddress"
+				@click="openCheckoutModal('choose_pickup_address_modal_open',true)"
 				:dataNew="checkout_info.pickup_address == undefined"
 				:showIconSelected="true"
 				:titleNew="'Выберите пункт выдачи'"
@@ -60,8 +60,11 @@
 	</div>
 	<div class="pl-4 py-1 mt-3 bg-white max-w-[600px] rounded-lg">
 		<!-- select payment method -->
-			<select-checkout-main
+		<!--
 				@click="openCheckoutChoosePaymentMethod"
+		-->
+			<select-checkout-main
+				@click="openCheckoutModal('choose_payment_method_modal_open', true)"
 				:dataNew="checkout_info.payment_method == undefined"
 				:showIconSelected="true"
 				:titleNew="'Выберите способ оплаты'"
@@ -83,12 +86,12 @@
 		:addressList="user_info.deliveryAddressList"
 		:activeAddress="checkout_info.delivery_address"
 		@delivery-address="updateDeliveryAddress"
-		@close-modal="openCheckoutChooseDeliveryAddress(false)"
-		@open-create-delivery="openCreateDeliveryAddressModal(true)"
+		@close-modal="openCheckoutModal('choose_delivery_address_modal_open',false)"
+		@open-create-delivery="openCheckoutModal('create_delivery_address_modal_open',true)"
 	/>
 	<create-delivery-address-modal
 		v-if="checkout_modals.create_delivery_address_modal_open"
-		@close-modal="openCreateDeliveryAddressModal(false)"
+		@close-modal="openCheckoutModal('create_delivery_address_modal_open',false)"
 		@create-delivery-address="createDeliveryAddress"
 	/>
 	<!-- eof choose delivery address modal -->
@@ -97,7 +100,7 @@
 		v-if="checkout_modals.choose_pickup_address_modal_open"
 		:addressList="pickup_address_list"
 		:activeAddress="checkout_info.pickup_address"
-		@close-modal="openCheckoutChoosePickupAddress(false)"
+		@close-modal="openCheckoutModal('choose_pickup_address_modal_open',false)"
 		@pickup-address="updatePickupAddress"	
 	/>
 	<!-- eof choose pickup address modal -->
@@ -106,7 +109,7 @@
 		v-if="checkout_modals.choose_payment_method_modal_open"
 		:paymentMethods="payment_methods"
 		:activePayment="checkout_info.payment_method"
-		@close-modal="openCheckoutChoosePaymentMethod(false)"
+		@close-modal="openCheckoutModal('choose_payment_method_modal_open',false)"
 		@payment-method="updatePaymentMethod"
 	/>
 	<!-- eof choose payment methods modal -->
@@ -180,39 +183,23 @@ export default defineComponent({
 	const updateDeliveryMethod = (new_delivery_method:string) => store.commit('checkout/setCheckoutInfoDeliveryMethod', new_delivery_method)
 
 
-	const openCheckoutChooseDeliveryAddress = (is_open:boolean) => {
-		// open checkout choose delivery address modal
-		store.commit('checkout/openChooseDeliveryAddressModal', is_open)
-	}
-	const openCreateDeliveryAddressModal = (is_open:boolean) => {
-		// open checkout choose delivery address modal
-		store.commit('checkout/openCreateDeliveryAddressModal', is_open)
-		openCheckoutChooseDeliveryAddress(false)
-	}
-	const openCheckoutChoosePickupAddress = (is_open: boolean) => {
-		store.commit('checkout/openChoosePickupAddressModal', is_open)
-	}
-	// opens choose payment method modal
-	const openCheckoutChoosePaymentMethod = (is_open: boolean) => {
-		store.commit('checkout/openChoosePaymentMethodModal', is_open)
-	}
 	// set checkout delivery address to checkout_info
 	const updateDeliveryAddress = (address: Record<string,any>) => { 
 		store.commit("checkout/setCheckoutInfoDeliveryAddress", address)
 		// close the modal
-		openCheckoutChooseDeliveryAddress(false)
+		openCheckoutModal('choose_delivery_address_modal_open',false)
 	}
 	// set checkout pickup address to checkout_info
 	const updatePickupAddress = (address: Record<string,any>) => { 
 		store.commit("checkout/setCheckoutInfoPickupAddress", address)
 		// close the modal
-		openCheckoutChoosePickupAddress(false)
+		openCheckoutModal('choose_pickup_address_modal_open',false)
 	}
 	// set new payment_method to checkout_info
 	const updatePaymentMethod = (payment_method: Record<string,any>) => { 
 		store.commit("checkout/setCheckoutInfoPaymentMethod", payment_method)
 		// close the modal
-		openCheckoutChoosePaymentMethod(false)
+		openCheckoutModal('choose_payment_method_modal_open',false)
 	}
 	// make API call and create delivery address
 	const createDeliveryAddress = async (new_delivery_address: Record<string,any>) => {
@@ -223,7 +210,7 @@ export default defineComponent({
 		} else {
 			successToast('commit createDeliveryAddressAPI')
 			await store.dispatch('createDeliveryAddressAPI', new_delivery_address)
-			openCreateDeliveryAddressModal(false)
+			openCheckoutModal('create_delivery_address_modal_open',false)
 		}
 		// close form, call action, is form is valid and pass address
 		// show error toast, if it is any error, dont close the form
@@ -253,6 +240,10 @@ export default defineComponent({
 			return ''
 		}
 	});
+	// set open state to specified checkout modal
+	var openCheckoutModal = (modal_name: string, is_open: boolean) => {
+		store.commit('checkout/setCheckoutModalOpen', { modal_name, is_open })
+	}
 		return {
 			// computed
 			user_info,
@@ -269,11 +260,8 @@ export default defineComponent({
 			updatePaymentMethod,
 
 			createDeliveryAddress,
-
-			openCheckoutChooseDeliveryAddress,
-			openCreateDeliveryAddressModal,
-			openCheckoutChoosePickupAddress,
-			openCheckoutChoosePaymentMethod,
+			
+			openCheckoutModal,
 
 			getCheckoutDeliveryAddressDisplay,
 			getCheckoutPickupAddressDisplay,

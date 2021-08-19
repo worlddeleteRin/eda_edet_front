@@ -54,6 +54,10 @@ export default {
   getters: {
   },
   mutations: {	
+	setCheckoutModalOpen(state: Record<string,any>, {modal_name, is_open }: Record<string,any>) {
+		console.log(modal_name, is_open)
+		state.modals[modal_name] = is_open
+	},
 	setCheckoutInfoDeliveryMethod(state:Record<string,any>, new_delivery_address: string) {
 		state.checkout_info.delivery_method = new_delivery_address
 	},
