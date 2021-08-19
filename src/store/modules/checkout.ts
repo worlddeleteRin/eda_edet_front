@@ -21,6 +21,16 @@ const pickup_address_list_test = [
 		info: "some additional info is here",
 	},
 ]
+const payment_methods_test = [
+	{
+		id: "payment_method_id",
+		name: "Картой курьеру",
+	},
+	{
+		id: "payment_method_id2",
+		name: "Наличными",
+	},
+]
 
 export default {
 	namespaced: true,
@@ -29,11 +39,14 @@ export default {
 		choose_delivery_address_modal_open: false,
 		create_delivery_address_modal_open: false,
 		choose_pickup_address_modal_open: false,
+		choose_payment_method_modal_open: false,
 	},
 	delivery_methods: delivery_methods_test,
+	payment_methods: payment_methods_test,
 	pickup_address_list: pickup_address_list_test,
 	checkout_info: {
 		delivery_method: "delivery",
+		payment_method: null,
 		delivery_address: null,
 		pickup_address: null,
 	},
@@ -50,6 +63,9 @@ export default {
 	setCheckoutInfoPickupAddress(state:Record<string,any>, new_pickup_address: Record<string,any>) {
 		state.checkout_info.pickup_address = new_pickup_address 
 	},
+	setCheckoutInfoPaymentMethod(state:Record<string,any>, new_payment_method: Record<string,any>) {
+		state.checkout_info.payment_method = new_payment_method 
+	},
 	openChooseDeliveryAddressModal(state:Record<string,any>, is_open: boolean) {
 		state.modals.choose_delivery_address_modal_open = is_open
 	},
@@ -58,6 +74,9 @@ export default {
 	},
 	openChoosePickupAddressModal(state:Record<string,any>, is_open: boolean) {
 		state.modals.choose_pickup_address_modal_open = is_open
+	},
+	openChoosePaymentMethodModal(state:Record<string,any>, is_open: boolean) {
+		state.modals.choose_payment_method_modal_open = is_open
 	},
   },
   actions: {

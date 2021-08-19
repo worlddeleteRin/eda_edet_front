@@ -139,7 +139,7 @@ export default defineComponent({
 			if (!is_open) {
 				store.commit('resetUserLoginInfo')
 			}
-			store.commit('setUserChangePasswordOpen', is_open)
+			store.commit('modals/setUserChangePasswordOpen', is_open)
 		}
 		// change user password function 
 		const changeUserPassword = async () => {
