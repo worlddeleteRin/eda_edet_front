@@ -1,7 +1,8 @@
 <template>
 <div 
 	@click="closeProductPage"
-	class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-40">
+	class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-40"
+	:style="[backgroud_translate_style]">
 </div>
 
 	<transition 
@@ -18,8 +19,8 @@
 
 <div 
 id="product_id_1"
-:class="['fixed top-0 left-0 md:inset-x-0 w-full h-full md:w-10/12 md:max-w-[800px] md:mx-auto bg-white py-7 px-9 rounded-xl md:top-1/2 md:transform md:-translate-y-1/2 flex flex-col md:flex-row overflow-y-scroll overflow-x-hidden z-50']"
-:style="[translate_style, translate_animation]"
+:class="['fixed top-0 left-0 md:inset-x-0 w-full h-full md:w-10/12 md:max-w-[800px] md:mx-auto bg-white py-7 px-9 rounded-xl md:top-1/2 md:transform md:-translate-y-1/2 flex flex-col md:flex-row overflow-x-hidden z-50']"
+:style="[translate_style, translate_animation, overflow_style]"
 >
 	<!-- main product card div -->
 	<!--
@@ -52,12 +53,11 @@ id="product_id_1"
 		<div class="mt-1">
 			{{ product.description }}
 			<div
-			v-for="item in 100"
+			v-for="item in 20"
 			:key="item"
 			>
 				<div>
-				asldfkjasdf
-				asdf
+				some test content here	
 				</div>
 			</div>
 
@@ -100,7 +100,7 @@ id="product_id_1"
 
 <script lang="ts">
 import Hammer from 'hammerjs';
-import { defineComponent, PropType, onMounted, ref } from 'vue';
+import { defineComponent, PropType, onMounted, ref, computed } from 'vue';
 import { Icon } from '@iconify/vue';
 import ProductInterface from '@/interfaces/ProductInterface';
 //import LazyImage from '@/components/image/LazyImage.vue';
@@ -132,18 +132,73 @@ export default defineComponent({
 	emits: ['add-cart'],
 
 	setup (props, { emit }) {	
+		const router = useRouter()
+		const can_pan_px = 0
+		const need_close_px = 170
+		// refs
+		const is_mounted = ref(false)
+		const is_closed = ref(false)
+		const overflow_style = ref("overflow-y: scroll;")
+		const backgroud_translate_style = ref("")
 		const translate_style = ref("")
 		const translate_animation = ref("")
+		const currentScroll = ref(0)
+		const startPanDelta = ref(0)
+		const startPanpx = ref(0)
+		const endPanDelta = ref(0)
+		const endPanpx = ref(0)
+		const productElement = ref("")
+		// computed
+		const canPan  = computed(() => currentScroll.value <= can_pan_px);
+		const needClose = computed(() => {
+			if (endPanpx.value > need_close_px) {
+				return true
+			}
+//			const velo = (endPanDelta - startPanDelta) * (endPanpx - startPanpx)
+			if ((endPanDelta.value - startPanDelta.value) < 200 && (endPanpx.value - startPanpx.value) > 140) {
+				return true
+			}
+			return false
+		});
+		// functions
 		const translateCard = (to_translate: number) => {
 			translate_style.value = `transform: translateY(${to_translate}px);`
 		}
 		const setTranslateDuration = (duration: number) => {
 			translate_animation.value = `transition: transform ${duration}ms ease;`
 		}
+		const makeOverflowYScroll = () => { 
+			//console.log('make overflow scroll')
+			overflow_style.value = "overflow-y: scroll;"
+		}
+		const makeOverflowYHidden = () => { 
+			//console.log('make overflow hidden')
+			overflow_style.value = "overflow-y: hidden;"
+		}
+		var addCartClick = () => emit('add-cart')
+		var closeProductPage = () =>  { 
+			if (!is_closed.value) {
+				is_closed.value = true
+				backgroud_translate_style.value = "opacity: 0; transition: opacity 1000ms ease;"
+				setTranslateDuration(300)
+				translateCard(200)
+				productElement.value.ontransitionend = () => router.back();
+				//is_closed.value = true
+				//router.back()
+			}
+		}
+
+
 		// onmounted hammer js for product
+
 		onMounted (() => {
+
 			is_mounted.value = true
+			console.log('it is mounted')
 			var stage = document.getElementById('product_id_1')
+			productElement.value = stage
+			// add onScroll event listener to stage
+			stage.onscroll = (e) => currentScroll.value = stage.scrollTop
 			if (stage) {
 				var mc = new Hammer(stage, {
 					touchAction: "pan-y",
@@ -155,23 +210,35 @@ export default defineComponent({
 					//velocity: 0.1
 				})
 				mc.on('panstart', function(e) {
+					startPanpx.value = e.deltaY	
+					startPanDelta.value = e.deltaTime
 					setTranslateDuration(0)
-					//console.log(e.type, ' detected')	
+					if (canPan.value) {
+						makeOverflowYHidden()
+					}
 					//console.log('event is', e)
 				})
 				mc.on('panmove', function(e) {
-					const currentScroll = stage.scrollTop
-					if (currentScroll < 50) {
-						console.log('move cursor', e)
-						translate_style.value = `transform: translateY(${e.deltaY}px`
-						translateCard(e.deltaY)
+					//const currentScroll = stage.scrollTop
+					if (canPan.value) {
+						//console.log('move cursor', e)
+						if (e.deltaY > 0) {
+							translateCard(e.deltaY)
+						}
 					}
 				});
 				mc.on('panend', function(e) {
 					//console.log('end moving cursor', e)
 //					stage.ontransitionend = () => {
+						endPanDelta.value = e.deltaTime
+						endPanpx.value = e.deltaY
 						setTranslateDuration(500)
 						translateCard(0)
+						makeOverflowYScroll()
+						console.log('time start', startPanDelta.value, ', time end: ', endPanDelta.value, endPanDelta.value - startPanDelta.value)
+						if (needClose.value)  {
+							closeProductPage()	
+						}
 						//translate_animation.value= `transition: transform 1000ms ease;`
 						//translate_style.value = `transform: translateY(0px);`
 //					}
@@ -182,10 +249,8 @@ export default defineComponent({
 			}
 		});
 		// eof onmounted hammer js for product
-		const is_mounted = ref(false)
-		const router = useRouter()
-		var addCartClick = () => emit('add-cart')
-		var closeProductPage = () => router.back()
+
+
 
 		return {
 			is_mounted,
@@ -194,6 +259,8 @@ export default defineComponent({
 			closeProductPage,
 			translate_style,
 			translate_animation,
+			overflow_style,
+			backgroud_translate_style,		
 		}
 	}
 });
