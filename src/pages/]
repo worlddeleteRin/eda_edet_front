@@ -75,14 +75,7 @@
 	<!-- eof choose payment method -->
 
 	<!-- make order button -->
-	<div class="mt-8">
-		<Button
-			@button-click="makeOrderClick"
-			:title="'Оформить заказ'"
-			rounded="full"
-			class="flex items-center justify-center px-5 min-h-[45px] text-white bg-default max-w-[400px]"
-		/>
-	</div>
+
 	<!-- eof make order button -->
 
 </div>
@@ -133,7 +126,6 @@ import { useStore } from 'vuex';
 
 import { createToast } from 'mosha-vue-toastify';
 // local components
-import Button from '@/components/buttons/Button.vue';
 import InputSelectMain from '@/components/input/InputSelectMain.vue';
 import SelectCheckoutMain from '@/components/input/SelectCheckoutMain.vue';
 
@@ -142,14 +134,12 @@ import CheckoutChoosePickupAddressModal from '@/components/checkout/CheckoutChoo
 import CreateDeliveryAddressModal from '@/components/checkout/CreateDeliveryAddressModal.vue';
 import CheckoutChoosePaymentMethodModal from '@/components/checkout/CheckoutChoosePaymentMethodModal.vue';
 
-
 // validators 
 import { validateCreateDeliveryAddress } from '@/validators/checkout';
 
 export default defineComponent({
 	name: "CheckoutPage",
 	components: {
-		Button,
 		InputSelectMain,
 		SelectCheckoutMain,
 		CheckoutChooseDeliveryAddressModal,
@@ -258,16 +248,6 @@ export default defineComponent({
 	var openCheckoutModal = (modal_name: string, is_open: boolean) => {
 		store.commit('checkout/setCheckoutModalOpen', { modal_name, is_open })
 	}
-	// make order function 
-	const makeOrderClick = () => {
-		// need to validate, that order could be make
-		// 1. Check, if user authorized, if not - show authorization popup
-		// 2. Check, if user selected delivery method, delivery/pickup address, show error Toast msg if not
-		// 3. Check, if user has enough cart items, to make purchase for delivery (enough emount)
-		// 4. Submit order, if all validation passed
-		store.dispatch('checkout/makeOrderAPI')
-		return successToast("emit create order action")
-	}
 		return {
 			// computed
 			user_info,
@@ -290,8 +270,6 @@ export default defineComponent({
 			getCheckoutDeliveryAddressDisplay,
 			getCheckoutPickupAddressDisplay,
 			getCheckoutPaymentMethodDisplay,
-
-			makeOrderClick,
 		}
 	}
 });

@@ -84,5 +84,8 @@ export default {
 	},
   },
   actions: {
+	makeOrderAPI() {
+		console.log('make order action')
+	}
   },
 }

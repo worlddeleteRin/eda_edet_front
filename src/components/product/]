@@ -1,4 +1,5 @@
 <template>
+
 <div 
 	@click="closeProductPage"
 	class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-40">
@@ -18,13 +19,9 @@
 
 <div 
 id="product_id_1"
-:class="['fixed top-0 left-0 md:inset-x-0 w-full h-full md:w-10/12 md:max-w-[800px] md:mx-auto bg-white py-7 px-9 rounded-xl md:top-1/2 md:transform md:-translate-y-1/2 flex flex-col md:flex-row overflow-y-scroll overflow-x-hidden z-50']"
-:style="[translate_style, translate_animation]"
+:class="['fixed top-0 left-0 md:inset-x-0 w-full h-full md:w-10/12 md:max-w-[800px] md:mx-auto bg-white py-7 px-9 rounded-xl md:top-1/2 md:transform md:-translate-y-1/2 flex flex-col md:flex-row overflow-y-scroll z-50',
+		translate_style]"
 >
-	<!-- main product card div -->
-	<!--
-	<div class="">
-	-->
 	{{ translate_style }}
 
 	<!-- image -->
@@ -51,20 +48,10 @@ id="product_id_1"
 		<!-- product description -->
 		<div class="mt-1">
 			{{ product.description }}
-			<div
-			v-for="item in 100"
-			:key="item"
-			>
-				<div>
-				asldfkjasdf
-				asdf
-				</div>
-			</div>
-
 		</div>
 		<!-- eof product description -->
 		<!-- addcart -->
-		<div class="w-full bottom-2">
+		<div class="absolute w-full bottom-2">
 			<Button
 				rounded="full"
 				:title="'В корзину за '+ product.price + ' &#8381;'"
@@ -85,11 +72,6 @@ id="product_id_1"
 			class="text-white"
 		/>
 	</div>
-
-<!--
-	</div>
-	-->
-	<!-- eof main product card div -->
 
 </div>
 
@@ -133,49 +115,23 @@ export default defineComponent({
 
 	setup (props, { emit }) {	
 		const translate_style = ref("")
-		const translate_animation = ref("")
-		const translateCard = (to_translate: number) => {
-			translate_style.value = `transform: translateY(${to_translate}px);`
-		}
-		const setTranslateDuration = (duration: number) => {
-			translate_animation.value = `transition: transform ${duration}ms ease;`
-		}
 		// onmounted hammer js for product
 		onMounted (() => {
 			is_mounted.value = true
 			var stage = document.getElementById('product_id_1')
 			if (stage) {
-				var mc = new Hammer(stage, {
-					touchAction: "pan-y",
-					inputClass: Hammer.TouchInput
+				var mc = new Hammer(stage)
+				mc.get('swipe').set({
+					direction: Hammer.DIRECTION_ALL,
+					thredold: 1,
+					velocity: 0.1
 				})
-				mc.get('pan').set({
-					direction: Hammer.DIRECTION_DOWN,
-					threshold: 10,
-					//velocity: 0.1
+				mc.on('swipedown', function(e) {
+					console.log(e.type, ' detected')	
+					console.log('event is', e)
+					console.log(e.velocityY)
+					translate_style.value = "translateY: 200px"
 				})
-				mc.on('panstart', function(e) {
-					setTranslateDuration(0)
-					//console.log(e.type, ' detected')	
-					//console.log('event is', e)
-				})
-				mc.on('panmove', function(e) {
-					const currentScroll = stage.scrollTop
-					if (currentScroll < 50) {
-						console.log('move cursor', e)
-						translate_style.value = `transform: translateY(${e.deltaY}px`
-						translateCard(e.deltaY)
-					}
-				});
-				mc.on('panend', function(e) {
-					//console.log('end moving cursor', e)
-//					stage.ontransitionend = () => {
-						setTranslateDuration(500)
-						translateCard(0)
-						//translate_animation.value= `transition: transform 1000ms ease;`
-						//translate_style.value = `transform: translateY(0px);`
-//					}
-				});
 				console.log('hammer initialized')
 			} else {
 				console.log('no stage', stage)
@@ -193,7 +149,6 @@ export default defineComponent({
 			addCartClick,
 			closeProductPage,
 			translate_style,
-			translate_animation,
 		}
 	}
 });

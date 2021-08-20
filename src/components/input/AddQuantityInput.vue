@@ -35,7 +35,6 @@ export default {
 	props: {
 		productQuantity: {
 			type: Number,
-			required: true,
 			default: 1,
 		},
 	},
