@@ -114,8 +114,8 @@
 	<!-- eof header profile links -->
 
 	<!-- mobile cart -->
-	<div 
-	@click="openMobileMenuClick"
+	<router-link
+	:to="'/cart'"
 	class="flex px-2 py-1"
 	>
 		<Icon
@@ -123,7 +123,7 @@
 		width="22"
 		class="block md:hidden"
 		/>
-	</div>
+	</router-link>
 	<!-- eof mobile cart -->
 
 
