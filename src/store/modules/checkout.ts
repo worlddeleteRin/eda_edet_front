@@ -31,7 +31,6 @@ const payment_methods_test = [
 		name: "Наличными",
 	},
 ]
-
 export default {
 	namespaced: true,
   state: {
@@ -69,18 +68,6 @@ export default {
 	},
 	setCheckoutInfoPaymentMethod(state:Record<string,any>, new_payment_method: Record<string,any>) {
 		state.checkout_info.payment_method = new_payment_method 
-	},
-	openChooseDeliveryAddressModal(state:Record<string,any>, is_open: boolean) {
-		state.modals.choose_delivery_address_modal_open = is_open
-	},
-	openCreateDeliveryAddressModal(state:Record<string,any>, is_open: boolean) {
-		state.modals.create_delivery_address_modal_open = is_open
-	},
-	openChoosePickupAddressModal(state:Record<string,any>, is_open: boolean) {
-		state.modals.choose_pickup_address_modal_open = is_open
-	},
-	openChoosePaymentMethodModal(state:Record<string,any>, is_open: boolean) {
-		state.modals.choose_payment_method_modal_open = is_open
 	},
   },
   actions: {
