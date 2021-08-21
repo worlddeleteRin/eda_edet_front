@@ -3,6 +3,19 @@
 	
 	<div class="h-[50px] md:h-[76px] flex items-center justify-between relative flex-shrink">
 
+	<!-- open mobile menu button -->
+	<div 
+	@click="openMobileMenuClick"
+	class="flex px-2 py-1"
+	>
+		<Icon
+		icon="feather:menu"
+		width="22"
+		class="block md:hidden"
+		/>
+	</div>
+	<!-- eof open mobile menu button -->
+
 	<!-- header logo -->
 	<router-link :to="'/'" 
 	class="flex items-center flex-shrink w-4/12 h-full md:w-3/12">
@@ -100,18 +113,19 @@
 	</div>
 	<!-- eof header profile links -->
 
-	<!-- open mobile menu button -->
+	<!-- mobile cart -->
 	<div 
 	@click="openMobileMenuClick"
 	class="flex px-2 py-1"
 	>
 		<Icon
-		icon="feather:menu"
+		icon="akar-icons:shopping-bag"
 		width="22"
 		class="block md:hidden"
 		/>
 	</div>
-	<!-- eof open mobile menu button -->
+	<!-- eof mobile cart -->
+
 
 	</div>
 
