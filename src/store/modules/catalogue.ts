@@ -1,11 +1,14 @@
 import { Commit } from 'vuex';
+import {
+	ProductsDataSevice
+} from '@/api/catalogue';
 
 
 export default {
 	namespaced: true,
   state: {
 	categories: [],
-	products: [],
+	products: null,
   },
   mutations: {
 	setCategories(state: Record<string, any>, categories: Array<Record<string,any>>) {
@@ -17,11 +20,12 @@ export default {
   },
   actions: {
 	getCategoriesAPI({commit}: {commit: Commit}) {
-		let categories: Array<Record<string,any>> = []	
+		const categories: Array<Record<string,any>> = []	
 		commit('setCategories', categories)
 	},
-	getProductsAPI({commit}: {commit: Commit}) {
-		let products: Array<Record<string,any>> = []	
+	async getProductsAPI({commit}: {commit: Commit}) {
+		// get all products	
+		const products: Array<Record<string,any>> = await ProductsDataSevice.getAll()	
 		commit('setProducts', products)
 	},
   },
