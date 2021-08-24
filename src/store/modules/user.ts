@@ -53,7 +53,7 @@ export default {
 	user: { ...user_test },
 	user_order_status_colors: user_order_status_colors,
 	user_orders: [],
-	user_authorized: true,
+	user_authorized: false,
 	user_authorize_states: user_authorize_states,
 	user_login_info: user_login_info_default,
   },
