@@ -29,6 +29,34 @@ class UserDataServiceClass {
 		});
 		return response
 	}
+	async getAuthorizeToken(username: string, password: string): Promise<any> {
+		const formData = new FormData()
+		formData.set('username', username)
+		formData.set('password', password)
+		const response: Record<string,any> = await apiClient.post("users/token", formData).catch(() => {
+			return response
+		});	
+		return response
+	}
+	async register(username: string, password: string): Promise<any> {
+		const response: Record<string,any> = await apiClient.post("users/register", {
+			"username": username,
+			"password": password,
+		}).catch(() => {
+			return response
+		});				
+		return response
+	}
+	async registerVerify(username: string, password: string, otp: string): Promise<any> {
+		const response: Record<string,any> = await apiClient.post("users/register-verify", {
+			"username": username,
+			"password": password,
+			"otp": otp,
+		}).catch(() => {
+			return response
+		});				
+		return response
+	}
 }
 
 export const UserDataService = new UserDataServiceClass()

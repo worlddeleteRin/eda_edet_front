@@ -124,9 +124,8 @@ export default defineComponent({
 	},
 	emits: ['close-modal', 'user-login-info', 'user-authorized'],
 	setup (props, {emit}) {
-		// store and router
+		// store
 		const store = useStore()
-		const router = useRouter()
 		// toast 
 		const inputErrorToast = (title: string) => {
 			createToast(
@@ -252,20 +251,14 @@ export default defineComponent({
 			if (!validate_info.is_valid) {
 				return inputErrorToast(validate_info.v_msg)
 			} else {
+				const is_verified = store.dispatch("registerVerifyUserAPI")
+				if (is_verified) {
+					return successToast('verify is valid, can send code to check on server')
+					router.push('/profile')
+				}
 				// need to send verify code on server
 				// create account and login user, if code is right
 				// show errorToast, if code is not right
-				const is_verified = await store.dispatch("registerVerifyUserAPI")
-				if (is_verified) {
-					await store.dispatch("getAuthorizeTokenAPI")
-					await store.dispatch("checkUserAuth")
-					router.push('/profile')
-					emit('close-modal')
-					return successToast('Аккаунт успешно создан!')
-				} else {
-					return errorToast('Неверный код')
-				}
-
 			}
 		}
 

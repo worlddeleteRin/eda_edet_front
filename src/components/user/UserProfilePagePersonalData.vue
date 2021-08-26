@@ -50,7 +50,9 @@
 	<!-- eof user change password button -->
 	
 	<!-- user logout button -->
-	<div class="flex items-center px-2 py-2 mt-5 cursor-pointer select-none rounded-xl text-defaultText bg-defaultDim">
+	<div 
+	@click="logoutUserClicked"
+	class="flex items-center px-2 py-2 mt-5 cursor-pointer select-none rounded-xl text-defaultText bg-defaultDim">
 		<Icon
 			icon="fe:logout"
 			width="35"
@@ -76,6 +78,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { Icon } from '@iconify/vue';
 import { createToast } from 'mosha-vue-toastify';
@@ -115,12 +118,18 @@ export default defineComponent({
 		var successToast =  (title: string) => inputSuccessToast(title)
 		// eof toasts
 		const store = useStore()
+		const router = useRouter()
 		// computed
 		const user_change_password_open = computed(() => store.state.modals.user_change_password_open)
 		const user_login_info = computed(() => store.state.user.user_login_info)
 
 		// functions
 		// call update user login info
+		const logoutUserClicked = async () => {
+			await store.dispatch("logoutUser")
+			router.push('/')
+		}
+
 		const updateUserLoginInfo = (new_login_info: Record<string,any>) => store.commit('setUserLoginInfo', new_login_info)
 		
 		// call update user name dispatch
@@ -157,6 +166,7 @@ export default defineComponent({
 			user_change_password_open,
 			user_login_info,
 			// functions
+			logoutUserClicked,
 			updateUserName,
 			updateUserLoginInfo,
 			setUserChangePasswordModal,

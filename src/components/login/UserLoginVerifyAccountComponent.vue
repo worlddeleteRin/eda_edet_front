@@ -43,7 +43,7 @@
 	<!-- verify button -->
 	<div class="mt-8">
 		<Button
-		@button-click="loginCheckVerifyClicked"
+		@button-click="userRegisterVerifyClick"
 		:title="'Создать аккаунт'"
 		rounded="full"
 		class="flex justify-center px-5 py-3 text-white bg-default"
@@ -71,7 +71,7 @@ export default defineComponent({
 			default: null,
 		}
 	},
-	emits: ['user-login-info', 'toast-error', 'toast-success', 'login-check-verify', 'go-login'],
+	emits: ['user-login-info', 'toast-error', 'toast-success', 'user-register-verify', 'go-login'],
 	setup(props, {emit}) {
 		// user_login data
 		var user_login_info_local =  reactive(
@@ -82,7 +82,7 @@ export default defineComponent({
 			emit('user-login-info', user_login_info_local)	
 		}					
 		// emit user check verify code, when button clicked
-		var loginCheckVerifyClicked = () => emit('login-check-verify')
+		var userRegisterVerifyClick = () => emit('user-register-verify')
 		// emit go login state, when button clicked
 		var goLoginClicked = () => emit('go-login')
 
@@ -91,7 +91,7 @@ export default defineComponent({
 			user_login_info_local,
 			// functions
 			updateUserLoginInfo,
-			loginCheckVerifyClicked,
+			userRegisterVerifyClick,
 			goLoginClicked,
 		}
 	}

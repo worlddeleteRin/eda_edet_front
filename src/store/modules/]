@@ -84,27 +84,14 @@ export default {
 	},
   },
   actions: {
-	async registerUserAPI({state}: {state: Record<string,any>}) {
+	async registerUserAPI({commit, state}: {commit: Commit, state: Record<string,any>}) {
 		const username = state.user_login_info.user_phone 
 		const password = state.user_login_info.user_password
 		const resp_data: Record<string,any> = await UserDataService.register(username, password)
-		console.log('register response is', resp_data)
+		print('register response is', resp_data)
 		if (resp_data) {
 			return true
 		}
-		return false
-	},
-	async registerVerifyUserAPI({commit, state}: {commit: Commit, state: Record<string,any>}) {
-		const username = state.user_login_info.user_phone 
-		const password = state.user_login_info.user_password
-		const otp = state.user_login_info.verify_code
-		const resp_data: Record<string,any> = await UserDataService.registerVerify(username, password, otp)
-		console.log('register verify response is', resp_data)
-		if (resp_data) {
-			commit('setUserInfo', resp_data.data)
-			return true
-		}
-		return false
 	},
 	async logoutUser({commit}: {commit: Commit}) {
 		commit('setUserAccessToken', null)	

@@ -5,7 +5,7 @@
 		@open-mobile-menu="setMobileMenu(true)"
 		@open-call-request="setCallRequestModal(true)"
 		@open-user-authorize="setUserAuthorizeModal(true)"
-		:userAuthorized="user_authorized"
+		:userAuthorized="is_user_authorized"
 		:logoUrl="'http://192.168.1.141:8080/logo_variant.png'"
 		class="px-3 mt-1 md:px-2 md:mt-4"
 	/>
@@ -43,6 +43,7 @@
 	<user-authorize-modal
 		v-if="user_authorize_open"
 		@close-modal="setUserAuthorizeModal(false)"
+		@user-authorized="userAuthorized"
 		@user-login-info="setUserLoginInfo"
 		:userLoginInfo="user_login_info"
 		:userAuthorizeStates="user_authorize_states"
@@ -53,6 +54,7 @@
 
 <script>
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 import { computed, defineAsyncComponent, onBeforeMount } from 'vue'
 
 // local components
@@ -72,10 +74,11 @@ export default {
 	},
 	setup () {
 		const store = useStore()
+		const router = useRouter()
 		// computed
 		// user info
 		const user = computed(() => store.state.user.user)
-		const user_authorized = computed(() => store.state.user.user_authorized)
+		const is_user_authorized = computed(() => store.state.user.user_authorized)
 		const user_access_token = computed(() => store.state.user.user_access_token)
 		const user_login_info = computed( () => store.state.user.user_login_info)
 		const user_authorize_states = computed(() => store.state.user.user_authorize_states)
@@ -92,7 +95,11 @@ export default {
 			// check, if access_token in local storage	
 			await store.dispatch("checkUserAuth")
 		});
-
+		var userAuthorized = async () => {
+			await store.dispatch("checkUserAuth")
+			setUserAuthorizeModal(false)
+			router.push("/profile")
+		}
 		var setMobileMenu = (is_open) => store.commit("modals/setMobileMenuOpen", is_open)	
 		var setCallRequestModal = (is_open) => {
 			if (!is_open) {
@@ -117,7 +124,7 @@ export default {
 			theme_colors,
 				// user
 			user_authorize_states,
-			user_authorized,
+			is_user_authorized,
 			user_access_token,
 			user_authorize_open,
 			user_login_info,
@@ -128,6 +135,7 @@ export default {
 
 			request_call_info,
 			// functions
+			userAuthorized,
 			setMobileMenu,
 			setCallRequestModal,
 			setUserAuthorizeModal,

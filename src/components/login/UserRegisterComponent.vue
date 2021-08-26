@@ -61,7 +61,7 @@ export default defineComponent({
 			default: null,
 		}
 	},
-	emits: ['user-login-info', 'toast-error', 'toast-success', 'user-check-register'],
+	emits: ['user-login-info', 'toast-error', 'toast-success', 'user-register'],
 	setup(props, {emit}) {
 		// user_login data from vuex
 		var user_login_info_local =  reactive(
@@ -72,7 +72,7 @@ export default defineComponent({
 			emit('user-login-info', user_login_info_local)	
 		}					
 		// emit user register click button
-		var userRegisterClick = () => emit('user-check-register')
+		var userRegisterClick = () => emit('user-register')
 
 		return {
 			// reactive
