@@ -1,4 +1,5 @@
 import { Commit } from 'vuex';
+import { UserDataService } from '@/api/user';
 
 const user_order_status_colors = {
 	IN_PROGRESS: "#ff6900",
@@ -47,10 +48,10 @@ const user_test = {
 		},
 	]
 }
-
 export default {
   state: {
 	user: { ...user_test },
+	user_access_token: null,
 	user_order_status_colors: user_order_status_colors,
 	user_orders: [],
 	user_authorized: false,
@@ -62,6 +63,9 @@ export default {
   mutations: {
 	setUserAuthorized(state: Record<string, any>, is_authorized: boolean) {
 		state.user_authorized = is_authorized 
+	},
+	setUserAccessToken(state: Record<string,any>, access_token: string) {
+		state.user_access_token = access_token;
 	},
 	resetUserLoginInfo(state: Record<string,any>) {
 		state.user_login_info.user_password = ''
@@ -81,6 +85,33 @@ export default {
 	},
   },
   actions: {
+	async checkUserAuth({commit}: {commit: Commit}) {
+		console.log('run check user auth')
+		const access_token = localStorage.getItem("user_access_token")
+		console.log('token is', access_token)
+//		const test_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMiIsImV4cCI6MTYyOTk3NjA3Nn0.tBJxanC48a1-PbA3GfBrStrUIVFN_mkgLrmDe0vfsz4"
+//		commit('setUserAccessToken', test_token)	
+//		localStorage.setItem("user_access_token", test_token)
+//		localStorage.removeItem("user_access_token")
+		if (!access_token) {
+			return null
+		}
+		commit('setUserAccessToken', access_token)
+		const resp_data: Record<string,any> = await UserDataService.getUserMe(access_token)
+		if (resp_data.token_valid && resp_data.user_data) {
+			commit('setUserAuthorized', true)
+			commit('setUserInfo', resp_data.user_data)
+		}
+	},
+	async checkUserExistAPI({state}: Record<string,any>) {
+		const username = state.user_login_info.user_phone
+		const resp_data: Record<string,any> = await UserDataService.checkExistVerifiedUser(username)
+		console.log('resp data is', resp_data)
+		if (resp_data) {
+			return resp_data.data.exist_verified
+		}
+		return false
+	},
 	// load user orders from API and mutate them
 	async loadUserOrdersAPI({commit}: { commit: Commit}) {
 		console.log('run load user orders api')

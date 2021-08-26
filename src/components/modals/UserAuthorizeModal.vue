@@ -198,12 +198,17 @@ export default defineComponent({
 			if (!validate_info.is_valid) {
 				return inputErrorToast(validate_info.v_msg)
 			} else {
-				// go to need register, if need
-				user_login_info_local.user_authorize_state = props.userAuthorizeStates.NEED_PASSWORD
-				updateUserLoginInfo()
 				// need to check, if accounts exist
 				// go to register, if account exist
+				const user_exist = await store.dispatch('checkUserExistAPI')
+				console.log('user exist is', user_exist)
+				if (user_exist) {
+					user_login_info_local.user_authorize_state = props.userAuthorizeStates.NEED_PASSWORD
+				} else {
+					user_login_info_local.user_authorize_state = props.userAuthorizeStates.NEED_REGISTER
+				}
 				// go to type password, if accounts not exist
+				updateUserLoginInfo()
 				return successToast('login is valid, can go further')
 			}
 		}

@@ -18,6 +18,13 @@
 	/>
 	<!-- eof mobile main header -->
 
+	<div>
+		access token is {{ user_access_token }}
+	</div>
+	<div>
+		user is {{ user }}
+	</div>
+
 	<!-- site main router-view -->
 	  <router-view />
 	<!-- eof site main router-view -->
@@ -46,7 +53,7 @@
 
 <script>
 import { useStore } from 'vuex';
-import { computed, defineAsyncComponent } from 'vue'
+import { computed, defineAsyncComponent, onBeforeMount } from 'vue'
 
 // local components
 import HeaderComponent from '@/components/header/HeaderComponent';
@@ -67,7 +74,9 @@ export default {
 		const store = useStore()
 		// computed
 		// user info
+		const user = computed(() => store.state.user.user)
 		const user_authorized = computed(() => store.state.user.user_authorized)
+		const user_access_token = computed(() => store.state.user.user_access_token)
 		const user_login_info = computed( () => store.state.user.user_login_info)
 		const user_authorize_states = computed(() => store.state.user.user_authorize_states)
 		const user_authorize_open = computed( () => store.state.modals.user_authorize_open)
@@ -79,6 +88,11 @@ export default {
 
 		const request_call_info = computed(() => store.state.site.request_call_info)
 		// functions
+		onBeforeMount(async () => {
+			// check, if access_token in local storage	
+			await store.dispatch("checkUserAuth")
+		});
+
 		var setMobileMenu = (is_open) => store.commit("modals/setMobileMenuOpen", is_open)	
 		var setCallRequestModal = (is_open) => {
 			if (!is_open) {
@@ -86,7 +100,7 @@ export default {
 			}
 			store.commit("modals/setCallRequestModalOpen", is_open)
 		}
-		var setUserAuthorizeModal = (is_open) => store.commit('setUserAuthorizeOpen', is_open)
+		var setUserAuthorizeModal = (is_open) => store.commit("modals/setUserAuthorizeOpen", is_open)
 		var setUserLoginInfo = (new_user_login_info) => { 
 			store.commit("setUserLoginInfo", new_user_login_info)
 		}
@@ -104,8 +118,10 @@ export default {
 				// user
 			user_authorize_states,
 			user_authorized,
+			user_access_token,
 			user_authorize_open,
 			user_login_info,
+			user,
 
 			mobile_menu_open,
 			call_request_open,
