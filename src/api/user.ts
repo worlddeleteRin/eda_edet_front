@@ -87,6 +87,27 @@ class UserDataServiceClass {
 		});				
 		return response
 	}
+	async restoreUserLogin(username: string): Promise<any> {
+		const response: Record<string,any> = await apiClient.post("users/restore", 
+			{
+				"username": username
+			},
+			).catch(() => {
+			return response
+	});				
+	return response
+	}
+	async restoreUserLoginVerify(username: string, otp_code: string): Promise<any> {
+		const response: Record<string,any> = await apiClient.post("users/restore-verify", 
+			{
+				"username": username,
+				"otp": otp_code,
+			},
+			).catch(() => {
+			return response
+	});				
+	return response
+	}
 }
 
 export const UserDataService = new UserDataServiceClass()

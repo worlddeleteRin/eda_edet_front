@@ -58,7 +58,7 @@
 				v-if="user_login_info_local.user_authorize_state == userAuthorizeStates.RESTORE_ACCOUNT"
 				:userLoginInfo="user_login_info_local"
 				@user-login-info="updateUserLoginInfo"
-				@login-check-restore="loginCheckRestore"
+				@login-check-restore="restoreAccountVerify"
 				@toast-error="errorToast"
 				@toast-success="successToast"
 				@go-login="goLoginAccount"
@@ -175,9 +175,17 @@ export default defineComponent({
 			updateUserLoginInfo()
 		}
 
-		var goLoginRestoreAccount = () => {
-			user_login_info_local.user_authorize_state = props.userAuthorizeStates.RESTORE_ACCOUNT
+		var goLoginRestoreAccount = async () => {
+			// need to send otp code to restore account access, go to restore account modal,
+			// if code is successfully sent and save in db
+			const is_otp_sent = await store.dispatch("restoreUserLoginAPI")
+			if (is_otp_sent) {
+				user_login_info_local.user_authorize_state = props.userAuthorizeStates.RESTORE_ACCOUNT
+			} else {
+				return errorToast("Возникла ошибка при отправке кода восстановления. Попробуйте позже")
+			}
 		}
+
 		var goLoginAccount = () => {
 			user_login_info_local.user_authorize_state = props.userAuthorizeStates.NEED_LOGIN
 			updateUserLoginInfo()
@@ -237,15 +245,6 @@ export default defineComponent({
 				}
 			}
 		}
-		var loginCheckRestore = async () => {
-			const validate_info = await store.dispatch('validateCheckRestore')
-			if (!validate_info.is_valid) {
-				return inputErrorToast(validate_info.v_msg)
-			} else {
-				// need to send code on server, and check, if it is right
-				return successToast('code verified, need to send and check on server')
-			}
-		}
 
 		var userRegisterVerify = async () => {
 			const validate_info = await store.dispatch('validateCheckVerify')	
@@ -257,7 +256,6 @@ export default defineComponent({
 				// show errorToast, if code is not right
 				const is_verified = await store.dispatch("registerVerifyUserAPI")
 				if (is_verified) {
-					await store.dispatch("getAuthorizeTokenAPI")
 					await store.dispatch("checkUserAuth")
 					router.push('/profile')
 					emit('close-modal')
@@ -268,6 +266,22 @@ export default defineComponent({
 
 			}
 		}
+		var restoreAccountVerify = async () => {
+			const validate_info = await store.dispatch('validateCheckRestore')	
+			if (!validate_info.is_valid) {
+				return inputErrorToast(validate_info.v_msg)
+			} else {
+				const is_authorized = await store.dispatch("restoreUserLoginValidateAPI")
+				if (is_authorized) {
+					await store.dispatch("checkUserAuth")
+					router.push('/profile')
+					emit('close-modal')
+					return successToast('Восстановлен доступ! Установите новый пароль в настройках профиля.')
+				} else {
+					return errorToast('Неверный код')
+				}
+			}
+		}
 
 
 		return {
@@ -276,12 +290,12 @@ export default defineComponent({
 			// computed
 			is_mounted,
 			// functions
+			restoreAccountVerify,
 			closeModalClick,
 			updateUserLoginInfo,
 			userRegister,
 			loginCheckAccount,
 			loginCheckPassword,
-			loginCheckRestore,
 			userRegisterVerify,
 			goLoginRestoreAccount,
 			goLoginAccount,

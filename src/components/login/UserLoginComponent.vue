@@ -61,7 +61,6 @@ export default defineComponent({
 		);
 		// emit user_login_local changes to parent
 		var updateUserLoginPhone = (event: Record<string,any>) => {
-			console.log('event is', event)
 			user_login_info_local.user_phone = "7" + event.target.getAttribute('data-mask-raw-value')
 			emit('user-login-info', user_login_info_local)	
 		}					
