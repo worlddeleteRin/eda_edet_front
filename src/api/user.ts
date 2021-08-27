@@ -57,6 +57,36 @@ class UserDataServiceClass {
 		});				
 		return response
 	}
+	async updatePassword(user_access_token: string, new_password: string): Promise<any> {
+		const response: Record<string,any> = await apiClient.patch("users/update-password", 
+			{
+				"password": new_password,
+			},
+			{
+				headers: {
+					"Authorization": `Bearer ${user_access_token}`
+				}
+			}
+		).catch(() => {
+			return response
+		});				
+		return response
+	}
+	async updateUserInfo(user_access_token: string, user_info: Record<string,any>): Promise<any> {
+		const response: Record<string,any> = await apiClient.patch("users/me", 
+			{
+				...user_info
+			},
+			{
+				headers: {
+					"Authorization": `Bearer ${user_access_token}`
+				}
+			}
+		).catch(() => {
+			return response
+		});				
+		return response
+	}
 }
 
 export const UserDataService = new UserDataServiceClass()

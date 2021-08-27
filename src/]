@@ -1,6 +1,6 @@
 <template>
 
-	<div v-if="!critical_data_loading">
+	<div v-if="critical_data_loaded">
 	<!-- site main header -->
 	<header-component
 		@open-mobile-menu="setMobileMenu(true)"
@@ -84,7 +84,7 @@ export default {
 		const router = useRouter()
 		// computed
 		// loading states
-		const critical_data_loading = computed(() => store.state.site.loading_states.critical_data_loading);
+		const critical_data_loaded = computed(() => store.state.site.loading_states.critical_data_loaded);
 		// user info
 		const user = computed(() => store.state.user.user)
 		const is_user_authorized = computed(() => store.state.user.user_authorized)
@@ -103,10 +103,7 @@ export default {
 		onBeforeMount(async () => {
 			// check, if access_token in local storage	
 			await store.dispatch("checkUserAuth")
-			store.commit('setSiteLoadingState', {
-			loading_state_name: "critical_data_loading", is_loading: false
-			});
-			});
+		});
 		var userAuthorized = async () => {
 			await store.dispatch("checkUserAuth")
 			setUserAuthorizeModal(false)
@@ -135,7 +132,7 @@ export default {
 			// computed
 			theme_colors,
 			// loading states
-			critical_data_loading,
+			critical_data_loaded,
 				// user
 			user_authorize_states,
 			is_user_authorized,

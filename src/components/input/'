@@ -10,8 +10,7 @@
 >
 	<input
 	:disabled="is_disabled"
-	@input="setInputValueLocal($event)"
-	:value="getInputValue"
+	v-model="input_value_local"
 	:class="['flex w-full py-3 mx-1 outline-none',
 			is_disabled ? 'bg-defaultGray':'',]"
 	/>
@@ -81,15 +80,6 @@ export default defineComponent({
 			is_disabled.value = false
 		}
 		// functions
-		var setInputValueLocal = (event: Event) => {
-			input_value_local.value = event.target.value
-		}
-		var getInputValue = computed(() => {
-			if (is_disabled.value) {
-				return props.inputValue
-			}
-			return input_value_local.value
-		})
 		var isValid = computed(() => {
 			if (input_value_local.value.length == 0) {
 				return false
@@ -98,7 +88,6 @@ export default defineComponent({
 		});
 		var enableInput = () => {
 			if (props.canChange) {
-				input_value_local.value = props.inputValue
 				is_disabled.value = false
 				is_on_change.value = true
 			}
@@ -108,9 +97,10 @@ export default defineComponent({
 			is_disabled.value = true 
 			is_on_change.value = false 
 		}
-		var saveValueClick = () => {
+		var saveValueClick = async () => {
 			if (isValid.value) {
-				emit('save-value', input_value_local.value)
+				await emit('save-value', input_value_local.value)
+				input_value_local.value = props.inputValue	
 				disableInput()
 			} else {
 				// can show error, that input is not valid
@@ -124,8 +114,6 @@ export default defineComponent({
 			is_on_change,
 			// computed
 			isValid,
-			setInputValueLocal,
-			getInputValue,
 			// functions
 			enableInput,
 			disableInput,

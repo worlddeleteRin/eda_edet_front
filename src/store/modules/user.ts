@@ -84,6 +84,31 @@ export default {
 	},
   },
   actions: {
+	// updates user name, request API
+	async updateUserInfoAPI({commit, state}: { commit: Commit, state: Record<string,any>}, user_info: Record<string,any>) {
+		console.log('user info to update',user_info)
+		const resp_data: Record<string,any> = 
+		await UserDataService.updateUserInfo(state.user_access_token, user_info)
+		console.log('resp data is', resp_data)
+		if (resp_data) {
+			commit('setUserInfo', resp_data.data)	
+			return true
+		} else {
+			return false
+		}
+	},
+	async changeUserPasswordAPI({commit, state}: {commit: Commit, state: Record<string,any>}) {
+		const new_password = state.user_login_info.user_password
+		const resp_data: Record<string,any> = 
+		await UserDataService.updatePassword(state.user_access_token, new_password)
+		console.log('resp data is', resp_data)
+		if (resp_data) {
+			commit('setUserInfo', resp_data.data)	
+			return true
+		} else {
+			return false
+		}
+	},
 	async registerUserAPI({state}: {state: Record<string,any>}) {
 		const username = state.user_login_info.user_phone 
 		const password = state.user_login_info.user_password
@@ -129,6 +154,7 @@ export default {
 			commit('setUserAuthorized', true)
 			commit('setUserInfo', resp_data.user_data)
 		}
+		console.log('user is', resp_data.user_data)
 	},
 	async getAuthorizeTokenAPI({commit, state}: {commit: Commit, state: Record<string,any>},) {
 		const username = state.user_login_info.user_phone
@@ -158,15 +184,7 @@ export default {
 		// load user order from api and commit them 
 		commit('setUserOrders', user_orders)
 	},
-	// updates user name, request API
-	async updateUserNameAPI({commit}: { commit: Commit}, new_user_name: string) {
-		// send new user_name to update
-		// await apiUpdateUserName(new_user_name)
-		// renew user info from api and mutate it
-		console.log(new_user_name)
-		const user_info = {}
-		commit('setUserInfo', user_info)
-	},
+
 	async createDeliveryAddressAPI({commit}: { commit: Commit}, new_delivery_address: Record<string,any>) {
 		console.log('commit is', commit)
 		console.log('run create new delivery address api', new_delivery_address)
@@ -177,7 +195,7 @@ export default {
 			is_valid: false,
 			v_msg: '',
 		}
-		if (state.user_login_info.user_phone.length != 10) {	
+		if (state.user_login_info.user_phone.length != 11) {	
 				v_info.v_msg = 'Корректно введите номер телефона'	
 				return v_info 
 		}

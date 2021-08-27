@@ -22,7 +22,7 @@
 			<user-profile-input
 				:canChange="false"
 				:title="'Номер телефона'"
-				:inputValue="user.username"
+				:inputValue="'7 978-221-55-09'"
 			/>
 		</div>
 	<!-- eof user phone -->
@@ -71,6 +71,7 @@
 	<user-change-password-modal
 		v-if="user_change_password_open"
 		:userLoginInfo="user_login_info"
+		@user-login-info="updateUserLoginInfo"
 		@close-modal="setUserChangePasswordModal(false)"
 		@change-password="changeUserPassword"
 	/>
@@ -86,8 +87,6 @@ import { createToast } from 'mosha-vue-toastify';
 // local components
 import UserProfileInput from '@/components/input/UserProfileInput.vue';
 import UserChangePasswordModal from '@/components/modals/UserChangePasswordModal.vue';
-
-import { maska } from 'maska';
 
 export default defineComponent({
 	name: "UserProfilePagePersonalData",
@@ -124,9 +123,7 @@ export default defineComponent({
 		const router = useRouter()
 		// computed
 		// user
-
 		const user = computed(() => store.state.user.user);
-
 
 		const user_change_password_open = computed(() => store.state.modals.user_change_password_open)
 		const user_login_info = computed(() => store.state.user.user_login_info)
@@ -138,24 +135,17 @@ export default defineComponent({
 			router.push('/')
 		}
 
+		const updateUserLoginInfo = (new_login_info: Record<string,any>) => store.commit('setUserLoginInfo', new_login_info)
 		
 		// call update user name dispatch
-		const updateUserName = async (new_user_name: string) => {
-			const is_updated = await store.dispatch('updateUserInfoAPI', {"name": new_user_name})
-			if (is_updated) {
-				successToast("Данные успешно изменены")
-			} else {
-				errorToast("Возникла ошибка во время изменения данных")
-			}
+		const updateUserName = (new_user_name: string) => {
+			console.log('need to update user name to:', new_user_name)
+			store.dispatch('updateUserNameAPI', new_user_name)
 		}
 		// call update user email dispatch
-		const updateUserEmail = async (new_user_email: string) => {
-			const is_updated = await store.dispatch('updateUserInfoAPI', {"email": new_user_email})
-			if (is_updated) {
-				successToast("Данные успешно изменены")
-			} else {
-				errorToast("Возникла ошибка во время изменения данных")
-			}
+		const updateUserEmail = (new_user_email: string) => {
+			console.log('need to update user email to:', new_user_email)
+			store.dispatch('updateUserEmailAPI', new_user_email)
 		}
 		// call open restore user password modal
 		const setUserChangePasswordModal = (is_open: boolean) => {
@@ -192,7 +182,7 @@ export default defineComponent({
 			// functions
 			logoutUserClicked,
 			updateUserName,
-			updateUserEmail,
+			updateUserLoginInfo,
 			setUserChangePasswordModal,
 			changeUserPassword,
 		}
