@@ -1,6 +1,8 @@
 <template> 
-<div class="mx-auto max-w-screen-lg">
-
+<div 
+v-if="user_info"
+class="mx-auto max-w-screen-lg">
+	
 	<UserProfileMain 
 		:userInfo="user_info"
 		class="max-w-[500px]"
@@ -14,6 +16,9 @@
 
 	<router-view></router-view>
 
+</div>
+<div v-else>
+	Авторизуйтесь, чтобы видеть информацию своего профиля	
 </div>
 </template>
 

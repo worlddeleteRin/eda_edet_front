@@ -22,6 +22,7 @@
 			:product="product"
 			:key="product"
 			:isInCart="true"
+			@add-to-cart="addProductToCart"
 		/>
 		</div>
 	</div>
@@ -56,12 +57,17 @@ export default defineComponent({
 		// products
 		const products = computed(() => store.state.catalogue.products);
 		// functions
+		const addProductToCart = async (product: Record<string,any>) => {
+			await store.dispatch("cart/addProductToCart", {product})
+		}
 		onMounted(() => {
 			// get products from api
 			store.dispatch("catalogue/getProductsAPI")
 		});
 		return {
 			products,
+			// functions
+			addProductToCart,
 		}
 	}
 });

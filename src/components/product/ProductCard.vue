@@ -49,7 +49,10 @@
 				/>
 
 				<add-quantity-input
-				v-if="isInCart"
+					v-if="isInCart"
+					@add="addCartClick"
+					@remove="addCartClick"
+					:quantity="12"
 				/>
 
 			</div>	
@@ -68,7 +71,10 @@
 				/>
 
 				<add-quantity-input 
-				v-if="isInCart"
+					v-if="isInCart"
+					@add="addCartClick"
+					@remove="addCartClick"
+					:quantity="12"
 				/>
 
 			</div>
@@ -106,28 +112,20 @@ export default defineComponent({
 	props: {
 		product: {
 			type: Object as PropType<ProductInterface>, // change to product interface Object type?
-			default: {
-				"id": "someproductid",
-				"name": "some product name",
-				"description": "some product cool description will be here",
-				"price": 123123,
-				"imgsrc": [
-					"https://i.picsum.photos/id/527/1000/1000.jpg?hmac=58DhmNmoflyEtAQW8CtzqGN1tItgvnytquSC23qjhdQ"
-				],
-			} as ProductInterface,
+			default: null,
 		},
 		isInCart: {
 			type: Boolean,
 			default: false, 
 		},
 	},
-	emits: ['add-cart'],
+	emits: ['add-to-cart'],
 
 	setup (props, { emit }) {	
 		const router = useRouter()
 
 		var goToProductPage  = () => router.push('/product/123123')
-		var addCartClick = () => emit('add-cart')
+		var addCartClick = () => emit('add-to-cart', props.product)
 		return {
 			// functions
 			addCartClick,

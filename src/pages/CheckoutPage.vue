@@ -94,9 +94,10 @@
 	<!-- choose delivery address modal -->
 	<checkout-choose-delivery-address-modal
 		v-if="checkout_modals.choose_delivery_address_modal_open"
-		:addressList="user_info.deliveryAddressList"
+		:addressList="user_delivery_addresses"
 		:activeAddress="checkout_info.delivery_address"
 		@delivery-address="updateDeliveryAddress"
+		@delete-delivery-address="deleteDeliveryAddress"
 		@close-modal="openCheckoutModal('choose_delivery_address_modal_open',false)"
 		@open-create-delivery="openCheckoutModal('create_delivery_address_modal_open',true)"
 	/>
@@ -128,7 +129,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 
 import { createToast } from 'mosha-vue-toastify';
@@ -158,6 +159,12 @@ export default defineComponent({
 		CreateDeliveryAddressModal,
 	},
 	setup () {
+	onBeforeMount(async () => {
+		if (!user_delivery_addresses.value) {
+			console.log('get user delivery addresses')
+			await store.dispatch("getUserDeliveryAddressAPI")
+		}
+	});
 	// toast 
 	const inputErrorToast = (title: string) => {
 		createToast(
@@ -181,6 +188,7 @@ export default defineComponent({
 	var successToast =  (title: string) => inputSuccessToast(title)
 	const store = useStore()
 	// computed
+	const user_delivery_addresses = computed(() => store.state.user.delivery_addresses)
 	// get current user info
 	const user_info = computed(() => store.state.user.user)
 	// available delivery methods
@@ -201,7 +209,16 @@ export default defineComponent({
 	const updateDeliveryAddress = (address: Record<string,any>) => { 
 		store.commit("checkout/setCheckoutInfoDeliveryAddress", address)
 		// close the modal
-		openCheckoutModal('choose_delivery_address_modal_open',false)
+		// openCheckoutModal('choose_delivery_address_modal_open',false)
+	}
+	const deleteDeliveryAddress = async (address_id: string) => { 
+		console.log('run delete')
+		const is_deleted = await store.dispatch("deleteUserDeliveryAddressAPI", address_id)
+		if (is_deleted) {
+			return null
+		} else {
+			return errorToast("Возникла ошибка во время удаления адреса")
+		}
 	}
 	// set checkout pickup address to checkout_info
 	const updatePickupAddress = (address: Record<string,any>) => { 
@@ -222,12 +239,14 @@ export default defineComponent({
 		if (!validate_info.is_valid) {
 			errorToast(validate_info.v_msg)
 		} else {
-			successToast('commit createDeliveryAddressAPI')
-			await store.dispatch('createDeliveryAddressAPI', new_delivery_address)
-			openCheckoutModal('create_delivery_address_modal_open',false)
+			const is_created = await store.dispatch('createUserDeliveryAddressAPI', new_delivery_address)
+			if (is_created) {
+				successToast('Адрес успешно добавлен')
+				openCheckoutModal('create_delivery_address_modal_open',false)
+			} else {
+				errorToast("Возникла ошибка при добавлении адреса")
+			}
 		}
-		// close form, call action, is form is valid and pass address
-		// show error toast, if it is any error, dont close the form
 	}
 
 	// helper to get checkout delivery address display
@@ -270,6 +289,7 @@ export default defineComponent({
 	}
 		return {
 			// computed
+			user_delivery_addresses,
 			user_info,
 			delivery_methods,
 			checkout_info,
@@ -278,6 +298,7 @@ export default defineComponent({
 			pickup_address_list,
 			payment_methods,
 			// functions
+			deleteDeliveryAddress,
 			updateDeliveryMethod,
 			updateDeliveryAddress,
 			updatePickupAddress,

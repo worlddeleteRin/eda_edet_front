@@ -7,7 +7,7 @@ const validateCreateDeliveryAddress = (address :Record<string,any>) => {
 		v_info.v_msg = "Введите название улицы"
 		return v_info
 	}
-	if (address.houseNumber.length == 0) {
+	if (address.house_number.length == 0) {
 		v_info.v_msg = "Укажите номер дома"
 		return v_info
 	}

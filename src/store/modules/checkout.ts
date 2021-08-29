@@ -61,7 +61,11 @@ export default {
 		state.checkout_info.delivery_method = new_delivery_address
 	},
 	setCheckoutInfoDeliveryAddress(state:Record<string,any>, new_delivery_address: Record<string,any>) {
-		state.checkout_info.delivery_address = new_delivery_address
+		if (Object.keys(new_delivery_address).length === 0) {
+			state.checkout_info.delivery_address = null
+		} else {
+			state.checkout_info.delivery_address = new_delivery_address
+		}
 	},
 	setCheckoutInfoPickupAddress(state:Record<string,any>, new_pickup_address: Record<string,any>) {
 		state.checkout_info.pickup_address = new_pickup_address 

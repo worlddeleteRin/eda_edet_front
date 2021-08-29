@@ -10,7 +10,7 @@
 >
 	<input
 	:disabled="is_disabled"
-	@input="setInputValueLocal($event)"
+	@input="setInputValueLocal($event.target.value)"
 	:value="getInputValue"
 	:class="['flex w-full py-3 mx-1 outline-none',
 			is_disabled ? 'bg-defaultGray':'',]"
@@ -81,8 +81,8 @@ export default defineComponent({
 			is_disabled.value = false
 		}
 		// functions
-		var setInputValueLocal = (event: Event) => {
-			input_value_local.value = event.target.value
+		var setInputValueLocal = (value: string) => {
+			input_value_local.value = value
 		}
 		var getInputValue = computed(() => {
 			if (is_disabled.value) {

@@ -12,7 +12,7 @@ items-center">
 	</div>
 	<div 
 	class="flex justify-center w-4/12">
-		{{ productQuantity }}
+		{{ quantity }}
 	</div>
 	<div 
 	@click="addQuantityClick"
@@ -33,16 +33,16 @@ export default {
 		Icon,
 	},
 	props: {
-		productQuantity: {
+		quantity: {
 			type: Number,
 			default: 1,
 		},
 	},
-	emits: ['add-quantity', 'remove-quantity'],
+	emits: ['add', 'remove'],
 	setup (props, { emit }) {
 		// functions
-		var removeQuantityClick = () => emit('remove-quantity')
-		var addQuantityClick = () => emit('add-quantity')
+		var removeQuantityClick = () => emit('remove')
+		var addQuantityClick = () => emit('add')
 		return {
 			// functions
 			removeQuantityClick,

@@ -23,31 +23,49 @@
 			</div>
 
 			<!-- addresses list -->
-			<div class="mt-5 overflow-y-scroll">
+			<div v-if="addressList.length > 0"
+			class="mt-5 overflow-y-scroll">
 				<!-- address -->
 				<div
 					v-for="address in addressList"
 					:key="address.id"
-					@click="chooseDeliveryAddressClick(address)"
-					:class="['px-4 py-3 my-3 bg-gray-100 rounded-lg min-h-[60px] flex items-center cursor-pointer',
+					:class="['pr-4 my-3 bg-gray-100 rounded-lg flex justify-between items-center',
 					isActive(address.id) ? 'border-2 border-green-500':'']"
 				>
-					<div class="select-none">
-						{{ address.address_display }}
+					<div 
+					@click="chooseDeliveryAddressClick(address)"
+					class="pl-4 flex-1 h-full py-3 min-h-[60px] rounded-lg flex items-center cursor-pointer">
+						<div class="select-none">
+							{{ address.address_display }}
+						</div>
 					</div>
+					<div class="flex items-center">
 					<div 
 					v-if="isActive(address.id)"
-					class="flex justify-end flex-1 ml-5">
+					class="flex justify-end flex-1 ml-4">
 						<Icon 
 							icon="akar-icons:circle-check"
 							width="30"
 							class="text-green-500"
 						/>
 					</div>
+					<div 
+					@click="deleteDeliveryAddressClick(address.id)"
+					class="flex flex-1 p-1 ml-1 cursor-pointer">
+						<Icon 
+							icon="ant-design:delete-filled"
+							width="30"
+							class="text-red-500"
+						/>
+					</div>
+					</div>
 				</div>
 				<!-- eof address -->
 			</div>
 			<!-- eof addresses list -->
+			<div v-else>
+				У вас не добавлено ни одного адреса
+			</div>
 
 			<!-- add new address button -->
 			<div class="flex items-end flex-1 mb-2">
@@ -75,7 +93,7 @@ import Button from '@/components/buttons/Button.vue';
 
 export default defineComponent({
 	name: "CheckoutChoooseDeliveryAddressModal",
-	emits: ['close-modal', 'delivery-address', 'open-create-delivery'],
+	emits: ['close-modal', 'delivery-address', 'open-create-delivery', 'delete-delivery-address'],
 	components: {
 		Icon,
 		Button,
@@ -102,10 +120,20 @@ export default defineComponent({
 		// functions
 		onMounted(() => {
 			is_mounted.value = true
-		})
+		});
+		var deleteDeliveryAddressClick = (delivery_address_id: string) => {
+			emit("delete-delivery-address", delivery_address_id)
+			if (isActive(delivery_address_id)) {
+				emit("delivery-address", {})
+			}
+		}
 		var closeModalClick = () => emit('close-modal')		
 		// emit choosed address to set on click
-		var chooseDeliveryAddressClick = (delivery_address: Record<string,any>) => emit("delivery-address", delivery_address)
+		var chooseDeliveryAddressClick = (delivery_address: Record<string,any>)  => { 
+			emit("delivery-address", delivery_address)
+			closeModalClick()
+		}
+		
 		// emit open create new delivery address modal
 		var openCreateDeliveryClick = () => emit('open-create-delivery')
 
@@ -115,6 +143,7 @@ export default defineComponent({
 			is_mounted,
 			isActive,
 			// functions
+			deleteDeliveryAddressClick,
 			closeModalClick,
 			chooseDeliveryAddressClick,
 			openCreateDeliveryClick,

@@ -39,7 +39,7 @@
 					<div class="flex flex-col w-3/12">
 						<div class="text-lg text-gray-500">Дом</div>				
 						<input 
-							v-model="address.houseNumber"
+							v-model="address.house_number"
 							class="px-3 py-3 bg-gray-100 outline-none rounded-xl focus:ring-2 ring-default"
 							placeholder="###"
 						/>
@@ -53,7 +53,7 @@
 					<div class="flex flex-col flex-1 w-3/12 mr-4">
 						<div class="text-lg text-gray-500">Квартира</div>				
 						<input 
-							v-model="address.flatNumber"
+							v-model="address.flat_number"
 							class="px-3 py-3 bg-gray-100 outline-none rounded-xl focus:ring-2 ring-default"
 							placeholder="###"
 						/>
@@ -63,7 +63,7 @@
 					<div class="flex flex-col flex-1 w-3/12 mr-4">
 						<div class="text-lg text-gray-500">Подьезд</div>				
 						<input 
-							v-model="address.entranceNumber"
+							v-model="address.entrance_number"
 							class="px-3 py-3 bg-gray-100 outline-none rounded-xl focus:ring-2 ring-default"
 							placeholder="###"
 						/>
@@ -73,7 +73,7 @@
 					<div class="flex flex-col flex-1 w-3/12">
 						<div class="text-lg text-gray-500">Этаж</div>				
 						<input 
-							v-model="address.floorNumber"
+							v-model="address.floor_number"
 							class="px-3 py-3 bg-gray-100 outline-none rounded-xl focus:ring-2 ring-default"
 							placeholder="###"
 						/>
@@ -138,10 +138,10 @@ export default defineComponent({
 			// new address 
 		const address = reactive({
 			street: '',
-			houseNumber: '',
-			flatNumber: '',
-			entranceNumber: '',
-			floorNumber: '',
+			house_number: '',
+			flat_number: '',
+			entrance_number: '',
+			floor_number: '',
 			comment: '',
 		});
 

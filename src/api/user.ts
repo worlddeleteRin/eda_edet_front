@@ -1,6 +1,6 @@
 import apiClient from "./api_client";
 
-class UserDataServiceClass {		
+class UserDataServiceClass {
 	async getUserMe(user_access_token: string): Promise<any> {
 		const response_info: Record<string,any> = {
 			"token_valid": false,
@@ -107,6 +107,48 @@ class UserDataServiceClass {
 			return response
 	});				
 	return response
+	}
+	async getUserDeliveryAddress(user_access_token: string): Promise<any> {
+		const response: Record<string,any> = await apiClient.get("users/me/delivery-address", 
+			{
+				headers: {
+					"Authorization": `Bearer ${user_access_token}`
+				}
+			}
+			).catch(() => {
+			return response
+	});				
+	return response
+	}
+	async createUserDeliveryAddress(user_access_token: string, new_address: Record<string,any>): Promise<any> {
+		const response: Record<string,any> = await apiClient.post("users/me/delivery-address", 
+			{
+				...new_address
+			},
+			{
+				headers: {
+					"Authorization": `Bearer ${user_access_token}`
+				}
+			}
+			).catch(() => {
+			return response
+			});
+		return response
+	}
+	async deleteUserDeliveryAddress(user_access_token: string, address_id: string): Promise<any> {
+		const response: Record<string,any> = await apiClient.delete("users/me/delivery-address", 
+			{
+				data: {
+					"id": address_id,
+				},
+				headers: {
+					"Authorization": `Bearer ${user_access_token}`
+				}
+			}
+			).catch(() => {
+				return response
+			});
+		return response
 	}
 }
 

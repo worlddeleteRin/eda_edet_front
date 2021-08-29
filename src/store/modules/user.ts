@@ -21,35 +21,11 @@ const user_login_info_default = {
 	restore_code: '',
 	verify_code: '',
 }
-const user_test = {
-	deliveryAddressList: [
-		{
-			id: "some_address_id_1",
-			city: "Симферополь",
-			street: "Кирова",
-			houseNumber: "14",
-			flatNumber: "19",
-			entranceNumber: "2",
-			floorNumber: "4",
-			address_display: "Симферополь, ул. Кирова, д.14, кв.19, подъезд 2, этаж 4",
-			comment: "Комментарий к адресу",
-		},
-		{
-			id: "some_address_id_2",
-			city: "Феодосия",
-			street: "Киевская",
-			houseNumber: "",
-			flatNumber: "",
-			entranceNumber: "",
-			floorNumber: "",
-			address_display: "Феодосия, ул. Киевская, д.22",
-			comment: "Комментарий к адресу",
-		},
-	]
-}
+
 export default {
   state: {
-	user: { ...user_test },
+	user: null,
+	delivery_addresses: null,
 	user_access_token: null,
 	user_order_status_colors: user_order_status_colors,
 	user_orders: [],
@@ -60,6 +36,9 @@ export default {
   getters: {
   },
   mutations: {
+	setUserDeliveryAddresses(state: Record<string,any>, addresses: Array<Record<string,any>>) {
+		state.delivery_addresses = addresses
+	},
 	setUserAuthorized(state: Record<string, any>, is_authorized: boolean) {
 		state.user_authorized = is_authorized 
 	},
@@ -84,6 +63,57 @@ export default {
 	},
   },
   actions: {
+	async isAuthorized({state}: {state: Record<string,any>}) {
+		if (!state.user_access_token) {
+			return false
+		}
+		return true
+	},
+	async deleteUserDeliveryAddressAPI({commit, state}: {commit: Commit, state: Record<string,any>}, address_id: string) {
+		if (!state.user_access_token) {
+			return false
+		}
+		const resp_data: Record<string,any> = 
+		await UserDataService.deleteUserDeliveryAddress(state.user_access_token, address_id)
+		console.log('resp data is', resp_data)
+		if (resp_data) {
+			if (resp_data.data) {
+				commit('setUserDeliveryAddresses', resp_data.data)
+			}
+			return true
+		} else {
+			return false
+		}	
+	},
+	async createUserDeliveryAddressAPI({commit, state}: {commit: Commit, state: Record<string,any>}, new_address: Record<string,any>) {
+		if (!state.user_access_token) {
+			return false
+		}
+		const resp_data: Record<string,any> = 
+		await UserDataService.createUserDeliveryAddress(state.user_access_token, new_address)
+		console.log('resp data is', resp_data)
+		if (resp_data) {
+			if (resp_data.data) {
+				commit('setUserDeliveryAddresses', resp_data.data)
+			}
+			return true
+		} else {
+			return false
+		}	
+	},
+	async getUserDeliveryAddressAPI({commit, state}: {commit: Commit, state: Record<string,any>}) {
+		if (!state.user_access_token) {return false}
+		const resp_data: Record<string,any> = 
+		await UserDataService.getUserDeliveryAddress(state.user_access_token)
+		if (resp_data) {
+			if (resp_data.data) {
+				commit('setUserDeliveryAddresses', resp_data.data)
+			}
+			return true
+		} else {
+			return false
+		}	
+	},
 	async restoreUserLoginAPI({state}: {state: Record<string,any>}) {
 		const username = state.user_login_info.user_phone
 		const resp_data: Record<string,any> = 
@@ -160,6 +190,7 @@ export default {
 	async logoutUser({commit}: {commit: Commit}) {
 		commit('setUserAccessToken', null)	
 		commit('setUserAuthorized', false)
+		commit('setUserInfo', null)
 		localStorage.removeItem('user_access_token')
 	},
 	async checkUserAuth({commit}: {commit: Commit}) {
@@ -179,6 +210,12 @@ export default {
 		if (resp_data.token_valid && resp_data.user_data) {
 			commit('setUserAuthorized', true)
 			commit('setUserInfo', resp_data.user_data)
+		} else {
+			// if token is no longer valid, remove saved access token and make user not authorized
+			commit('setUserAuthorized', false)
+			commit('setUserInfo', null)
+			commit('setUserAccessToken', null)
+			localStorage.removeItem("user_access_token")
 		}
 		console.log('user is', resp_data.user_data)
 	},
