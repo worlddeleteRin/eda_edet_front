@@ -50,9 +50,9 @@
 
 				<add-quantity-input
 					v-if="isInCart"
-					@add="addCartClick"
-					@remove="addCartClick"
-					:quantity="12"
+					@add="addQuantityClick"
+					@remove="removeQuantityClick"
+					:quantity="cartItem ? cartItem.quantity : null"
 				/>
 
 			</div>	
@@ -63,6 +63,7 @@
 					 {{ product.price }} &#8381;
 				</div>
 				<Button
+				@button-click="addCartClick"
 				v-if="!isInCart"
 				title="В корзину"
 				rounded="full"
@@ -72,9 +73,9 @@
 
 				<add-quantity-input 
 					v-if="isInCart"
-					@add="addCartClick"
-					@remove="addCartClick"
-					:quantity="12"
+					@add="addQuantityClick"
+					@remove="removeQuantityClick"
+					:quantity="cartItem ? cartItem.quantity : null"
 				/>
 
 			</div>
@@ -91,7 +92,7 @@
 
 <script lang="ts">
 
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, PropType, computed } from 'vue';
 import { Icon } from '@iconify/vue';
 import ProductInterface from '@/interfaces/ProductInterface';
 import Button from '@/components/buttons/Button.vue';
@@ -114,21 +115,38 @@ export default defineComponent({
 			type: Object as PropType<ProductInterface>, // change to product interface Object type?
 			default: null,
 		},
+		/*
 		isInCart: {
 			type: Boolean,
 			default: false, 
 		},
+		*/
+		cartItem: {
+			type: Object,
+			default: null,
+		},
 	},
-	emits: ['add-to-cart'],
+	emits: ['add-to-cart', 'remove-from-cart', 'add-item-quantity', 'remove-item-quantity'],
 
 	setup (props, { emit }) {	
 		const router = useRouter()
 
+		// computed
+		const isInCart = computed(() => props.cartItem == null ? false : true);
+		// functions
 		var goToProductPage  = () => router.push('/product/123123')
+		var removeFromCartClick = () => emit('remove-from-cart', props.cartItem)
 		var addCartClick = () => emit('add-to-cart', props.product)
+		var addQuantityClick = () => emit('add-item-quantity', props.cartItem)
+		var removeQuantityClick = () => emit('remove-item-quantity', props.cartItem)
 		return {
+			// computed
+			isInCart,
 			// functions
 			addCartClick,
+			removeFromCartClick,
+			addQuantityClick,
+			removeQuantityClick,
 			goToProductPage,
 		}
 	}

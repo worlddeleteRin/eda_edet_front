@@ -29,10 +29,10 @@ export default {
 	setup () {
 		const store = useStore()
 
-		const cart_products = computed(() => store.state.cart.products)
+		const line_items = computed(() => store.state.cart.cart.line_items)
 
 		return {
-			cart_products
+			line_items,	
 		}
 	}
 }

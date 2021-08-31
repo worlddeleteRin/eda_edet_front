@@ -101,10 +101,12 @@ export default {
 		const request_call_info = computed(() => store.state.site.request_call_info)
 		// functions
 		onBeforeMount(async () => {
-			// check, if access_token in local storage	
+			// check, if access_token in local storage and use is authorized
 			await store.dispatch("checkUserAuth")
+			// get current cart, if it is exist
+			await store.dispatch("cart/getCartAPI")
 			store.commit('setSiteLoadingState', {
-			loading_state_name: "critical_data_loading", is_loading: false
+				loading_state_name: "critical_data_loading", is_loading: false
 			});
 			});
 		var userAuthorized = async () => {
