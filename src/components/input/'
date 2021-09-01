@@ -1,0 +1,38 @@
+<template>
+<div>
+	<input
+		:placeholder="placeholderText"
+	/>
+	<div>
+		{{ buttonText }}
+	</div>
+
+</div>
+</template>
+
+<script>
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+	name: "InputButtonMain",
+	emits: ["handle-input"],
+	props: {
+		placeholderText: {
+			type: string,
+			default: "Введите поле",
+		},
+		buttonText: {
+			type: string,
+			default: "Применить",
+		}
+	},
+	setup () {
+		// functions
+		const handleInput () => emit('handle-input', value)
+		return {
+			handleInput,
+		}
+	}
+});
+
+</script>

@@ -102,6 +102,7 @@ export default {
 		// functions
 		onBeforeMount(async () => {
 			// check, if access_token in local storage and use is authorized
+			await store.dispatch("checkGetSessionId")
 			await store.dispatch("checkUserAuth")
 			// get current cart, if it is exist
 			await store.dispatch("cart/getCartAPI")

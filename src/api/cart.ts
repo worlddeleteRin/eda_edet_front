@@ -1,17 +1,17 @@
 import apiClient from "./api_client";
 
 class CartDataServiceClass {
-	async getCart(): Promise<any> {
+	async getCart(session_id: string | null): Promise<any> {
 		const response: Record<string,any> = await apiClient.get(
-		"carts/", 
+		"carts/" + session_id,
 		).catch(() => {
 			return response 
 		});
 		return response 
 	}
-	async createCart(cart_items: Array<Record<string,any>>): Promise<any> {
+	async createCart(cart_items: Array<Record<string,any>>, session_id: string | null): Promise<any> {
 		const response: Record<string,any> = await apiClient.post(
-		"carts/", 
+		"carts/" + session_id, 
 		{
 			"line_items": cart_items
 		},

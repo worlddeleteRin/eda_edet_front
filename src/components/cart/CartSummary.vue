@@ -12,6 +12,11 @@
 		Доступные способы доставки и оплаты можно выбрать при оформлении заказа
 	</div>
 
+	<!-- apply promo block -->
+	<input-button-main
+	/>
+	<!-- eof apply promo block -->
+
 	<div class="py-3 my-3 border-t border-gray-300">
 		<div class="flex items-center justify-between">
 			<span class="text-lg font-bold">
@@ -53,14 +58,20 @@
 
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+// local components 
+import InputButtonMain  from '@/components/input/InputButtonMain.vue';
+
+export default defineComponent({
 	name: "CartSummary",
 	components: {
+		InputButtonMain,
 	},
 	setup () {
 		return {
 		}
 	}
-}
+});
 </script>

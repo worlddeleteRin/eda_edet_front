@@ -34,7 +34,8 @@ const actions = {
 	async getCartAPI(
 		{commit}: {commit: Commit},	
 	) {
-		const response = await CartDataService.getCart()
+		const session_id = localStorage.getItem('session_id')
+		const response = await CartDataService.getCart(session_id)
 		if (response && response.status == 200) {
 			commit("setCart", response.data)
 			return true
@@ -44,7 +45,8 @@ const actions = {
 		{commit}: {commit: Commit},	
 		{line_item}: {line_item: Record<string,any>},
 	) {
-		const response = await CartDataService.createCart([line_item])		
+		const session_id = localStorage.getItem('session_id')
+		const response = await CartDataService.createCart([line_item], session_id)		
 		if (response && response.status == 200) {
 			commit("setCart", response.data)
 			return true
