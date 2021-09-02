@@ -13,7 +13,7 @@
 	</div>
 
 	<!-- apply promo block -->
-	<input-button-main
+	<input-promo-main
 	/>
 	<!-- eof apply promo block -->
 
@@ -62,12 +62,12 @@
 import { defineComponent } from 'vue';
 
 // local components 
-import InputButtonMain  from '@/components/input/InputButtonMain.vue';
+import InputPromoMain  from '@/components/input/InputPromoMain.vue';
 
 export default defineComponent({
 	name: "CartSummary",
 	components: {
-		InputButtonMain,
+		InputPromoMain,
 	},
 	setup () {
 		return {

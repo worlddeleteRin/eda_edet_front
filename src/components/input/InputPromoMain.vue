@@ -14,21 +14,22 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-	name: "InputButtonMain",
+	name: "InputPromoMain",
 	emits: ["handle-input"],
 	props: {
 		placeholderText: {
-			type: string,
+			type: String,
 			default: "Введите поле",
 		},
 		buttonText: {
-			type: string,
+			type: String,
 			default: "Применить",
 		}
 	},
-	setup () {
+	setup (props, {emit}) {
 		// functions
-		const handleInput () => emit('handle-input', value)
+		const handleInput = () => emit('handle-input')
+
 		return {
 			handleInput,
 		}
