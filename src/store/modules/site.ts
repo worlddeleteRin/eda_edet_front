@@ -11,6 +11,7 @@ const request_call_info_default = {
 export default {
   state: {
 	request_call_info: { ...request_call_info_default },
+
 	loading_states: {
 		critical_data_loading: true,
 	}

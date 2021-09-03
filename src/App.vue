@@ -83,6 +83,8 @@ export default {
 		const store = useStore()
 		const router = useRouter()
 		// computed
+		// after authorized route to
+		const after_authorized_route_to = computed(() => store.state.modals.after_authorized_route_to)
 		// loading states
 		const critical_data_loading = computed(() => store.state.site.loading_states.critical_data_loading);
 		// user info
@@ -111,9 +113,12 @@ export default {
 			});
 			});
 		var userAuthorized = async () => {
+			// retrierve authorize status and get user info from server
 			await store.dispatch("checkUserAuth")
+			// close user authorized model
 			setUserAuthorizeModal(false)
-			router.push("/profile")
+			// forward user to apropriate route
+			router.push(after_authorized_route_to.value)
 		}
 		var setMobileMenu = (is_open) => store.commit("modals/setMobileMenuOpen", is_open)	
 		var setCallRequestModal = (is_open) => {
@@ -122,7 +127,8 @@ export default {
 			}
 			store.commit("modals/setCallRequestModalOpen", is_open)
 		}
-		var setUserAuthorizeModal = (is_open) => store.commit("modals/setUserAuthorizeOpen", is_open)
+		var setUserAuthorizeModal = (is_open) => store.commit("modals/setUserAuthorizeOpen", 
+		{is_open: is_open, after_authorized_route_to: "/profile"})
 		var setUserLoginInfo = (new_user_login_info) => { 
 			store.commit("setUserLoginInfo", new_user_login_info)
 		}

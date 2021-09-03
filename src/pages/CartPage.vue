@@ -14,7 +14,9 @@ class="bg-gray-100">
 
 
 	<cart-summary
-	class="w-11/12 mx-auto bg-white md:ml-5 md:w-5/12"
+		:cart="cart"
+		@go-checkout="goCheckoutPage"
+		class="w-11/12 mx-auto bg-white md:ml-5 md:w-5/12"
 	/>
 
 
@@ -38,6 +40,7 @@ cart is {{ cart }}
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
 import { createToast } from 'mosha-vue-toastify';
 
@@ -52,10 +55,21 @@ export default defineComponent({
 	},
 	setup () {
 		const store = useStore()
-
+		const router = useRouter()
+		// computed
+		const user_authorized = computed(() => store.state.user.user_authorized)
 		const cart = computed(() => store.state.cart.cart)
 
 		// functions
+		const goCheckoutPage = () => {
+			// go to checkout page, if use is already authorized
+			if (user_authorized.value) {
+				router.push("/checkout")
+			} else {
+				// open authorization form, if user is not authorized yet
+				store.commit('modals/setUserAuthorizeOpen', {is_open: true, after_authorized_route_to: "/checkout"})
+			}
+		}
 		const addProductToCart = async (product: Record<string,any>) => {
 			const is_added = await store.dispatch("cart/addLineItemAPI", {product: product})
 			if (is_added) { return productAddedToast("Добавлено:", product.name); }
@@ -106,6 +120,8 @@ export default defineComponent({
 
 		return {
 			cart,	
+			// functions
+			goCheckoutPage,
 			addProductToCart,
 			removeProductFromCart,
 			addProductQuantity,
