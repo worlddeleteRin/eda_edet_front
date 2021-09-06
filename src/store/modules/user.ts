@@ -1,4 +1,4 @@
-import { Commit } from 'vuex';
+import { Commit, ActionContext } from 'vuex';
 import { UserDataService } from '@/api/user';
 const user_order_status_colors = {
 	IN_PROGRESS: "#ff6900",
@@ -28,7 +28,7 @@ export default {
 	delivery_addresses: null,
 	user_access_token: null,
 	user_order_status_colors: user_order_status_colors,
-	user_orders: [],
+	user_orders: null,
 	user_authorized: false,
 	user_authorize_states: user_authorize_states,
 	user_login_info: user_login_info_default,
@@ -58,7 +58,6 @@ export default {
 		state.user = user_info
 	},
 	setUserOrders(state: Record<string,any>, user_orders: Array<Record<string,any>>) {
-		// replace Array<object> to someting like Array<UserOrder> ? 
 		state.user_orders = user_orders;
 	},
   },
@@ -68,6 +67,15 @@ export default {
 			return false
 		}
 		return true
+	},
+	async getUserOrdersAPI(context: ActionContext<any,any>) {
+		const response: Record<string,any> = 
+		await UserDataService.getUserOrders(context.state.user_access_token)
+		if (response && response.status == 200) {
+			context.commit('setUserOrders', response.data.orders)
+			return true
+		}
+		return false
 	},
 	async deleteUserDeliveryAddressAPI({commit, state}: {commit: Commit, state: Record<string,any>}, address_id: string) {
 		if (!state.user_access_token) {
@@ -239,13 +247,6 @@ export default {
 			return resp_data.data.exist_verified
 		}
 		return false
-	},
-	// load user orders from API and mutate them
-	async loadUserOrdersAPI({commit}: { commit: Commit}) {
-		console.log('run load user orders api')
-		const user_orders: Array<Record<string,any>> = []
-		// load user order from api and commit them 
-		commit('setUserOrders', user_orders)
 	},
 
 	async createDeliveryAddressAPI({commit}: { commit: Commit}, new_delivery_address: Record<string,any>) {

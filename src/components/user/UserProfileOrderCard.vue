@@ -1,19 +1,20 @@
-<template>
-<div>
+<template> <div v-if="order">
 	<div class="flex justify-between px-4 py-3 bg-gray-50 rounded-md">
 	<!-- order id and status -->
 	<div class="flex flex-col justify-between">
 		<div class="font-bold">
-			# 15779652
+			{{ order.total_amount }} &#8381;
 		</div>
 		<div 
 		class="px-3 py-1 text-sm tracking-wide text-center text-white uppercase rounded-md"
-		:style="{backgroundColor: order_status_color}"
+		:style="{backgroundColor: 'black'}"
 		>
-			Завершен
+			{{ order.status }}	
 		</div>
 	</div>
 	<!-- eof order is and status -->
+
+	<!-- order delivery info -->
 	<div class="flex-col justify-between hidden w-3/12 mx-2 md:flex">
 		<div class="text-sm font-semibold">
 			Адрес доставки
@@ -22,32 +23,26 @@
 			Симферополь, Балаклавская ул, д. 73g, подъезд № 2
 		</div>
 	</div>
-	<!-- order delivery info -->
-	<div>
-
-	</div>
 	<!-- eof order delivery info -->
+
 	<!-- order main info -->
 	<div class="flex flex-col justify-between w-6/12">
 		<!-- order payment method and amount -->
 		<div class="text-sm">
 			<span>
-				Картой курьеру 
-			</span>
-			<span class="font-semibold">
-				1091 &#8381;
+				{{ order.delivery_method.name }}, {{ order.payment_method.name }}	
 			</span>
 		</div>
 		<!-- eof order payment methods and amount -->
 		<!-- order items images -->	
 		<div class="flex mt-2 overflow-x-scroll shrink-0">
 			<div
-				v-for="order_item_image in 10"
-				:key="order_item_image"
+				v-for="order_item in order.line_items"
+				:key="order_item.id"
 				class="flex-shrink-0 w-16 h-12 px-1 fle4"
 			>
 				<img
-					:src="order.image_src"
+					:src="order_item.product.imgsrc[0]"
 					class="object-contain w-full h-full"
 				/>
 			</div>
@@ -69,12 +64,7 @@ export default defineComponent({
 		order: {
 			type: Object,
 			required: true,
-			default: () => {
-				return {
-					image_src: "https://cdn.farfor.ru/media/menu/products/%D0%B3%D1%83%D1%80%D0%BC%D0%B0%D0%BD.png",
-					order_status: "COMPLETED", 
-				};
-			},
+			default: null,
 		},
 		userOrderStatusColors: {
 			type: Object,

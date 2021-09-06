@@ -2,11 +2,12 @@
 <div class="mt-5">
 
 	<div
-	v-for="order in 10"
-	:key="order"
+	v-for="order in user_orders"
+	:key="order.id"
 	>
 		<UserProfileOrderCard
-		:userOrderStatusColors="user_order_status_colors"
+			:order="order"
+			:userOrderStatusColors="user_order_status_colors"
 		class="mx-2 my-2"
 		/>
 	</div>
@@ -31,8 +32,10 @@ export default defineComponent({
 		var user_order_status_colors = computed(() => store.state.user.user_order_status_colors)
 		// functions
 		onBeforeMount(async () => {
-			// emit parent to get user orders from api
-			await store.dispatch('loadUserOrdersAPI');
+			if (!user_orders.value) {
+				console.log('run get user orders api')
+				await store.dispatch('getUserOrdersAPI')
+			}
 		});
 		return {
 			// computed

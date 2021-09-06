@@ -150,6 +150,19 @@ class UserDataServiceClass {
 			});
 		return response
 	}
+	// get user orders
+	async getUserOrders(user_access_token: string): Promise<any> {
+		const response: Record<string,any> = await apiClient.get("users/me/orders/", 
+			{
+				headers: {
+					"Authorization": `Bearer ${user_access_token}`
+				}
+			}
+			).catch(() => {
+				return response
+			});
+		return response
+	}
 }
 
 export const UserDataService = new UserDataServiceClass()
