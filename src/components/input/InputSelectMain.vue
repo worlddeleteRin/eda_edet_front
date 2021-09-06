@@ -3,11 +3,11 @@
 <div class="flex items-center justify-between py-1 px-1 bg-[#E2E2E9] rounded-full">
         <div 
 		v-for="select_value in selectValues"
-		:key="select_value.name"	
-		@click="setActiveSelect(select_value.name)"
+		:key="select_value.id"	
+		@click="setActiveSelect(select_value.id)"
 		:class="['w-1/2 py-2 text-center cursor-pointer select-none',
-				isActive(select_value.name) ? 'bg-white shadow-lg rounded-full': '']">
-			{{ select_value.name_display }} 
+				isActive(select_value.id) ? 'bg-white shadow-lg rounded-full': '']">
+			{{ select_value.name }} 
 		</div>
 </div>
 </template>

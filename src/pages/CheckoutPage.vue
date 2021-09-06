@@ -5,11 +5,17 @@
 	<div class="text-2xl font-medium">
 		Оформление заказа
 	</div>
-	<!--
 	<div>
 		{{ checkout_info }}
 	</div>
-	-->
+	<div>
+		{{ delivery_methods }}
+		{{ payment_methods }}
+	</div>
+	<div>
+		user addresses is 
+		{{ user_delivery_addresses }}
+	</div>
 	<!-- 
 	<div>
 		{{ user_info }}
@@ -77,7 +83,7 @@
 	<!-- make order button -->
 	<div class="mt-8">
 		<Button
-			@button-click="makeOrderClick"
+			@button-click="makeOrder"
 			:title="'Оформить заказ'"
 			rounded="full"
 			class="flex items-center justify-center px-5 min-h-[45px] text-white bg-default max-w-[400px]"
@@ -110,7 +116,7 @@
 	<!-- choose pickup address modal -->
 	<checkout-choose-pickup-address-modal
 		v-if="checkout_modals.choose_pickup_address_modal_open"
-		:addressList="pickup_address_list"
+		:addressList="pickup_addresses"
 		:activeAddress="checkout_info.pickup_address"
 		@close-modal="openCheckoutModal('choose_pickup_address_modal_open',false)"
 		@pickup-address="updatePickupAddress"	
@@ -160,6 +166,10 @@ export default defineComponent({
 	},
 	setup () {
 	onBeforeMount(async () => {
+		if (!delivery_methods.value || !pickup_addresses.value || !payment_methods.value) {
+			console.log('get common checkout info')
+			await store.dispatch("cart/getCheckoutCommonInfoAPI")
+		}
 		if (!user_delivery_addresses.value) {
 			console.log('get user delivery addresses')
 			await store.dispatch("getUserDeliveryAddressAPI")
@@ -194,7 +204,7 @@ export default defineComponent({
 	// available delivery methods
 	const delivery_methods = computed(() => store.state.checkout.delivery_methods)
 	// available pick up addresses
-	const pickup_address_list = computed(() => store.state.checkout.pickup_address_list)
+	const pickup_addresses = computed(() => store.state.checkout.pickup_addresses)
 	// available payment methods
 	const payment_methods = computed(() => store.state.checkout.payment_methods)
 	// common checkout_info, that user choosed
@@ -278,14 +288,15 @@ export default defineComponent({
 		store.commit('checkout/setCheckoutModalOpen', { modal_name, is_open })
 	}
 	// make order function 
-	const makeOrderClick = () => {
+	const makeOrder = async () => {
 		// need to validate, that order could be make
 		// 1. Check, if user authorized, if not - show authorization popup
 		// 2. Check, if user selected delivery method, delivery/pickup address, show error Toast msg if not
 		// 3. Check, if user has enough cart items, to make purchase for delivery (enough emount)
 		// 4. Submit order, if all validation passed
-		store.dispatch('checkout/makeOrderAPI')
-		return successToast("emit create order action")
+		const is_created = await store.dispatch('cart/createOrderAPI')
+		if (is_created) { return successToast("Заказ успешно создан!") }  
+		return errorToast("Возникла ошибка во время создания заказа")
 	}
 		return {
 			// computed
@@ -295,7 +306,7 @@ export default defineComponent({
 			checkout_info,
 			checkout_modals,
 
-			pickup_address_list,
+			pickup_addresses,
 			payment_methods,
 			// functions
 			deleteDeliveryAddress,
@@ -312,7 +323,7 @@ export default defineComponent({
 			getCheckoutPickupAddressDisplay,
 			getCheckoutPaymentMethodDisplay,
 
-			makeOrderClick,
+			makeOrder,
 		}
 	}
 });

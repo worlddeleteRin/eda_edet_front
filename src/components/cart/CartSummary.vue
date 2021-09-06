@@ -15,6 +15,8 @@
 
 	<!-- apply promo block -->
 	<input-promo-main
+		:promo-value="'somepromovaluehere'"	
+		@submit-promo="submitPromo"
 	/>
 	<!-- eof apply promo block -->
 
@@ -76,12 +78,15 @@ export default defineComponent({
 	components: {
 		InputPromoMain,
 	},
+	emtis: ['submit-promo'],
 	setup (props, {emit}) {
 		// functions
 		const goCheckoutClick = () => emit('go-checkout')
+		const submitPromo = (value: string) => emit('submit-promo', value)
 
 		return {
 			goCheckoutClick,
+			submitPromo
 		}
 	}
 });

@@ -16,6 +16,7 @@ class="bg-gray-100">
 	<cart-summary
 		:cart="cart"
 		@go-checkout="goCheckoutPage"
+		@submit-promo="submitPromo"
 		class="w-11/12 mx-auto bg-white md:ml-5 md:w-5/12"
 	/>
 
@@ -61,13 +62,17 @@ export default defineComponent({
 		const cart = computed(() => store.state.cart.cart)
 
 		// functions
+		const submitPromo = (value: string) => {
+			console.log('call submit promo, value is', value)
+		}
 		const goCheckoutPage = () => {
 			// go to checkout page, if use is already authorized
 			if (user_authorized.value) {
 				router.push("/checkout")
 			} else {
 				// open authorization form, if user is not authorized yet
-				store.commit('modals/setUserAuthorizeOpen', {is_open: true, after_authorized_route_to: "/checkout"})
+				store.commit('modals/setUserAuthorizeOpen', 
+				{is_open: true, after_authorized_route_to: "/checkout"})
 			}
 		}
 		const addProductToCart = async (product: Record<string,any>) => {
@@ -121,6 +126,7 @@ export default defineComponent({
 		return {
 			cart,	
 			// functions
+			submitPromo,
 			goCheckoutPage,
 			addProductToCart,
 			removeProductFromCart,

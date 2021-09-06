@@ -17,12 +17,10 @@ export default {
 		state.call_request_open = is_open;
 	},
 	setUserAuthorizeOpen(state: Record<string, any>, 
-	{is_open, after_authorized_route_to}: {is_open: boolean, after_authorized_route_to: string}
-	) {
-		console.log('mutation called', after_authorized_route_to)
+	{is_open, after_authorized_route_to}: {is_open: boolean, after_authorized_route_to: string} ) {
 		state.user_authorize_open = is_open; 
 		if (after_authorized_route_to) {
-			state.after_authorized_route_to = after_authorized_route_to	
+			state.after_authorized_route_to = after_authorized_route_to
 		}
 	},
 	setUserChangePasswordOpen(state: Record<string,any>, is_open: boolean) {

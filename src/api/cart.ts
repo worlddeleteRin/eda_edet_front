@@ -51,6 +51,40 @@ class CartDataServiceClass {
 		});
 		return response 	
 	}
+	// order section
+	// create order
+	async createOrder(line_items: Array<Record<string,any>>, user_access_token: string, checkout_info: Record<string,any>): Promise<any> {
+		const delivery_address = checkout_info.delivery_address == null ? null: checkout_info.delivery_address.id
+		const pickup_address = checkout_info.pickup_address == null ? null: checkout_info.pickup_address.id
+		const response: Record<string,any> = await apiClient.post(
+		"orders/",
+		{
+			"line_items": line_items,
+			"delivery_method": checkout_info.delivery_method,
+			"payment_method": checkout_info.payment_method.id,
+			"delivery_address": delivery_address,
+			"pickup_address": pickup_address,
+		},
+		{
+			headers: {
+				"Authorization": `Bearer ${user_access_token}`
+			}
+		}
+		).catch(() => {
+			return response 
+		});
+		return response 	
+	}
+	// get checkout common info 'delivery_methods', 'payment_methods', 'pickup_addresses'
+	async getCheckoutCommonInfo(): Promise<any> {
+		const response: Record<string,any> = await apiClient.get(
+		"site/checkout-common-info",
+		).catch(() => {
+			return response 
+		});
+		return response 	
+	}
+
 }
 
 export const CartDataService = new CartDataServiceClass()

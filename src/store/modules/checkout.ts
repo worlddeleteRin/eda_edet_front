@@ -27,7 +27,7 @@ const payment_methods_test = [
 		name: "Картой курьеру",
 	},
 	{
-		id: "payment_method_id2",
+		id: "cash",
 		name: "Наличными",
 	},
 ]
@@ -40,9 +40,9 @@ export default {
 		choose_pickup_address_modal_open: false,
 		choose_payment_method_modal_open: false,
 	},
-	delivery_methods: delivery_methods_test,
-	payment_methods: payment_methods_test,
-	pickup_address_list: pickup_address_list_test,
+	delivery_methods: null,
+	payment_methods: null,
+	pickup_addresses: null,
 	checkout_info: {
 		delivery_method: "delivery",
 		payment_method: null,
@@ -53,12 +53,21 @@ export default {
   getters: {
   },
   mutations: {	
+	setCheckoutDeliveryMethods(state: Record<string,any>, delivery_methods: Array<Record<string,any>>) {
+		state.delivery_methods = delivery_methods
+	},
+	setCheckoutPaymentMethods(state: Record<string,any>, payment_methods: Array<Record<string,any>>) {
+		state.payment_methods =  payment_methods
+	},
+	setCheckoutPickupAddresses(state: Record<string,any>, pickup_addresses: Array<Record<string,any>>) {
+		state.pickup_addresses = pickup_addresses
+	},
 	setCheckoutModalOpen(state: Record<string,any>, {modal_name, is_open }: Record<string,any>) {
 		console.log(modal_name, is_open)
 		state.modals[modal_name] = is_open
 	},
-	setCheckoutInfoDeliveryMethod(state:Record<string,any>, new_delivery_address: string) {
-		state.checkout_info.delivery_method = new_delivery_address
+	setCheckoutInfoDeliveryMethod(state:Record<string,any>, delivery_method: string) {
+		state.checkout_info.delivery_method = delivery_method
 	},
 	setCheckoutInfoDeliveryAddress(state:Record<string,any>, new_delivery_address: Record<string,any>) {
 		if (Object.keys(new_delivery_address).length === 0) {
@@ -75,8 +84,5 @@ export default {
 	},
   },
   actions: {
-	makeOrderAPI() {
-		console.log('make order action')
-	}
   },
 }
