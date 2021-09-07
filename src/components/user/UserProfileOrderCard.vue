@@ -1,4 +1,5 @@
-<template> <div v-if="order">
+<template> 
+<div v-if="order">
 	<div class="flex justify-between px-4 py-3 bg-gray-50 rounded-md">
 	<!-- order id and status -->
 	<div class="flex flex-col justify-between">
@@ -7,9 +8,9 @@
 		</div>
 		<div 
 		class="px-3 py-1 text-sm tracking-wide text-center text-white uppercase rounded-md"
-		:style="{backgroundColor: 'black'}"
+		:style="{backgroundColor: order.status.color }"
 		>
-			{{ order.status }}	
+			{{ order.status.name }}	
 		</div>
 	</div>
 	<!-- eof order is and status -->
@@ -19,8 +20,13 @@
 		<div class="text-sm font-semibold">
 			Адрес доставки
 		</div>		
-		<div class="text-sm">
-			Симферополь, Балаклавская ул, д. 73g, подъезд № 2
+		<div v-if="order.delivery_method.id == 'pickup'"
+		class="text-sm">
+			{{ order.pickup_address.name }}
+		</div>
+		<div v-if="order.delivery_method.id == 'delivery'"
+		class="text-sm">
+			{{ order.delivery_address.address_display }}
 		</div>
 	</div>
 	<!-- eof order delivery info -->
@@ -73,7 +79,7 @@ export default defineComponent({
 	},
 	setup(props, {emit}) {
 		// ref 
-		const order_status = ref(props.order.order_status)
+		const order_status = ref(props.order.status)
 		const order_status_color  = ref(props.userOrderStatusColors[order_status.value])
 
 		return {

@@ -2,14 +2,9 @@ import { Commit, ActionContext } from 'vuex';
 import { UserDataService } from '@/api/user';
 
 const user_order_status_colors = {
-	"awaiting_confirmation": "black",
-	"awaiting_cooking": "black",
-	"awaiting_payment": "black",
-	"awaiting_shipment": "green",
-	"in_progress": "blue",
-	"incomplete": "black",
-	"completed": "#00c304",
-	"cancelled": "#00c304"
+	"awaiting_confirmation": "#ff6900",
+	"awaiting_cooking: "gray",
+	COMPLETED: "#00c304",
 }
 const user_authorize_states = {
 	NEED_LOGIN: "NEED_LOGIN",

@@ -1,5 +1,8 @@
 <template>
-<div class="mt-5">
+
+
+<div v-if="user_orders && user_orders.length > 0"
+class="mt-5">
 
 	<div
 	v-for="order in user_orders"
@@ -13,6 +16,12 @@
 	</div>
 
 </div>
+
+
+<div v-else>
+	У Вас нет ни одного заказа
+</div>
+
 </template>
 
 <script lang="ts">
