@@ -53,12 +53,13 @@ class CartDataServiceClass {
 	}
 	// order section
 	// create order
-	async createOrder(line_items: Array<Record<string,any>>, user_access_token: string, checkout_info: Record<string,any>): Promise<any> {
+	async createOrder(line_items: Array<Record<string,any>>, user_access_token: string, customer_session_id: string | null, checkout_info: Record<string,any>): Promise<any> {
 		const delivery_address = checkout_info.delivery_address == null ? null: checkout_info.delivery_address.id
 		const pickup_address = checkout_info.pickup_address == null ? null: checkout_info.pickup_address.id
 		const response: Record<string,any> = await apiClient.post(
 		"orders/",
 		{
+			"customer_session_id": customer_session_id,
 			"line_items": line_items,
 			"delivery_method": checkout_info.delivery_method,
 			"payment_method": checkout_info.payment_method.id,
