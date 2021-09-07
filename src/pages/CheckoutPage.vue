@@ -137,6 +137,7 @@
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
 import { createToast } from 'mosha-vue-toastify';
 // local components
@@ -196,7 +197,9 @@ export default defineComponent({
 	};
 	var errorToast = (title: string) => inputErrorToast(title)
 	var successToast =  (title: string) => inputSuccessToast(title)
+
 	const store = useStore()
+	const router = useRouter()
 	// computed
 	const user_delivery_addresses = computed(() => store.state.user.delivery_addresses)
 	// get current user info
@@ -295,7 +298,13 @@ export default defineComponent({
 		// 3. Check, if user has enough cart items, to make purchase for delivery (enough emount)
 		// 4. Submit order, if all validation passed
 		const is_created = await store.dispatch('cart/createOrderAPI')
-		if (is_created) { return successToast("Заказ успешно создан!") }  
+		if (is_created) { 
+			await store.dispatch('getUserOrdersAPI')
+			successToast("Заказ успешно создан!");
+			// load user orders
+			// route user to the profile page
+			return router.push("/profile/orders");
+		}  
 		return errorToast("Возникла ошибка во время создания заказа")
 	}
 		return {

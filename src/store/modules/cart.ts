@@ -61,6 +61,7 @@ const actions = {
 		line_items, user_access_token, customer_session_id, checkout_info
 		)
 		if (response && response.status == 200) {
+			context.commit("setCart", null)
 			return true
 		}
 		return false
