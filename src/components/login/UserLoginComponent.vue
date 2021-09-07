@@ -11,6 +11,7 @@
 		Номер телефона
 	</div>
 	<input
+	autocomplete="false"
 	v-model="user_login_info_local.user_phone_mask"
 	v-maska="'+7 ###-###-##-##'"
 	placeholder="+7 999-999-99-99"

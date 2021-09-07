@@ -22,7 +22,7 @@ class CartDataServiceClass {
 	}
 	async addCartItems(cart_id: string, cart_items: Array<Record<string,any>>): Promise<any> {
 		const response: Record<string,any> = await apiClient.post(
-		"carts/" + cart_id + "/items/",
+		"carts/" + cart_id + "/items",
 	//	`"carts/${cart_id}/items"`, 
 		{
 			"line_items": cart_items

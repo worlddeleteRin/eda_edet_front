@@ -11,6 +11,7 @@
 		Введите Ваш пароль	
 	</div>
 	<input
+	autocomplete="false"
 	type="password"
 	v-model="user_login_info_local.user_password"
 	placeholder="Ваш пароль"

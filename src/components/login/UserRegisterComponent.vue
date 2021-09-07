@@ -10,6 +10,7 @@
 		Придумайте пароль	
 	</div>
 	<input
+	autocomplete="false"
 	type="password"
 	v-model="user_login_info_local.user_password"
 	placeholder="Ваш пароль"
@@ -23,6 +24,7 @@
 		Повторите пароль	
 	</div>
 	<input
+	autocomplete="false"
 	type="password"
 	v-model="user_login_info_local.user_password_repeat"
 	placeholder="Повторите пароль"

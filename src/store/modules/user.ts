@@ -196,7 +196,9 @@ export default {
 		const resp_data: Record<string,any> = await UserDataService.registerVerify(username, password, otp)
 		console.log('register verify response is', resp_data)
 		if (resp_data) {
-			commit('setUserInfo', resp_data.data)
+			commit('setUserInfo', resp_data.data.user)
+			commit('setUserAccessToken', resp_data.data.access_token)
+			localStorage.setItem("user_access_token", resp_data.data.access_token)
 			return true
 		}
 		return false

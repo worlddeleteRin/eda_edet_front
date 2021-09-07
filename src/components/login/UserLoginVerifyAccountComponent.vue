@@ -13,6 +13,7 @@
 		class="flex flex-shrink w-full px-4 py-3 mt-2 text-lg text-gray-400 rounded-md bg-defaultGray max-w-[300px] items-center"
 	>
 		<input
+			autocomplete="false"
 			disabled
 			v-model="user_login_info_local.user_phone_mask"
 			placeholder="+7 999-999-99-99"
@@ -32,6 +33,7 @@
 		Код из смс	
 	</div>
 	<input
+		autocomplete="false"
 		v-model="user_login_info_local.verify_code"
 		placeholder="Ваш код"
 		@input="updateUserLoginInfo"
