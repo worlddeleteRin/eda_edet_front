@@ -1,10 +1,9 @@
 <template> <div>
 
 	<!-- main page slider -->
-	<div class="my-8 text-center">
-		slider will be here
-	</div>
-
+	<MainSlider 
+		class="mb-5"
+	/>
 	<!-- eof main page slider -->
 
 	<!-- 
@@ -49,6 +48,7 @@ import { createToast } from 'mosha-vue-toastify';
 // local components
 import ProductCard from '@/components/product/ProductCard.vue';
 import MainLoadingContainer from '@/components/loaders/MainLoadingContainer.vue';
+import MainSlider from '@/components/sliders/MainSlider.vue';
 
 export default defineComponent({
   name: "MainPage",
@@ -56,7 +56,8 @@ export default defineComponent({
   },
   components: {
 	ProductCard,
-	MainLoadingContainer
+	MainLoadingContainer,
+	MainSlider,
   },
 	setup () {
 		const store = useStore()
