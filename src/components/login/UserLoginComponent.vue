@@ -1,4 +1,5 @@
 <template>
+
 <!-- user login modal -->			
 <div class="text-3xl font-medium">
 	Вход на сайт
@@ -51,7 +52,7 @@ export default defineComponent({
 		userLoginInfo: {
 			type: Object,
 			default: null,
-		}
+		},
 	},
 	emits: ['user-login-info', 'toast-error', 'toast-success', 'user-login'],
 	setup(props, {emit}) {

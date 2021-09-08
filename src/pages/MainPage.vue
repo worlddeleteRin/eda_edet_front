@@ -7,9 +7,6 @@
 
 	<!-- eof main page slider -->
 
-	products are
-	{{ products }}
-
 	<!-- 
 	<div class="text-3xl p-9">
 		cart is {{ cart }}
@@ -31,9 +28,10 @@
 		/>
 		</div>
 	</div>
-	<div v-else>
-			Загрузка товара...
-	</div>
+	<MainLoadingContainer 
+		v-else
+		:title="'Загрузка товаров...'"
+	/>
 	<!-- products list -->
 
 
@@ -50,6 +48,7 @@ import { useStore } from 'vuex';
 import { createToast } from 'mosha-vue-toastify';
 // local components
 import ProductCard from '@/components/product/ProductCard.vue';
+import MainLoadingContainer from '@/components/loaders/MainLoadingContainer.vue';
 
 export default defineComponent({
   name: "MainPage",
@@ -57,6 +56,7 @@ export default defineComponent({
   },
   components: {
 	ProductCard,
+	MainLoadingContainer
   },
 	setup () {
 		const store = useStore()

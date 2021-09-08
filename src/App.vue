@@ -1,4 +1,5 @@
 <template>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"> 
 
 	<div v-if="!critical_data_loading">
 	<!-- site main header -->
@@ -15,7 +16,9 @@
 	<!-- mobile main header -->
 	<mobile-header-menu
 		v-if="mobile_menu_open"
+		:userAuthorized="is_user_authorized"
 		@close-mobile-menu="setMobileMenu(false)"
+		@open-user-authorize="setUserAuthorizeModal(true)"
 	/>
 	<!-- eof mobile main header -->
 

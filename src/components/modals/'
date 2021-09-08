@@ -127,7 +127,7 @@ export default defineComponent({
 		const store = useStore()
 		const router = useRouter()
 		// computed
-		const after_authorize_route_to = computed(() => store.state.modals.after_authorize_route_to);
+		const after_authorized_route_to = computed(() => store.state.modals.after_authorized_route_to);
 		// toast 
 		const inputErrorToast = (title: string) => {
 			createToast(
@@ -258,7 +258,7 @@ export default defineComponent({
 				const is_verified = await store.dispatch("registerVerifyUserAPI")
 				if (is_verified) {
 					await store.dispatch("checkUserAuth")
-					router.push(after_authorize_route_to.value)
+					router.push(after_authorized_route_to.value)
 					emit('close-modal')
 					return successToast('Аккаунт успешно создан!')
 				} else {
@@ -276,7 +276,7 @@ export default defineComponent({
 				const is_authorized = await store.dispatch("restoreUserLoginValidateAPI")
 				if (is_authorized) {
 					await store.dispatch("checkUserAuth")
-					router.push(after_authorize_route_to.value)
+					router.push(after_authorized_route_to.value)
 					emit('close-modal')
 					return successToast('Восстановлен доступ! Установите новый пароль в настройках профиля.')
 				} else {

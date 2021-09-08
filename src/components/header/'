@@ -30,45 +30,11 @@
 		<div :class="['py-1 pl-10 pr-3', border_bottom_class]">
 
 			<div
-			@click="routeTo('/profile')"
 			v-if="userAuthorized"
 			class="px-4 py-3 hover:bg-[#262626] rounded-md select-none"
 			>
 				<span class="text-xl font-medium">
 					Профиль	
-				</span>
-			</div>
-			<div
-			@click="openUserAuthorizeClick"
-			v-if="!userAuthorized"
-			class="px-4 py-3 hover:bg-[#262626] rounded-md select-none"
-			>
-				<span class="text-xl font-medium">
-					Войти	
-				</span>
-			</div>
-			<div
-			@click="routeTo('/')"
-			class="px-4 py-3 hover:bg-[#262626] rounded-md select-none"
-			>
-				<span class="text-xl font-medium">
-					Акции	
-				</span>
-			</div>
-			<div
-			@click="routeTo('/')"
-			class="px-4 py-3 hover:bg-[#262626] rounded-md select-none"
-			>
-				<span class="text-xl font-medium">
-					Контакты	
-				</span>
-			</div>
-			<div
-			@click="routeTo('/')"
-			class="px-4 py-3 hover:bg-[#262626] rounded-md select-none"
-			>
-				<span class="text-xl font-medium">
-					О Нас	
 				</span>
 			</div>
 
@@ -160,16 +126,11 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { useRouter } from 'vue-router';
 import { Icon } from '@iconify/vue';
 
 export default defineComponent({
 	name: "MobileHeaderMenu",
 	props: {
-		userAuthorized: {
-			type: Boolean,
-			default: false,
-		},
 		logoUrl: {
 			type: String,
 			required: true,
@@ -185,30 +146,51 @@ export default defineComponent({
 			required: true,
 			default: "7 (978)-000-00-00",
 		},
+		menuLinks: {
+			type: Array,
+			required: true,
+			default: () => [
+				{
+					"link_name": "🔥 Акции",
+					"link_path": "/"
+				},
+				{
+					"link_name": "Контакты",
+					"link_path": "/"
+				},
+				{
+					"link_name": "О Нас",
+					"link_path": "/"
+				},
+			]
+		},
 	},
-	emits: ['close-mobile-menu', 'open-user-authorize'],
+	emits: ['close-mobile-menu'],
 	components: {
 		Icon,
 	},
 	setup (props, { emit }) {
-		const router = useRouter()
+		console.log('call setup function of the mobile menu component')
 		const border_bottom_class = "border-b-[1px] border-gray-800"
-		// functions
-		const routeTo = (route_path: string) => {
-			router.push(route_path)
-			closeMobileMenu()
-		}
+		const default_mobile_nav = [
+				{
+					"link_name": "Акции",
+					"link_path": "/"
+				},
+				{
+					"link_name": "Контакты",
+					"link_path": "/"
+				},
+				{
+					"link_name": "О Нас",
+					"link_path": "/"
+				},
+			]
 		var closeMobileMenu = () => emit('close-mobile-menu')	
-		const openUserAuthorizeClick = () => {
-			closeMobileMenu()
-			emit('open-user-authorize')
-		}
 		return {
-			border_bottom_class,
-			// functions
-			openUserAuthorizeClick,
+			default_mobile_nav,
 			closeMobileMenu,
-			routeTo,
+			border_bottom_class,
 		}
 	}
 });

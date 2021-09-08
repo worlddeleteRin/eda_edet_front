@@ -18,6 +18,9 @@
 	class="absolute w-11/12 bg-white rounded-lg top-1/2 -translate-y-1/2 -translate-x-1/2 left-1/2 max-w-[600px]">
 		<div class="flex flex-col items-center px-5 py-8 md:px-12">
 
+			<ModalLoadingFull 
+				v-if="is_loading"
+			/>
 				
 			<!-- user login -->
 			<user-login-component
@@ -99,6 +102,8 @@ import UserRegisterComponent from '@/components/login/UserRegisterComponent.vue'
 import UserLoginPasswordComponent from '@/components/login/UserLoginPasswordComponent.vue';
 import UserLoginRestoreAccountComponent from '@/components/login/UserLoginRestoreAccountComponent.vue';
 import UserLoginVerifyAccountComponent from '@/components/login/UserLoginVerifyAccountComponent.vue';
+// modal loading
+import ModalLoadingFull from '@/components/loaders/ModalLoadingFull.vue';
 
 export default defineComponent({
 	name: "UserAuthorizeModal",
@@ -108,6 +113,8 @@ export default defineComponent({
 		UserLoginPasswordComponent,
 		UserLoginRestoreAccountComponent,
 		UserLoginVerifyAccountComponent,
+		// modal loading
+		ModalLoadingFull,
 	},
 	props: {
 		userLoginInfo: {
@@ -150,7 +157,8 @@ export default defineComponent({
 
 		var errorToast = (title: string) => inputErrorToast(title)
 		var successToast =  (title: string) => inputSuccessToast(title)
-
+		
+		const is_loading = ref(false)
 
 		const is_mounted = ref(false)
 
@@ -161,6 +169,9 @@ export default defineComponent({
 		onMounted(() => {
 			is_mounted.value = true
 		})
+		const setLoading = (is_true: boolean) => {
+			is_loading.value = is_true 
+		}
 
 		var closeModalClick = () => {
 			// close modal and set modal state to NEED_LOGIN
@@ -177,9 +188,11 @@ export default defineComponent({
 		}
 
 		var goLoginRestoreAccount = async () => {
+			setLoading(true)
 			// need to send otp code to restore account access, go to restore account modal,
 			// if code is successfully sent and save in db
 			const is_otp_sent = await store.dispatch("restoreUserLoginAPI")
+			setLoading(false)
 			if (is_otp_sent) {
 				user_login_info_local.user_authorize_state = props.userAuthorizeStates.RESTORE_ACCOUNT
 			} else {
@@ -193,15 +206,19 @@ export default defineComponent({
 		}
 
 		var userRegister = async () => {
+			setLoading(true)
 			const validate_info = await store.dispatch('validateCheckRegister')	
 			if (!validate_info.is_valid) {
+				setLoading(false)
 				return inputErrorToast(validate_info.v_msg)
 			} else {
 				const is_registered = await store.dispatch('registerUserAPI')
 				if (is_registered) {
 					user_login_info_local.user_authorize_state = props.userAuthorizeStates.VERIFY_ACCOUNT
+					setLoading(false)
 					return successToast('register is valid, can go verify with sms code')
 				} else {
+					setLoading(false)
 					return errorToast('Возникла ошибка, попробуйте позже')
 				}
 				// set modal state to VERIFY_ACCOUNT, to send and verify code
@@ -210,8 +227,10 @@ export default defineComponent({
 
 
 		var loginCheckAccount = async () => {
+			setLoading(true)
 			const validate_info = await store.dispatch('validateCheckAccount')	
 			if (!validate_info.is_valid) {
+				setLoading(false)
 				return inputErrorToast(validate_info.v_msg)
 			} else {
 				// need to check, if accounts exist
@@ -225,12 +244,15 @@ export default defineComponent({
 				}
 				// go to type password, if accounts not exist
 				updateUserLoginInfo()
+				setLoading(false)
 				return successToast('login is valid, can go further')
 			}
 		}
 		var loginCheckPassword = async () => {
+			setLoading(true)
 			const validate_info = await store.dispatch('validateCheckPassword')	
 			if (!validate_info.is_valid) {
+				setLoading(false)
 				return inputErrorToast(validate_info.v_msg)
 			} else {
 				// need to send data on server and check, if password is corrent
@@ -240,16 +262,20 @@ export default defineComponent({
 				// display error, if password is not correct
 				if (is_authorized) {
 					emit('user-authorized')
+					setLoading(false)
 					return successToast('Вы успешно авторизованы!')
 				} else {
+					setLoading(false)
 					return inputErrorToast("Неверный пароль")
 				}
 			}
 		}
 
 		var userRegisterVerify = async () => {
+			setLoading(true)
 			const validate_info = await store.dispatch('validateCheckVerify')	
 			if (!validate_info.is_valid) {
+				setLoading(false)
 				return inputErrorToast(validate_info.v_msg)
 			} else {
 				// need to send verify code on server
@@ -260,8 +286,10 @@ export default defineComponent({
 					await store.dispatch("checkUserAuth")
 					router.push(after_authorized_route_to.value)
 					emit('close-modal')
+					setLoading(false)
 					return successToast('Аккаунт успешно создан!')
 				} else {
+					setLoading(false)
 					return errorToast('Неверный код')
 				}
 
@@ -269,8 +297,10 @@ export default defineComponent({
 		}
 
 		var restoreAccountVerify = async () => {
+			setLoading(true)
 			const validate_info = await store.dispatch('validateCheckRestore')	
 			if (!validate_info.is_valid) {
+				setLoading(false)
 				return inputErrorToast(validate_info.v_msg)
 			} else {
 				const is_authorized = await store.dispatch("restoreUserLoginValidateAPI")
@@ -278,8 +308,10 @@ export default defineComponent({
 					await store.dispatch("checkUserAuth")
 					router.push(after_authorized_route_to.value)
 					emit('close-modal')
+					setLoading(false)
 					return successToast('Восстановлен доступ! Установите новый пароль в настройках профиля.')
 				} else {
+					setLoading(false)
 					return errorToast('Неверный код')
 				}
 			}
@@ -287,6 +319,8 @@ export default defineComponent({
 
 
 		return {
+			// ref
+			is_loading,
 			// reactive
 			user_login_info_local,
 			// computed
