@@ -4,8 +4,6 @@
 		Профиль
 	</div>
 	
-	{{ user }}
-
 	<div class="max-w-[500px]">
 	<!-- user name -->
 		<div class="mt-4">

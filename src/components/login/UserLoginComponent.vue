@@ -1,7 +1,7 @@
 <template>
 
 <!-- user login modal -->			
-<div class="text-3xl font-medium">
+<div class="text-2xl font-semibold md:text-3xl">
 	Вход на сайт
 </div>
 
@@ -24,6 +24,7 @@
 	<!-- login button -->
 	<div class="mt-8">
 		<Button
+		:size="'large'"
 		@button-click="userLoginClick"
 		:title="'Войти'"
 		rounded="full"

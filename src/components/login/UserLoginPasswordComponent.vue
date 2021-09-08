@@ -1,6 +1,6 @@
 <template>
 
-<div class="text-3xl font-medium">
+<div class="text-2xl font-semibold md:text-3xl">
 	Вход в аккаунт		
 </div>
 
@@ -23,6 +23,7 @@
 	<!-- submit check password button -->
 	<div class="mt-8">
 		<Button
+		:size="'large'"
 		@button-click="loginCheckPasswordClicked"
 		:title="'Войти'"
 		rounded="full"

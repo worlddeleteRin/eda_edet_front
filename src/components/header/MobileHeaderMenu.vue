@@ -29,6 +29,15 @@
 		<!-- mobile menu links -->
 		<div :class="['py-1 pl-10 pr-3', border_bottom_class]">
 
+
+			<div
+			@click="routeTo('/')"
+			class="px-4 py-3 hover:bg-[#262626] rounded-md select-none"
+			>
+				<span class="text-xl font-medium">
+					Главная	
+				</span>
+			</div>
 			<div
 			@click="routeTo('/profile')"
 			v-if="userAuthorized"

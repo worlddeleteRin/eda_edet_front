@@ -1,5 +1,5 @@
 <template>
-<div class="text-3xl font-medium">
+<div class="text-2xl font-semibold md:text-3xl">
 	Восстановление доступа	
 </div>
 
@@ -46,6 +46,7 @@
 	<!-- restore button -->
 	<div class="mt-8">
 		<Button
+		:size="'large'"
 		@button-click="loginCheckRestoreClicked"
 		:title="'Восстановить доступ'"
 		rounded="full"

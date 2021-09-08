@@ -1,5 +1,5 @@
 <template>
-<div class="text-3xl font-medium">
+<div class="text-2xl font-semibold md:text-3xl">
 	Регистрация аккаунта	
 </div>
 
@@ -36,6 +36,7 @@
 	<!-- register button -->
 	<div class="mt-8">
 		<Button
+		:size="'large'"
 		@button-click="userRegisterClick"
 		:title="'Продолжить'"
 		rounded="full"

@@ -22,12 +22,14 @@
 	/>
 	<!-- eof mobile main header -->
 
+	<!--
 	<div>
 		access token is {{ user_access_token }}
 	</div>
 	<div>
 		user is {{ user }}
 	</div>
+	-->
 
 	<!-- site main router-view -->
 	  <router-view />

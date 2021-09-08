@@ -1,5 +1,5 @@
 <template>
-<div class="text-3xl font-medium">
+<div class="text-2xl font-semibold md:text-3xl">
 	Верификация аккаунта	
 </div>
 
@@ -45,6 +45,7 @@
 	<!-- verify button -->
 	<div class="mt-8">
 		<Button
+		:size="'large'"
 		@button-click="userRegisterVerifyClick"
 		:title="'Создать аккаунт'"
 		rounded="full"

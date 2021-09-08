@@ -42,6 +42,7 @@
 			<!-- mobile add cart -->
 			<div class="mt-3 md:hidden">
 				<Button
+					@button-click="addCartClick"
 					v-if="!isInCart"
 					:title="product.price + ' &#8381;'"
 					rounded="full"

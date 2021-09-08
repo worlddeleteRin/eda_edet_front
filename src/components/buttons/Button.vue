@@ -1,6 +1,6 @@
 <template>
   <span 
-  :class="['text-black cursor-pointer select-none transition-shadow duration-300 ease-in-out', 'text-center',  'relative overflow-hidden', button_size_class, rounded_class, shadow_class, 'hover:' + shadow_hover_class]"
+  :class="['cursor-pointer select-none transition-shadow duration-300 ease-in-out', 'text-center',  'relative overflow-hidden', button_size_class, rounded_class, shadow_class, 'hover:' + shadow_hover_class]"
   :style="['background-color:'+background_color, 'color:'+textColor]"
 	@click="buttonClick"
 	>

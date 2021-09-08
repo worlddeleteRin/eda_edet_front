@@ -10,7 +10,7 @@ class="flex items-center w-11/12 max-w-[500px] h-20 h-full mx-auto rounded-lg bg
 			width="39"
 		/>
 	</div>
-	<div class="text-defaultTextBg pl-4">
+	<div class="pl-4 text-defaultTextBg">
 		{{ title }}
 	</div>
 </div>

@@ -7,7 +7,7 @@
 			{{ order.total_amount }} &#8381;
 		</div>
 		<div 
-		class="px-3 py-1 text-sm tracking-wide text-center text-white uppercase rounded-md"
+		class="px-3 py-1 text-[0.7rem] md:text-[0.8rem] tracking-wide text-center text-white uppercase rounded-md"
 		:style="{backgroundColor: order.status.color }"
 		>
 			{{ order.status.name }}	
@@ -16,7 +16,7 @@
 	<!-- eof order is and status -->
 
 	<!-- order delivery info -->
-	<div class="flex-col justify-between hidden w-3/12 mx-2 md:flex">
+	<div class="flex-col justify-between hidden w-3/12 mx-3 md:flex">
 		<div class="text-sm font-semibold">
 			Адрес доставки
 		</div>		
@@ -32,7 +32,7 @@
 	<!-- eof order delivery info -->
 
 	<!-- order main info -->
-	<div class="flex flex-col justify-between w-6/12">
+	<div class="flex flex-col justify-between w-6/12 ml-2">
 		<!-- order payment method and amount -->
 		<div class="text-sm">
 			<span>
