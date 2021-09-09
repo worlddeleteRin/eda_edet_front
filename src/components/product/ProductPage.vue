@@ -5,19 +5,30 @@
 	:style="[backgroud_translate_style]">
 </div>
 
+	<!--
 	<transition 
 		enter-active-class="transition ease-out duration-200" 
 		enter-from-class="opacity-0 translate-y-1 scale-90" 
 		enter-to-class="opacity-100 translate-y-0 scale-100" 
+	>
+	-->
+	<transition 
+		enter-active-class="transition ease-out duration-200" 
+		enter-from-class="opacity-0 translate-y-1 scale-90" 
+		enter-to-class="opacity-100 translate-y-0 scale-100" 
+		leave-active-class="transition ease-in duration-1000" 
+		leave-from-class="translate-y-0 scale-100" 
+		leave-to-class="translate-y-1 scale-0"
 	>
 <!-- 
 	product page is a popover modal
 -->
 
 <div 
-id="product_id_1"
-:class="['fixed top-0 left-0 md:inset-x-0 w-full h-full md:w-10/12 md:max-w-[800px] md:mx-auto bg-white py-7 px-9 rounded-xl md:top-1/2 md:transform md:-translate-y-1/2 flex flex-col md:flex-row overflow-x-hidden z-50']"
-:style="[translate_style, translate_animation, overflow_style]"
+	v-if="is_mounted"
+	id="product_id_1"
+	:class="['fixed top-0 left-0 md:inset-x-0 w-full h-full md:w-10/12 md:max-w-[800px] md:max-h-[500px] md:mx-auto bg-white py-7 px-9 rounded-xl md:top-1/2 md:transform md:-translate-y-1/2 flex flex-col md:flex-row overflow-x-hidden z-50 md:overflow-y-hidden']"
+	:style="[translate_style, translate_animation, overflow_style]"
 >
 	<!-- main product card div -->
 
@@ -31,40 +42,48 @@ id="product_id_1"
 	<!-- eof image -->
 
 	<!-- detail block -->
-	<div class="relative w-full md:w-5/12">
-		<!-- product name -->
-		<div class="text-2xl font-medium">
-			{{ product.name }}
-		</div>
-		<!-- eof product name -->
-		<!-- product weight -->
-		<div class="text-gray-500">
-			250 гр.	
-		</div>
-		<!-- eof product weight -->
-		<!-- product description -->
-		<div class="mt-1">
-			{{ product.description }}
-			<div
-			v-for="item in 15"
-			:key="item"
-			>
-				<div>
-				some test content here	
-				</div>
+	<div class="relative w-full md:w-5/12 md:flex md:flex-col md:justify-between">
+		<div
+			class="relative h-full md:overflow-y-scroll md:mb-4"
+		>
+			<!-- product name -->
+			<div class="text-2xl font-medium">
+				{{ product.name }}
 			</div>
+			<!-- eof product name -->
+			<!-- product weight -->
+			<div class="text-gray-500">
+				250 гр.	
+			</div>
+			<!-- eof product weight -->
+			<!-- product description -->
+			<div class="mt-1">
+				{{ product.description }}
+				<div
+				v-for="item in 1"
+				:key="item"
+				>
+					<div>
+					some test content here	
+					</div>
+				</div>
+
+			</div>
+			<!-- eof product description -->
 
 		</div>
-		<!-- eof product description -->
+
 		<!-- addcart -->
-		<div class="w-full bottom-2">
+		<div class="w-full">
 			<Button
 				rounded="full"
+				:size="'large'"
 				:title="'В корзину за '+ product.price + ' &#8381;'"
-				class="block max-w-full px-5 py-3 text-white bg-default"
+				class="block max-w-full px-5 text-white bg-default"
 			/>
 		</div>
 		<!-- eof addcart -->
+
 	</div>
 	<!-- eof detail block -->
 
@@ -133,7 +152,7 @@ export default defineComponent({
 		// refs
 		const is_mounted = ref(false)
 		const is_closed = ref(false)
-		const overflow_style = ref("overflow-y: scroll;")
+		const overflow_style = ref("overflow-y: hidden;")
 		const backgroud_translate_style = ref("")
 		const translate_style = ref("")
 		const translate_animation = ref("")
@@ -211,7 +230,7 @@ export default defineComponent({
 			stage.onscroll = (e) => {
 				currentScroll.value = stage.scrollTop
 			}
-			if (stage) {
+			if (stage && is_mounted.value = true) {
 			
 				var mc = new Hammer(stage, {
 					touchAction: "pan-y",

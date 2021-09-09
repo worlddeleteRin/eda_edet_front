@@ -4,7 +4,8 @@
 	but at tylewindcss "md" default screen responsive breakpoint 
 	wraps to horizontail view
 -->
-<div class="relative z-0 flex flex-1 md:flex-col md:items-center md:max-w-[400px]">
+<div class="relative z-0 flex flex-1 md:flex-col md:items-center md:max-w-[400px] border-b border-gray-100 pt-2 pb-5
+	md:border-none py-0">
 
 	<!-- image -->
 	<div 
@@ -23,17 +24,19 @@
 		<div
 		@click="goToProductPage"
 		>
-			<span>
-				{{ product.name }}
+			<span
+				class="text-lg font-semibold leading-none md:text-xl"
+			>
+				{{ product.name }} asdfasdf asdf asdf 
 			</span>
 		</div>
 		<!-- eof name -->
 		<!-- description -->
 		<div
 		v-if="product.description"
-		class="mt-1"
+		class="mt-1 leading-4 md:leading-5"
 		>
-			<span class="text-sm text-gray-500">
+			<span class="text-[0.8rem] text-[#5c6370] md:text-[0.9rem]">
 				{{ product.description }}
 			</span>
 		</div>
@@ -46,7 +49,7 @@
 					v-if="!isInCart"
 					:title="product.price + ' &#8381;'"
 					rounded="full"
-					class="px-4 py-2 font-medium text-defaultText bg-default bg-opacity-10"
+					class="py-[0.4rem] font-medium px-8 text-defaultText bg-default bg-opacity-10 text-[14px]"
 				/>
 
 				<add-quantity-input
@@ -60,7 +63,7 @@
 			<!-- eof mobile add cart -->
 			<!-- desktop add cart -->
 			<div class="items-center justify-between hidden mt-4 md:flex">
-				<div>
+				<div class="text-xl font-semibold">
 					 {{ product.price }} &#8381;
 				</div>
 				<Button
