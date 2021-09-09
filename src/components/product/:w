@@ -130,7 +130,7 @@ export default defineComponent({
 			default: null,
 		},
 	},
-	emits: ['add-to-cart', 'remove-from-cart', 'add-item-quantity', 'remove-item-quantity', 'open-product-modal'],
+	emits: ['add-to-cart', 'remove-from-cart', 'add-item-quantity', 'remove-item-quantity'],
 
 	setup (props, { emit }) {	
 		const router = useRouter()
@@ -138,8 +138,8 @@ export default defineComponent({
 		// computed
 		const isInCart = computed(() => props.cartItem == null ? false : true);
 		// functions
-		var goToProductPage  = () => router.push('/product/' + props.product.id)
-		// var goToProductPage  = () => emit('open-product-modal', props.product.id)
+		// var goToProductPage  = () => router.push('/product/' + props.product.id)
+		var goToProductPage  = () => emit('open-product-modal')
 		var removeFromCartClick = () => emit('remove-from-cart', props.cartItem)
 		var addCartClick = () => emit('add-to-cart', props.product)
 		var addQuantityClick = () => emit('add-item-quantity', props.cartItem)

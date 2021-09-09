@@ -32,7 +32,9 @@
 	-->
 
 	<!-- site main router-view -->
-	  <router-view />
+		
+	  <router-view>
+	  </router-view>
 	<!-- eof site main router-view -->
 
 	</div>

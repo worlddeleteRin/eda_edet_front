@@ -26,6 +26,11 @@
 			@remove-from-cart="removeProductFromCart"
 		/>
 		</div>
+
+
+	  <router-view> 
+	  </router-view>
+
 	</div>
 	<MainLoadingContainer 
 		v-else
@@ -34,14 +39,11 @@
 	<!-- products list -->
 
 
-
-	<router-view></router-view>
-
 </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, onMounted } from "vue";
+import { defineComponent, ref, computed, onMounted, onBeforeMount } from "vue";
 import { useStore } from 'vuex';
 
 import { createToast } from 'mosha-vue-toastify';
@@ -95,7 +97,7 @@ export default defineComponent({
 			if (cartItem) {return cartItem}
 			return null
 		};
-		onMounted(() => {
+		onBeforeMount (() => {
 			// get products from api
 			store.dispatch("catalogue/getProductsAPI")
 		});
@@ -108,6 +110,7 @@ export default defineComponent({
 					'type': 'danger',
 					'showIcon': true,
 					'hideProgressBar': true,	
+					'timeout': 2000,
 				}
 			);
 		};
@@ -119,6 +122,7 @@ export default defineComponent({
 					'showIcon': true,
 					'hideProgressBar': true,
 					'toastBackgroundColor': 'black',
+					'timeout': 2000,
 				}
 			);
 		};
