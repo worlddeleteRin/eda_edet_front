@@ -230,7 +230,7 @@ export default defineComponent({
 			stage.onscroll = (e) => {
 				currentScroll.value = stage.scrollTop
 			}
-			if (stage && is_mounted.value = true) {
+			if (stage) {
 			
 				var mc = new Hammer(stage, {
 					touchAction: "pan-y",
