@@ -135,13 +135,14 @@
 	<div class="relative hidden md:flex h-[58px] items-center justify-between">
 		<!-- desktop nav links -->				
 		<div class="flex items-center">
-			<div
+			<router-link
+			:to="nav_link.link_path"
 			v-for="nav_link in menuLinks"
 			:key="nav_link"
 			class="py-4 mr-4 text-sm font-medium cursor-pointer select-none hover:text-default transition duration-200"
 			>
 				{{ nav_link.link_name }}
-			</div>
+			</router-link>
 		</div>
 		<!-- eof desktop nav links -->
 		<!-- header cart -->
@@ -178,15 +179,15 @@ export default defineComponent({
 					},
 					{
 						'link_name': "Пицца",
-						'link_path': "/",
+						'link_path': "/#pizza",
 					},
 					{
 						'link_name': "Роллы",
-						'link_path': "/",
+						'link_path': "/#rolls",
 					},
 					{
 						'link_name': "Сеты",
-						'link_path': "/",
+						'link_path': "/#sets",
 					},
 					{
 						'link_name': "Напитки",
@@ -198,11 +199,11 @@ export default defineComponent({
 					},
 					{
 						'link_name': "Акции",
-						'link_path': "/",
+						'link_path': "/stocks",
 					},
 					{
 						'link_name': "Контакты",
-						'link_path': "/",
+						'link_path': "/contacts",
 					},
 				],
 		},

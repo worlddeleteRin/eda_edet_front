@@ -19,6 +19,7 @@
 		<div
 			v-for="category in categories"
 			:key="category.id"
+			:id="category.slug"
 		>
 			<div class="px-4 mx-auto mt-3 mb-4 text-2xl font-semibold md:text-3xl max-w-screen-lg">
 				{{ category.name }}

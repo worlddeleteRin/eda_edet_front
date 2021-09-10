@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import { createRouter, createWebHistory, RouteRecordRaw, RouterScrollBehavior } from "vue-router";
 import MainPage from "@/pages/MainPage.vue";
 
 const productPage = () => import(/* webpackChunkName: "product-page" */ '@/components/product/ProductPage.vue')
@@ -7,6 +7,9 @@ const userProfilePagePersonalData = () => import(/* webpackChunkName: "group-use
 const userProfilePageOrders = () => import(/* webpackChunkName: "group-user-profile" */ '@/components/user/UserProfilePageOrders.vue')
 const cartPage = () => import(/* webpackChunkName: "cart-page" */ '@/pages/CartPage.vue')
 const checkoutPage = () => import(/* webpackChunkName: "checkout-page" */ '@/pages/CheckoutPage.vue')
+const stockPage = () => import(/* webpackChunkName: "stock-page" */ '@/pages/StockPage.vue')
+const contactPage = () => import(/* webpackChunkName: "contact-page" */ '@/pages/ContactPage.vue')
+
 
 
 const routes: Array<RouteRecordRaw> = [
@@ -49,11 +52,26 @@ const routes: Array<RouteRecordRaw> = [
 	name: "CheckoutPage",
 	component: checkoutPage,
   },
+  {
+	path: "/contacts",
+	name: "ContactPage",
+	component: contactPage,
+  },
+  {
+	path: "/stocks",
+	name: "StockPage",
+	component: stockPage,
+  },
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+  scrollBehavior: (to) => {
+	if (to.hash) {
+		return {el: to.hash}
+	}
+  }
 });
 
 export default router;
