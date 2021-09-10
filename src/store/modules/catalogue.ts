@@ -1,13 +1,14 @@
-import { Commit } from 'vuex';
+import { Commit, ActionContext } from 'vuex';
 import {
-	ProductsDataSevice
+	ProductsDataService,
+	CategoriesDataService
 } from '@/api/catalogue';
 
 
 export default {
 	namespaced: true,
   state: {
-	categories: [],
+	categories: null,
 	products: null,
   },
   getters: {
@@ -31,13 +32,21 @@ export default {
 	},
   },
   actions: {
-	getCategoriesAPI({commit}: {commit: Commit}) {
-		const categories: Array<Record<string,any>> = []	
-		commit('setCategories', categories)
+	// categories section
+	async getCategoriesAPI(
+		context: ActionContext<any,any>
+	) {
+		const response = await CategoriesDataService.getAll()
+		if (response.status == 200 && response.data.categories) {
+			context.commit('setCategories', response.data.categories)
+			return true
+		}
+		return false
 	},
+	// products section
 	async getProductsAPI({commit}: {commit: Commit}) {
 		// get all products	
-		const products: Array<Record<string,any>> = await ProductsDataSevice.getAll()	
+		const products: Array<Record<string,any>> = await ProductsDataService.getAll()	
 		commit('setProducts', products)
 	},
   },
