@@ -6,12 +6,15 @@ const request_call_info_default = {
 	phone: '',
 	phone_mask: '+7',
 	session_id: null,
+	stocks: null,
 }
 
 export default {
   state: {
+	common_info: {
+		location_address: "Здесь будет адрес доставки",
+	},
 	request_call_info: { ...request_call_info_default },
-
 	loading_states: {
 		critical_data_loading: true,
 	}
@@ -19,6 +22,9 @@ export default {
   mutations: {
 	setSessionId(state: Record<string,any>, session_id: string) {
 		state.session_id = session_id	
+	},
+	setStocks(state: Record<string,any>, stocks: Array<Record<string,any>>) {
+		state.stocks = stocks
 	},
 	setSiteLoadingState(state: Record<string,any>, 
 	{loading_state_name, is_loading}: {loading_state_name: string, is_loading: boolean}) {
@@ -50,6 +56,16 @@ export default {
 		if (response && response.status == 200) {
 			context.commit('setSessionId', response.data.session_id)
 			localStorage.setItem('session_id', response.data.session_id)
+			return true
+		}
+		return false
+	},
+	async getStocksAPI(
+		context: ActionContext<any,unknown>
+	) {
+		const response = await SiteDataService.getStocks()
+		if (response && response.status == 200) {
+			context.commit('setStocks', response.data.stocks)
 			return true
 		}
 		return false

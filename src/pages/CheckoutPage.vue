@@ -4,23 +4,8 @@
 <div class="px-4 py-4 mx-auto max-w-screen-lg">
 	<div class="text-2xl font-medium">
 		Оформление заказа
-	</div>
-	<div>
-		{{ checkout_info }}
-	</div>
-	<div>
-		{{ delivery_methods }}
-		{{ payment_methods }}
-	</div>
-	<div>
-		user addresses is 
-		{{ user_delivery_addresses }}
-	</div>
-	<!-- 
-	<div>
-		{{ user_info }}
-	</div>
-	-->
+		</div>
+
 	<!-- select delivery method -->
 	<div class="mt-4 text-lg font-medium">
 		Способ доставки

@@ -57,7 +57,7 @@
 				</span>
 			</div>
 			<div
-			@click="routeTo('/')"
+			@click="routeTo('/stocks')"
 			class="px-4 py-3 hover:bg-[#262626] rounded-md select-none"
 			>
 				<span class="text-xl font-medium">
@@ -65,7 +65,7 @@
 				</span>
 			</div>
 			<div
-			@click="routeTo('/')"
+			@click="routeTo('/contacts')"
 			class="px-4 py-3 hover:bg-[#262626] rounded-md select-none"
 			>
 				<span class="text-xl font-medium">

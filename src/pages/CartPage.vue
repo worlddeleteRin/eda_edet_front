@@ -27,12 +27,9 @@ class="">
 		@submit-promo="submitPromo"
 		class="w-11/12 mx-auto bg-white md:ml-5 md:w-5/12"
 	/>
-
-
-</div>
-	cart is {{ cart }}
 </div>
 
+</div>
 
 <!-- cart empty block -->
 <div

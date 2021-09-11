@@ -31,7 +31,7 @@
 
 
 <script lang="ts">
-import { defineComponent, component, defineAsyncComponent } from 'vue';
+import { defineComponent, Component, defineAsyncComponent } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 

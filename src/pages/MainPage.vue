@@ -85,7 +85,7 @@ export default defineComponent({
 		// functions
 		const getProductsByCategoryId = (category_id: string) => {
 			const pr = products.value.filter((p: Record<string,any>) => {
-				if (p.categories.some((c) => c.id == category_id)) {
+				if (p.categories.some((c: Record<string,any>) => c.id == category_id)) {
 					return true
 				}
 				return false

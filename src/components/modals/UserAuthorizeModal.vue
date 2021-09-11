@@ -1,6 +1,6 @@
 <template>
 
-<div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-40"
+<div class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-40"
 	@click="closeModalClick"
 >
 </div>
@@ -15,7 +15,7 @@
 >
 	<div 
 	v-if="is_mounted"
-	class="absolute w-11/12 bg-white rounded-lg top-1/2 -translate-y-1/2 -translate-x-1/2 left-1/2 max-w-[600px]">
+	class="fixed z-50 w-11/12 bg-white rounded-lg top-1/2 -translate-y-1/2 -translate-x-1/2 left-1/2 max-w-[600px]">
 		<div class="flex flex-col items-center px-5 py-8 md:px-12">
 
 			<ModalLoadingFull 

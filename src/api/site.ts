@@ -9,6 +9,14 @@ class SiteDataServiceClass {
 		});
 		return response 
 	}
+	async getStocks(): Promise<any> {
+		const response: Record<string,any> = await apiClient.get(
+		"/site/stocks", 
+		).catch(() => {
+			return response 
+		});
+		return response 
+	}
 }
 
 export const SiteDataService = new SiteDataServiceClass()
