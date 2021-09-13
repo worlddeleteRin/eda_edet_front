@@ -5,7 +5,6 @@
 	<div class="text-2xl font-medium">
 		Оформление заказа
 		</div>
-		{{ checkout_info }}
 
 	<!-- select delivery method -->
 	<div class="mt-4 text-lg font-medium">
