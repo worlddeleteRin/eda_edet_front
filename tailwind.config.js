@@ -11,10 +11,10 @@ module.exports = {
 		},
 		colors: {
 		...colors,
-		default: "#ff6900",
+		default: "#00bfff",
 		defaultDim: "#fff0e6",
-		defaultTextBg: "#d15700",
-		defaultText: "#ff6900",
+		defaultTextBg: "#00bfff",
+		defaultText: "#00bfff",
 		defaultGray: "#f3f3f7",
 		defaultGrayText: "#5c6370",
 		},
