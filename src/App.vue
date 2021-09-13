@@ -8,7 +8,7 @@
 		@open-call-request="setCallRequestModal(true)"
 		@open-user-authorize="setUserAuthorizeModal(true)"
 		:userAuthorized="is_user_authorized"
-		:logoUrl="'http://192.168.1.141:8080/logo_variant.png'"
+		:userModuleEnabled="user_module_enabled"
 		class="px-3 mt-1 md:px-2 md:mt-4"
 	/>
 	<!-- eof site main header -->
@@ -17,6 +17,7 @@
 	<mobile-header-menu
 		v-if="mobile_menu_open"
 		:userAuthorized="is_user_authorized"
+		:userModuleEnabled="user_module_enabled"
 		@close-mobile-menu="setMobileMenu(false)"
 		@open-user-authorize="setUserAuthorizeModal(true)"
 	/>
@@ -66,16 +67,19 @@
 
 </template>
 
-<script>
+<script lang="ts">
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { computed, defineAsyncComponent, onBeforeMount } from 'vue'
 
+
+import { createToast } from 'mosha-vue-toastify';
+
 // local components
-import HeaderComponent from '@/components/header/HeaderComponent';
-const MobileHeaderMenu  = defineAsyncComponent (() => import(/* webpackChunkName: "mobile-header" */'@/components/header/MobileHeaderMenu'));
-const RequestCallModal = defineAsyncComponent ( () => import(/* webpackChunkName: "request-call-modal" */'@/components/modals/RequestCallModal'));
-const UserAuthorizeModal = defineAsyncComponent( () => import(/* webpackChunkName: "authorize-modal" */ '@/components/modals/UserAuthorizeModal'));
+import HeaderComponent from '@/components/header/HeaderComponent.vue';
+const MobileHeaderMenu  = defineAsyncComponent (() => import(/* webpackChunkName: "mobile-header" */'@/components/header/MobileHeaderMenu.vue'));
+const RequestCallModal = defineAsyncComponent ( () => import(/* webpackChunkName: "request-call-modal" */'@/components/modals/RequestCallModal.vue'));
+const UserAuthorizeModal = defineAsyncComponent( () => import(/* webpackChunkName: "authorize-modal" */ '@/components/modals/UserAuthorizeModal.vue'));
 //import MobileHeaderMenu from '@/components/header/MobileHeaderMenu';
 
 export default {
@@ -90,6 +94,8 @@ export default {
 		const store = useStore()
 		const router = useRouter()
 		// computed
+		// if user module enabled
+		const user_module_enabled = computed(() => store.state.user.module_enabled)
 		// after authorized route to
 		const after_authorized_route_to = computed(() => store.state.modals.after_authorized_route_to)
 		// loading states
@@ -112,7 +118,9 @@ export default {
 		onBeforeMount(async () => {
 			// check, if access_token in local storage and use is authorized
 			await store.dispatch("checkGetSessionId")
-			await store.dispatch("checkUserAuth")
+			if (user_module_enabled.value) {
+				await store.dispatch("checkUserAuth")
+			}
 			// get current cart, if it is exist
 			await store.dispatch("cart/getCartAPI")
 			store.commit('setSiteLoadingState', {
@@ -128,28 +136,51 @@ export default {
 			router.push(after_authorized_route_to.value)
 			setUserAuthorizeModal(false)
 		}
-		var setMobileMenu = (is_open) => store.commit("modals/setMobileMenuOpen", is_open)	
-		var setCallRequestModal = (is_open) => {
+		var setMobileMenu = (is_open: boolean) => store.commit("modals/setMobileMenuOpen", is_open)	
+		var setCallRequestModal = (is_open: boolean) => {
 			if (!is_open) {
 				store.commit('resetRequestCallInfo')
 			}
 			store.commit("modals/setCallRequestModalOpen", is_open)
 		}
-		var setUserAuthorizeModal = (is_open) => store.commit("modals/setUserAuthorizeOpen", 
+		var setUserAuthorizeModal = (is_open: boolean) => store.commit("modals/setUserAuthorizeOpen", 
 		{is_open: is_open, after_authorized_route_to: "/profile"})
-		var setUserLoginInfo = (new_user_login_info) => { 
+		var setUserLoginInfo = (new_user_login_info: Record<string,any>) => { 
 			store.commit("setUserLoginInfo", new_user_login_info)
 		}
 		// update request call info
-		var updateRequestCallInfo = (new_call_info) => {
+		var updateRequestCallInfo = (new_call_info: Record<string,any>) => {
 			store.commit("setRequestCallInfo", new_call_info)
 		}
 		// send request call
 		var sendRequestCall = async () => {
 			await store.dispatch('sendRequestCallAPI')	
+			setCallRequestModal(false)
+			return successToast('Заявка успешно отправлена!')
 		}
+		// successToast
+		const successToast = (title: string) => {
+			createToast(
+				title, {
+					'type': 'success',
+					'showIcon': true,
+					'hideProgressBar': true,
+				}
+			);
+		};
+		// error toast
+		const errorToast = (title: string) => {
+			createToast(
+				title, {
+					'type': 'danger',
+					'showIcon': true,
+					'hideProgressBar': true,
+				}
+			);
+		};
 		return {
 			// computed
+			user_module_enabled,
 			theme_colors,
 			// loading states
 			critical_data_loading,

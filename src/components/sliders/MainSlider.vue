@@ -30,7 +30,7 @@ export default {
 	},
 	data () {
 		return {
-			image_link: "https://dodopizza-a.akamaihd.net/static/Img/Banners/g_1629794231_7675f0fecbc14cf49b4fe4988bce2d80.jpeg",
+			image_link: "http://vuetest.fast-code.ru/static/images/slider_image.jpeg",
 			options: {
 				type: 'loop',
 				// rewind: true,

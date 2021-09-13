@@ -46,6 +46,7 @@ export default {
 	checkout_info: {
 		delivery_method: "delivery",
 		payment_method: null,
+		guest_delivery_address: null,
 		delivery_address: null,
 		pickup_address: null,
 	},
@@ -75,6 +76,9 @@ export default {
 		} else {
 			state.checkout_info.delivery_address = new_delivery_address
 		}
+	},
+	setCheckoutInfoGuestDeliveryAddress(state:Record<string,any>, delivery_address: string) {
+		state.checkout_info.guest_delivery_address = delivery_address
 	},
 	setCheckoutInfoPickupAddress(state:Record<string,any>, new_pickup_address: Record<string,any>) {
 		state.checkout_info.pickup_address = new_pickup_address 

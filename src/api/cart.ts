@@ -76,6 +76,24 @@ class CartDataServiceClass {
 		});
 		return response 	
 	}
+	async createGuestOrder(line_items: Array<Record<string,any>>, customer_session_id: string | null, checkout_info: Record<string,any>): Promise<any> {
+		const guest_delivery_address = checkout_info.guest_delivery_address == null ? null: checkout_info.guest_delivery_address
+		const pickup_address = checkout_info.pickup_address == null ? null: checkout_info.pickup_address.id
+		const response: Record<string,any> = await apiClient.post(
+		"orders/guest",
+		{
+			"customer_session_id": customer_session_id,
+			"line_items": line_items,
+			"delivery_method": checkout_info.delivery_method,
+			"payment_method": checkout_info.payment_method.id,
+			"guest_delivery_address": guest_delivery_address,
+			"pickup_address": pickup_address,
+		},
+		).catch(() => {
+			return response 
+		});
+		return response 	
+	}
 	// get checkout common info 'delivery_methods', 'payment_methods', 'pickup_addresses'
 	async getCheckoutCommonInfo(): Promise<any> {
 		const response: Record<string,any> = await apiClient.get(

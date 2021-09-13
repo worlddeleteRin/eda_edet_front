@@ -27,7 +27,7 @@
 			<span
 				class="text-lg font-semibold leading-none md:text-xl"
 			>
-				{{ product.name }} asdfasdf asdf asdf 
+				{{ product.name }} 
 			</span>
 		</div>
 		<!-- eof name -->

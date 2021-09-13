@@ -9,9 +9,9 @@
 	class="flex px-2 py-1"
 	>
 		<Icon
-		icon="feather:menu"
-		width="22"
-		class="block md:hidden"
+			icon="feather:menu"
+			width="22"
+			class="block md:hidden"
 		/>
 	</div>
 	<!-- eof open mobile menu button -->
@@ -38,7 +38,7 @@
 			width="25"
 		/>
 		<span class="ml-1 text-lg tracking-wide">
-			Симферополь
+			Ялта
 		</span>
 	</div>
 	<!-- eof header location -->
@@ -65,7 +65,9 @@
 	<!-- eof header contact -->
 
 	<!-- header profile links -->
-	<div class="justify-end flex-1 hidden md:flex">
+	<div class="justify-end flex-1 hidden md:flex"
+		v-if="userModuleEnabled"
+	>
 	<!-- if user authorized block -->	
 	<div
 	v-if="!userAuthorized"
@@ -86,6 +88,7 @@
 	<div
 	v-else
 	>
+	<div v-if="userModuleEnabled">
 		<Button
 		title="&#x1F389; Бонусы"
 		rounded="full"
@@ -108,6 +111,7 @@
 		</router-link>
 		<!-- eof user profile link button -->
 
+		</div>
 	</div>
 	<!-- eof if user not authorized block -->
 	</div>
@@ -213,7 +217,7 @@ export default defineComponent({
 		},
 		logoUrl: {
 			type: String,
-			default: "https://placeholder.com/wp-content/uploads/2018/10/placeholder.com-logo3.jpg",
+			default: "https://placeholder.com/wp-content/uploads/2018/10/placeholder.com-logo3.jpg"
 		},
 		contactPhone: {
 			type: String,
@@ -226,6 +230,10 @@ export default defineComponent({
 		userAuthorized: {
 			type: Boolean,
 			default: false,
+		},
+		userModuleEnabled: {
+			type: Boolean,
+			default: false, 
 		}
 	},
 	components: {

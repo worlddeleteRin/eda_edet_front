@@ -40,7 +40,7 @@
 			</div>
 			<div
 			@click="routeTo('/profile')"
-			v-if="userAuthorized"
+			v-if="userAuthorized && userModuleEnabled"
 			class="px-4 py-3 hover:bg-[#262626] rounded-md select-none"
 			>
 				<span class="text-xl font-medium">
@@ -49,7 +49,7 @@
 			</div>
 			<div
 			@click="openUserAuthorizeClick"
-			v-if="!userAuthorized"
+			v-if="!userAuthorized && userModuleEnabled"
 			class="px-4 py-3 hover:bg-[#262626] rounded-md select-none"
 			>
 				<span class="text-xl font-medium">
@@ -101,6 +101,7 @@
 					</span>
 				</div>
 			</div>
+			<!--
 			<div class="flex items-center px-2 py-3 hover:bg-[#262626] rounded-md select-none">
 				<Icon
 				icon="ci:apple"
@@ -129,6 +130,7 @@
 					</span>
 				</div>
 			</div>
+			-->
 			<div class="flex items-center px-2 py-3 hover:bg-[#262626] rounded-md select-none">
 				<Icon
 				icon="akar-icons:instagram-fill"
@@ -175,6 +177,10 @@ import { Icon } from '@iconify/vue';
 export default defineComponent({
 	name: "MobileHeaderMenu",
 	props: {
+		userModuleEnabled: {
+			type: Boolean,
+			default: false,
+		},
 		userAuthorized: {
 			type: Boolean,
 			default: false,

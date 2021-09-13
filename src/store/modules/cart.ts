@@ -46,6 +46,24 @@ const actions = {
 		return false
 	},
 	// order section
+	async createGuestOrderAPI(
+		context: ActionContext<any, any>,
+	) {
+		console.log('context state is', context.state)
+		const line_items = context.state.cart.line_items
+		const customer_session_id = localStorage.getItem("session_id")
+		const checkout_info = context.rootState.checkout.checkout_info
+		console.log('checkout info is', checkout_info)
+		
+		const response = await CartDataService.createGuestOrder(
+		line_items, customer_session_id, checkout_info
+		)
+		if (response && response.status == 200) {
+			context.commit("setCart", null)
+			return true
+		}
+		return false
+	},
 	async createOrderAPI(
 		context: ActionContext<any, any>,
 	) {
@@ -65,7 +83,6 @@ const actions = {
 			return true
 		}
 		return false
-		
 	},
 	// cart section
 	async getCartAPI(

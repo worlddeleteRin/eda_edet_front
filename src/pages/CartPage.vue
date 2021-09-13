@@ -44,7 +44,7 @@ class="">
 		</div>
 		<div 
 		class="flex justify-end mt-8">
-			...добавьте в нее вкусную еду!
+			...добавьте в нее что-нибудь!
 		</div>
 	</div>
 
@@ -89,6 +89,7 @@ export default defineComponent({
 		const store = useStore()
 		const router = useRouter()
 		// computed
+		const user_module_enabled = computed(() => store.state.user.module_enabled)
 		const user_authorized = computed(() => store.state.user.user_authorized)
 		const cart = computed(() => store.state.cart.cart)
 
@@ -98,6 +99,9 @@ export default defineComponent({
 		}
 		const goCheckoutPage = () => {
 			// go to checkout page, if use is already authorized
+			if (!user_module_enabled.value) {
+				return router.push("/checkout")
+			}
 			if (user_authorized.value) {
 				router.push("/checkout")
 			} else {

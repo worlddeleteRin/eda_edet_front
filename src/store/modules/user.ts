@@ -30,6 +30,7 @@ const user_login_info_default = {
 
 export default {
   state: {
+	module_enabled: false,
 	user: null,
 	delivery_addresses: null,
 	user_access_token: null,

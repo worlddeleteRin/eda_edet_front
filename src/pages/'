@@ -5,7 +5,6 @@
 	<div class="text-2xl font-medium">
 		Оформление заказа
 		</div>
-		{{ checkout_info }}
 
 	<!-- select delivery method -->
 	<div class="mt-4 text-lg font-medium">
@@ -38,8 +37,6 @@
 
 		<div v-else>
 			<input
-				:value="checkout_info.guest_delivery_address"
-				@input="updateGuestDeliveryAddress"
 				id="address_input"
 				placeholder="Укажите адрес доставки"
 				class="w-full px-3 py-3 rounded-lg outline-none"
@@ -226,10 +223,6 @@ export default defineComponent({
 		// close the modal
 		// openCheckoutModal('choose_delivery_address_modal_open',false)
 	}
-	const updateGuestDeliveryAddress = (event: Record<string,any>) => { 
-		const address = event.target.value
-		store.commit("checkout/setCheckoutInfoGuestDeliveryAddress", address)
-	}
 	const deleteDeliveryAddress = async (address_id: string) => { 
 		console.log('run delete')
 		const is_deleted = await store.dispatch("deleteUserDeliveryAddressAPI", address_id)
@@ -303,27 +296,15 @@ export default defineComponent({
 		// 2. Check, if user selected delivery method, delivery/pickup address, show error Toast msg if not
 		// 3. Check, if user has enough cart items, to make purchase for delivery (enough emount)
 		// 4. Submit order, if all validation passed
-		if (user_info.value && user_module_enabled.value) {
-			const is_created = await store.dispatch('cart/createOrderAPI')
-			if (is_created) { 
-				await store.dispatch('getUserOrdersAPI')
-				successToast("Заказ успешно создан!");
-				// load user orders
-				// route user to the profile page
-				return router.push("/profile/orders");
-			}  
-			return errorToast("Возникла ошибка во время создания заказа")
-		} else {
-			// need to create guest order
-			const is_created = await store.dispatch('cart/createGuestOrderAPI')
-			if (is_created) { 
-				successToast("Заказ успешно создан!");
-				// load user orders
-				// route user to the profile page
-				return router.push("/");
-			}  
-			return errorToast("Возникла ошибка во время создания заказа")
-		}
+		const is_created = await store.dispatch('cart/createOrderAPI')
+		if (is_created) { 
+			await store.dispatch('getUserOrdersAPI')
+			successToast("Заказ успешно создан!");
+			// load user orders
+			// route user to the profile page
+			return router.push("/profile/orders");
+		}  
+		return errorToast("Возникла ошибка во время создания заказа")
 	}
 		return {
 			// computed
@@ -338,7 +319,6 @@ export default defineComponent({
 			// functions
 			deleteDeliveryAddress,
 			updateDeliveryMethod,
-			updateGuestDeliveryAddress,
 			updateDeliveryAddress,
 			updatePickupAddress,
 			updatePaymentMethod,
