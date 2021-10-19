@@ -9,6 +9,7 @@
 		@open-user-authorize="setUserAuthorizeModal(true)"
 		:userAuthorized="is_user_authorized"
 		:userModuleEnabled="user_module_enabled"
+		:common-info="common_info"
 		class="px-3 mt-1 md:px-2 md:mt-4"
 	/>
 	<!-- eof site main header -->
@@ -94,6 +95,8 @@ export default {
 		const store = useStore()
 		const router = useRouter()
 		// computed
+		const categories = computed(() => store.state.catalogue.categories)
+		const common_info = computed(() => store.state.site.common_info);
 		// if user module enabled
 		const user_module_enabled = computed(() => store.state.user.module_enabled)
 		// after authorized route to
@@ -116,6 +119,9 @@ export default {
 		const request_call_info = computed(() => store.state.site.request_call_info)
 		// functions
 		onBeforeMount(async () => {
+			if (!critical_data_loading.value) {
+				return
+			}
 			// check, if access_token in local storage and use is authorized
 			await store.dispatch("checkGetSessionId")
 			if (user_module_enabled.value) {
@@ -123,6 +129,9 @@ export default {
 			}
 			// get current cart, if it is exist
 			await store.dispatch("cart/getCartAPI")
+			// get categories
+			await store.dispatch("catalogue/getCategoriesAPI")
+			await store.dispatch("getCommonInfoAPI")
 			store.commit('setSiteLoadingState', {
 				loading_state_name: "critical_data_loading", is_loading: false
 			});
@@ -180,6 +189,8 @@ export default {
 		};
 		return {
 			// computed
+			categories,
+			common_info,
 			user_module_enabled,
 			theme_colors,
 			// loading states

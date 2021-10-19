@@ -141,7 +141,7 @@
 		<div class="flex items-center">
 			<router-link
 			:to="nav_link.link_path"
-			v-for="nav_link in menuLinks"
+			v-for="nav_link in commonInfo?.menu_links"
 			:key="nav_link"
 			class="py-4 mr-4 text-sm font-medium cursor-pointer select-none hover:text-default transition duration-200"
 			>
@@ -174,42 +174,9 @@ import Button from '@/components/buttons/Button.vue';
 export default defineComponent({
 	name: "HeaderComponent",
 	props: {
-		menuLinks: {
-			type: Array,
-			default: () => [
-					{
-						'link_name': "Меню доставки",
-						'link_path': "/",
-					},
-					{
-						'link_name': "Пицца",
-						'link_path': "/#pizza",
-					},
-					{
-						'link_name': "Роллы",
-						'link_path': "/#rolls",
-					},
-					{
-						'link_name': "Сеты",
-						'link_path': "/#sets",
-					},
-					{
-						'link_name': "Напитки",
-						'link_path': "/",
-					},
-					{
-						'link_name': "Бургеры",
-						'link_path': "/",
-					},
-					{
-						'link_name': "Акции",
-						'link_path': "/stocks",
-					},
-					{
-						'link_name': "Контакты",
-						'link_path': "/contacts",
-					},
-				],
+		commonInfo: {
+			type: Object,
+			default: null,
 		},
 		brandName: {
 			type: String,

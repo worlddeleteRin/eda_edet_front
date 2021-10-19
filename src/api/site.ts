@@ -17,6 +17,14 @@ class SiteDataServiceClass {
 		});
 		return response 
 	}
+	async getCommonInfo(): Promise<any> {
+		const response: Record<string,any> = await apiClient.get(
+		"/site/common-info", 
+		).catch(() => {
+			return response 
+		});
+		return response 	
+	}
 }
 
 export const SiteDataService = new SiteDataServiceClass()
