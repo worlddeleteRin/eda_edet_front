@@ -16,7 +16,7 @@
 
 <div 
 	id="product_id_1"
-	:class="['fixed top-0 left-0 w-full h-full bg-white py-7 px-9 rounded-xl flex flex-col overflow-x-hidden z-50']"
+	:class="['fixed top-0 left-0 w-full h-full bg-white pt-7 pb-24 px-9 rounded-xl flex flex-col overflow-x-hidden z-50']"
 	:style="[overflow_style]"
 >
 	<!-- main product card div -->
@@ -24,7 +24,7 @@
 	<!-- image -->
 	<div class="max-h-[400px] h-full relative rounded w-full flex">
 		<img
-			v-lazy="'https://dodopizza-a.akamaihd.net/static/Img/Products/ebb801139e7d4c4397fcc4372c7dd149_1875x1875.jpeg'"
+			v-lazy="product?.imgsrc[0]"
 			class="object-contain w-full rounded"
 		/>
 	</div>
@@ -48,15 +48,6 @@
 			<!-- product description -->
 			<div class="mt-1">
 				{{ product.description }}
-				<div
-				v-for="item in 15"
-				:key="item"
-				>
-					<div>
-					some test content here	
-					</div>
-				</div>
-
 			</div>
 			<!-- eof product description -->
 
@@ -84,17 +75,29 @@
 	<!-- eof main product card div -->
 
 		<!-- addcart -->
-		<div class="fixed bottom-0 left-0 w-full mb-8 overflow-hidden">
+		<div class="fixed bottom-0 left-0 w-full overflow-hidden">
 			<Button
-				rounded="full"
+				@click="addCartClick"
 				:size="'large'"
 				:title="'В корзину за '+ product.price + ' &#8381;'"
-				class="block px-5 text-white bg-default"
+				class="block px-5 text-white bg-default py-5"
 			/>
 		</div>
 		<!-- eof addcart -->
 
+		<div
+		@click="closeProductPage"
+		class="fixed p-1 bg-white rounded-full shadow-lg cursor-pointer left-4 top-3"
+		>
+			<Icon
+				icon="bx:bxs-chevron-down"
+				width="40"
+				class="text-black"
+			/>
+		</div>
+
 </div>
+
 
 
 </transition>
@@ -134,7 +137,7 @@ export default defineComponent({
 			},
 		},
 	},
-	emits: ['add-cart'],
+	emits: ['add-to-cart'],
 
 	setup (props, { emit }) {	
 		const router = useRouter()
@@ -154,7 +157,7 @@ export default defineComponent({
 		const makeOverflowYHidden = () => { 
 			overflow_style.value = "overflow-y: hidden;"
 		}
-		var addCartClick = () => emit('add-cart')
+		var addCartClick = () => emit('add-to-cart')
 		var closeProductPage = () =>  { 
 			if (!is_closed.value) {
 				is_closed.value = true

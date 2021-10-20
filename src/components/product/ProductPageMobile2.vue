@@ -16,7 +16,7 @@
 
 <div 
 	id="product_id_1"
-	:class="['fixed top-0 left-0 w-full h-full bg-white py-7 px-9 rounded-xl flex flex-col overflow-x-hidden z-50']"
+	:class="['fixed top-0 left-0 w-full h-full bg-white pt-7 pb-14 px-9 rounded-xl flex flex-col overflow-x-hidden z-50']"
 	:style="[translate_style, translate_animation, overflow_style]"
 >
 	<!-- main product card div -->
@@ -24,7 +24,7 @@
 	<!-- image -->
 	<div class="max-h-[400px] h-full relative rounded w-full flex">
 		<img
-			v-lazy="'https://dodopizza-a.akamaihd.net/static/Img/Products/ebb801139e7d4c4397fcc4372c7dd149_1875x1875.jpeg'"
+			v-lazy="product?.imgsrc[0]"
 			class="object-contain w-full rounded"
 		/>
 	</div>
@@ -63,7 +63,7 @@
 		</div>
 
 		<!-- addcart -->
-		<div class="w-full overflow-hidden mb-7">
+		<div class="w-full overflow-hidden mb-4">
 			<Button
 				@button-click="addCartClick"
 				rounded="full"

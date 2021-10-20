@@ -5,15 +5,15 @@
 	wraps to horizontail view
 -->
 <div class="relative z-0 flex flex-1 md:flex-col md:items-center md:justify-between md:max-w-[400px] border-b border-gray-100 pt-2 pb-5
-	md:border-none py-0">
+	md:border-none py-0 overflow-x-hidden">
 
 	<!-- image -->
 	<div 
 	@click="goToProductPage"
-	class="w-6/12 md:max-w-[250px] h-full max-h-[230px] relative rounded md:w-full">
+	class="w-6/12 md:max-w-[250px] md:h-[220px] max-h-[220px] relative rounded md:w-full">
 		<img
-			v-lazy="'https://dodopizza-a.akamaihd.net/static/Img/Products/5dffe4c7d3bc49668f50c1d08d920992_292x292.jpeg'"
-			class="object-contain w-full h-full rounded cursor-pointer"
+			v-lazy="product?.imgsrc[0]"
+			class="object-contain w-full md:h-[220px] md:max-h-full h-full rounded cursor-pointer"
 		/>
 	</div>
 	<!-- eof image -->
