@@ -46,10 +46,10 @@
 	<div class="flex-col flex-1 hidden w-3/12 md:flex md:flex-0">
 		<div class="w-full text-center">
 			<a 
-			:href="'tel:'+ contactPhone"
+			:href="'tel:'+ commonInfo?.delivery_phone"
 			class="text-xl font-medium text-black"	
 			>
-				{{ contactPhoneDisplay }}	
+				{{ commonInfo?.delivery_phone_display }}	
 			</a>
 		</div>
 		<div class="w-full text-center">
