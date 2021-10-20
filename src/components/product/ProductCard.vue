@@ -4,7 +4,7 @@
 	but at tylewindcss "md" default screen responsive breakpoint 
 	wraps to horizontail view
 -->
-<div class="relative z-0 flex flex-1 md:flex-col md:items-center md:max-w-[400px] border-b border-gray-100 pt-2 pb-5
+<div class="relative z-0 flex flex-1 md:flex-col md:items-center md:justify-between md:max-w-[400px] border-b border-gray-100 pt-2 pb-5
 	md:border-none py-0">
 
 	<!-- image -->
@@ -18,29 +18,32 @@
 	</div>
 	<!-- eof image -->
 	<!-- details -->
-	<div class="flex flex-col justify-center w-10/12 ml-2 md:w-full">
-
-		<!-- name -->
-		<div
-		@click="goToProductPage"
-		>
-			<span
-				class="text-lg font-semibold leading-none md:text-xl"
+	<div class="flex flex-col justify-center md:justify-between w-10/12 ml-2 md:w-full h-full">
+		<div>
+			<!-- name -->
+			<div
+			@click="goToProductPage"
 			>
-				{{ product.name }} 
-			</span>
+				<span
+					class="text-lg font-semibold leading-none md:text-xl"
+				>
+					{{ product.name }} 
+				</span>
+			</div>
+			<!-- eof name -->
+			<!-- description -->
+			<div
+			v-if="product.description"
+			class="mt-1 leading-4 md:leading-5"
+			>
+				<span class="text-[0.8rem] text-[#5c6370] md:text-[0.9rem]">
+					{{ product.description }}
+				</span>
+			</div>
+			<!-- eof description -->
 		</div>
-		<!-- eof name -->
-		<!-- description -->
-		<div
-		v-if="product.description"
-		class="mt-1 leading-4 md:leading-5"
-		>
-			<span class="text-[0.8rem] text-[#5c6370] md:text-[0.9rem]">
-				{{ product.description }}
-			</span>
-		</div>
-		<!-- eof description -->
+
+		<div>
 		<!-- addcart -->
 			<!-- mobile add cart -->
 			<div class="mt-3 md:hidden">
@@ -85,6 +88,7 @@
 			</div>
 			<!-- eof desktop add cart -->
 		<!-- eof addcart -->
+		</div>
 
 	</div>
 	<!-- eof details -->

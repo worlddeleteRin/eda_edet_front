@@ -16,6 +16,7 @@ export default {
 		delivery_phone: "",
 		delivery_phone_display: "",
 		menu_links: null,
+		main_logo_link: "",
 	},
 	request_call_info: { ...request_call_info_default },
 	loading_states: {

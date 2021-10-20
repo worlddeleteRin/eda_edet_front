@@ -11,6 +11,11 @@
 		cart is {{ cart }}
 	</div>
 	-->
+	<!-- categories list -->
+	<categories-list
+		:categories="categories"
+	/>
+	<!-- eof categories list -->
 	
 	<!-- products list -->
 	<div v-if="products && categories"
@@ -60,6 +65,7 @@ import { useStore } from 'vuex';
 
 import { createToast } from 'mosha-vue-toastify';
 // local components
+import CategoriesList from "@/components/product/CategoriesList.vue";
 import ProductCard from '@/components/product/ProductCard.vue';
 import MainLoadingContainer from '@/components/loaders/MainLoadingContainer.vue';
 import MainSlider from '@/components/sliders/MainSlider.vue';
@@ -69,6 +75,7 @@ export default defineComponent({
   props: {
   },
   components: {
+	CategoriesList,
 	ProductCard,
 	MainLoadingContainer,
 	MainSlider,
