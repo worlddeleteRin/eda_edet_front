@@ -12,8 +12,12 @@
 	</div>
 	-->
 	<!-- categories list -->
+	<div class="px-4 mx-auto mt-5 mb-4 text-2xl font-semibold md:text-3xl max-w-screen-lg">
+		Меню доставки
+	</div>
 	<categories-list
 		:categories="categories"
+		class="max-w-screen-lg mx-auto px-4"
 	/>
 	<!-- eof categories list -->
 	
