@@ -1,36 +1,5 @@
 // import { Store } from 'vuex';
-const delivery_methods_test = [
-	{
-		name: "delivery",
-		name_display: "Доставка",
-	},
-	{
-		name: "pickup",
-		name_display: "Самовывоз"
-	},
-]
-const pickup_address_list_test = [
-	{
-		id: "some_id",
-		name: "Симферополь, ул. Володарского, 12",
-		info: "some additional info is here",
-	},
-	{
-		id: "some_id2",
-		name: "Феодосия, ул. Кирова, 28",
-		info: "some additional info is here",
-	},
-]
-const payment_methods_test = [
-	{
-		id: "payment_method_id",
-		name: "Картой курьеру",
-	},
-	{
-		id: "cash",
-		name: "Наличными",
-	},
-]
+
 export default {
 	namespaced: true,
   state: {
@@ -47,6 +16,7 @@ export default {
 		delivery_method: "delivery",
 		payment_method: null,
 		guest_delivery_address: null,
+		guest_phone: null,
 		delivery_address: null,
 		pickup_address: null,
 	},

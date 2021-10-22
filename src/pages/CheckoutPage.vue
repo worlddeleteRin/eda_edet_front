@@ -18,9 +18,24 @@
 		/>
 	</div>
 	<!-- eof select delivery method -->
+	
+	<!-- set user phone, if use if guest -->
+	<div 
+		class="py-1 pl-4 mt-6 bg-white rounded-lg max-w-[600px]"
+	>
+		<input
+			@maska="updateGuestPhone"
+			v-maska="'+7 ###-###-##-##'"
+			v-model="checkout_info.guest_phone"
+			placeholder="Ваш номер телефона"
+			class="w-full px-3 py-3 rounded-lg outline-none"
+		/>
+	</div>
+	<!-- eof set guest user phone -->
+
 	<!-- select address and time -->
 	<div 
-	class="py-1 pl-4 mt-6 bg-white rounded-lg max-w-[600px]"
+	class="py-1 pl-4 mt-2 bg-white rounded-lg max-w-[600px]"
 	>
 		<div v-if="checkout_info.delivery_method == 'delivery'">
 		<!-- select delivery address -->
@@ -35,6 +50,7 @@
 
 		<!-- eof select delivery address -->
 
+
 		<div v-else>
 			<input
 				:value="checkout_info.guest_delivery_address"
@@ -46,8 +62,7 @@
 		</div>
 
 		</div>
-
-		<!-- select pickup address -->
+<!-- select pickup address -->
 			<select-checkout-main
 				v-if="checkout_info.delivery_method == 'pickup'"
 				@click="openCheckoutModal('choose_pickup_address_modal_open',true)"
@@ -135,11 +150,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount } from 'vue';
+import { computed, defineComponent, onBeforeMount, ref} from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 
 import { createToast } from 'mosha-vue-toastify';
+import { maska } from 'maska';
 // local components
 import Button from '@/components/buttons/Button.vue';
 import InputSelectMain from '@/components/input/InputSelectMain.vue';
@@ -149,6 +165,7 @@ import CheckoutChooseDeliveryAddressModal from '@/components/checkout/CheckoutCh
 import CheckoutChoosePickupAddressModal from '@/components/checkout/CheckoutChoosePickupAddressModal.vue';
 import CreateDeliveryAddressModal from '@/components/checkout/CreateDeliveryAddressModal.vue';
 import CheckoutChoosePaymentMethodModal from '@/components/checkout/CheckoutChoosePaymentMethodModal.vue';
+
 
 // validators 
 import { validateCreateDeliveryAddress } from '@/validators/checkout';
@@ -163,6 +180,9 @@ export default defineComponent({
 		CheckoutChoosePickupAddressModal,
 		CheckoutChoosePaymentMethodModal,
 		CreateDeliveryAddressModal,
+	},
+	directives: {
+		maska,
 	},
 	setup () {
 	onBeforeMount(async () => {
@@ -197,10 +217,13 @@ export default defineComponent({
 	var errorToast = (title: string) => inputErrorToast(title)
 	var successToast =  (title: string) => inputSuccessToast(title)
 
+
 	const store = useStore()
 	const router = useRouter()
 	// check if user module enabled
 	const user_module_enabled = computed(() => store.state.user.module_enabled)
+	//  use_authorized
+	const user_authorized = computed(() => store.state.user.user_authorized);
 	// computed
 	const user_delivery_addresses = computed(() => store.state.user.delivery_addresses)
 	// get current user info
@@ -229,6 +252,8 @@ export default defineComponent({
 		const address = event.target.value
 		store.commit("checkout/setCheckoutInfoGuestDeliveryAddress", address)
 	}
+
+
 	const deleteDeliveryAddress = async (address_id: string) => { 
 		console.log('run delete')
 		const is_deleted = await store.dispatch("deleteUserDeliveryAddressAPI", address_id)
@@ -326,6 +351,7 @@ export default defineComponent({
 	}
 		return {
 			// computed
+			user_authorized,
 			user_delivery_addresses,
 			user_info,
 			delivery_methods,

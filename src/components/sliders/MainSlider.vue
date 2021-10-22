@@ -6,12 +6,12 @@
 
     <splide-slide
 	class="flex justify-center text-center rounded-md"
-	v-for="i in 4"
-	:key="i"
+	v-for="slider_item in sliders"
+	:key="slider_item?.id"
 	>
 		<img 
 		class="object-cover w-full max-h-80 min-h-[110px] rounded-md"
-		:src="image_link"/>
+		:src="slider_item?.imgsrc[0]"/>
 	</splide-slide>
 
   </splide>
@@ -28,9 +28,14 @@ export default {
 		Splide,
 		SplideSlide,
 	},
+	props: {
+		sliders: {
+			type: Array,
+			default: null,
+		}
+	},
 	data () {
 		return {
-			image_link: "http://vuetest.fast-code.ru/static/images/slider_image.jpeg",
 			options: {
 				type: 'loop',
 				// rewind: true,

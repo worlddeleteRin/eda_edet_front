@@ -10,6 +10,13 @@
 
 	<div class="px-6 py-4 bg-gray-100 rounded-lg">
 		<div>
+
+			<div class="text-xl font-medium">
+				Телефон доставки:
+			</div>		
+			<a :href="'tel:'+ common_info.delivery_phone" class="mt-1 text-medium">
+				{{ common_info.delivery_phone_display }}
+			</a>
 			<div class="text-xl font-medium">
 				Адрес:
 			</div>		

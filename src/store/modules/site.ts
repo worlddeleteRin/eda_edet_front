@@ -21,7 +21,8 @@ export default {
 	request_call_info: { ...request_call_info_default },
 	loading_states: {
 		critical_data_loading: true,
-	}
+	},
+	main_sliders: null,
   },
   mutations: {
 	setSessionId(state: Record<string,any>, session_id: string) {
@@ -36,7 +37,9 @@ export default {
 	},
 	setCommonInfo(state: Record<string,any>, data: Record<string,any>) {
 		state.common_info = { ...data }
-		console.log('common info is', state.common_info)
+	},
+	setMainSliders(state: Record<string,any>, sliders: Array<Record<string,any>>) {
+		state.main_sliders = sliders
 	},
 	setRequestCallInfo(state: Record<string,any>, request_call_info: Record<string,any>) {
 		state.request_call_info = { ...request_call_info }
@@ -68,6 +71,16 @@ export default {
 		}
 		return false
 	},
+	async getMainSlidersAPI(
+		context: ActionContext<any,unknown>
+	) {
+		const response = await SiteDataService.getMainSliders()
+		if (response && response.status == 200) {
+			context.commit('setMainSliders', response.data)
+			return true
+		}
+		return false
+	},
 	async getCommonInfoAPI(
 		context: ActionContext<any,unknown>
 	) {
@@ -88,10 +101,11 @@ export default {
 		}
 		return false
 	},
-	//sendRequestCallAPI({}: Record<string,any>) {
+	sendRequestCallAPI(context: ActionContext<any,unknown>) {
+		console.log('run request call', context, context.state.request_call_info)
 	//	return
 		// console.log('try to send action request call API', state.request_call_info)
 		// code goes here
-	//},
+	},
   },
 }

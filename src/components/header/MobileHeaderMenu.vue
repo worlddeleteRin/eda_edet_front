@@ -1,13 +1,13 @@
 <template>
-<div class="fixed top-0 left-0 z-40 w-full h-full overflow-y-scroll text-white bg-black">
+<div class="fixed top-0 left-0 z-40 w-full h-full overflow-y-scroll bg-white">
 	<div class="">
 		
 		<!-- mobile menu first -->
 		<div :class="['flex justify-between h-[50px] relative', border_bottom_class]">
 			<!-- logo -->
-			<div class="flex items-center h-full ml-3 max-w-[186px]">
+			<div class="flex items-center h-full ml-3 max-w-[186px] pl-8">
 				<img 
-				:src="logoUrl" 
+				:src="commonInfo?.main_logo_link" 
 				alt="logo is here"
 				class="object-contain w-full h-full"
 				>
@@ -32,16 +32,24 @@
 
 			<div
 			@click="routeTo('/')"
-			class="px-4 py-3 hover:bg-[#262626] rounded-md select-none"
+			class="px-4 py-3 hover:bg-green-200 rounded-md select-none"
 			>
 				<span class="text-xl font-medium">
 					Главная	
 				</span>
 			</div>
 			<div
+			@click="routeTo('/#delivery-categories')"
+			class="px-4 py-3 hover:bg-green-200 rounded-md select-none"
+			>
+				<span class="text-xl font-medium">
+					Меню доставки	
+				</span>
+			</div>
+			<div
 			@click="routeTo('/profile')"
 			v-if="userAuthorized && userModuleEnabled"
-			class="px-4 py-3 hover:bg-[#262626] rounded-md select-none"
+			class="px-4 py-3 hover:bg-green-200 rounded-md select-none"
 			>
 				<span class="text-xl font-medium">
 					Профиль	
@@ -58,7 +66,7 @@
 			</div>
 			<div
 			@click="routeTo('/stocks')"
-			class="px-4 py-3 hover:bg-[#262626] rounded-md select-none"
+			class="px-4 py-3 hover:bg-green-200 rounded-md select-none"
 			>
 				<span class="text-xl font-medium">
 					Акции	
@@ -66,18 +74,10 @@
 			</div>
 			<div
 			@click="routeTo('/contacts')"
-			class="px-4 py-3 hover:bg-[#262626] rounded-md select-none"
+			class="px-4 py-3 hover:bg-green-200 rounded-md select-none"
 			>
 				<span class="text-xl font-medium">
 					Контакты	
-				</span>
-			</div>
-			<div
-			@click="routeTo('/')"
-			class="px-4 py-3 hover:bg-[#262626] rounded-md select-none"
-			>
-				<span class="text-xl font-medium">
-					О Нас	
 				</span>
 			</div>
 
@@ -87,20 +87,22 @@
 
 		<!-- mobile menu contacts -->
 		<div :class="['py-1 pl-4 pr-2', border_bottom_class]">
-			<div class="flex items-center px-2 py-3 hover:bg-[#262626] rounded-md">
+			<a 
+			:href="'tel:'+ commonInfo?.delivery_phone"
+			class="flex items-center px-2 py-3 hover:bg-green-200 rounded-md">
 				<Icon
 				icon="bi:phone"
 				width="35"
 				/>
 				<div class="flex flex-col ml-2 select-none">
 					<span class="text-lg font-semibold">
-						{{ contactPhoneDisplay }} 
+						{{ commonInfo?.delivery_phone_display }} 
 					</span>
 					<span class="text-sm text-gray-400">
 						Всегда на связи!
 					</span>
 				</div>
-			</div>
+			</a>
 			<!--
 			<div class="flex items-center px-2 py-3 hover:bg-[#262626] rounded-md select-none">
 				<Icon
@@ -131,7 +133,7 @@
 				</div>
 			</div>
 			-->
-			<div class="flex items-center px-2 py-3 hover:bg-[#262626] rounded-md select-none">
+			<div class="flex items-center px-2 py-3 hover:bg-green-200 rounded-md select-none">
 				<Icon
 				icon="akar-icons:instagram-fill"
 				width="35"
@@ -145,7 +147,7 @@
 					</span>
 				</div>
 			</div>
-			<div class="flex items-center px-2 py-3 hover:bg-[#262626] rounded-md select-none">
+			<div class="flex items-center px-2 py-3 hover:bg-green-200 rounded-md select-none">
 				<Icon
 				icon="bx:bxl-vk"
 				width="35"
@@ -185,20 +187,9 @@ export default defineComponent({
 			type: Boolean,
 			default: false,
 		},
-		logoUrl: {
-			type: String,
-			required: true,
-			default: 'https://placeholder.com/wp-content/uploads/2018/10/placeholder-1.png',
-		},
-		contactPhone: {
-			type: String,
-			required: true,
-			default: "79780000000",
-		},
-		contactPhoneDisplay: {
-			type: String,
-			required: true,
-			default: "7 (978)-000-00-00",
+		commonInfo: {
+			type: Object,
+			default: null
 		},
 	},
 	emits: ['close-mobile-menu', 'open-user-authorize'],
@@ -207,7 +198,7 @@ export default defineComponent({
 	},
 	setup (props, { emit }) {
 		const router = useRouter()
-		const border_bottom_class = "border-b-[1px] border-gray-800"
+		const border_bottom_class = "border-b-[1px] border-green-800"
 		// functions
 		const routeTo = (route_path: string) => {
 			router.push(route_path)

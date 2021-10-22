@@ -19,6 +19,7 @@
 		v-if="mobile_menu_open"
 		:userAuthorized="is_user_authorized"
 		:userModuleEnabled="user_module_enabled"
+		:common-info="common_info"
 		@close-mobile-menu="setMobileMenu(false)"
 		@open-user-authorize="setUserAuthorizeModal(true)"
 	/>

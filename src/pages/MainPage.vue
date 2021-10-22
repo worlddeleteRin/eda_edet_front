@@ -2,7 +2,9 @@
 
 	<!-- main page slider -->
 	<MainSlider 
+		v-if="main_sliders"
 		class="mb-5"
+		:sliders="main_sliders"
 	/>
 	<!-- eof main page slider -->
 
@@ -12,7 +14,9 @@
 	</div>
 	-->
 	<!-- categories list -->
-	<div class="px-4 mx-auto mt-5 mb-4 text-2xl font-semibold md:text-3xl max-w-screen-lg">
+	<div 
+	id="delivery-categories"
+	class="px-4 mx-auto mt-5 mb-4 text-2xl font-semibold md:text-3xl max-w-screen-lg">
 		Меню доставки
 	</div>
 	<categories-list
@@ -92,6 +96,7 @@ export default defineComponent({
 		// categories
 		const categories = computed(() => store.state.catalogue.categories);
 		// products
+		const main_sliders = computed(() => store.state.site.main_sliders);
 		const products = computed(() => store.state.catalogue.products);
 		// functions
 		const getProductsByCategorySlug = (category_slug: string) => {
@@ -135,8 +140,14 @@ export default defineComponent({
 			return null
 		};
 		onBeforeMount (() => {
-			// get products from api
-			store.dispatch("catalogue/getProductsAPI")
+			// get main slider
+			if (!main_sliders.value) {
+				store.dispatch("getMainSlidersAPI")
+			}
+			if (!products.value)  {
+				// get products from api
+				store.dispatch("catalogue/getProductsAPI")
+			}
 		});
 
 
@@ -171,6 +182,7 @@ export default defineComponent({
 			cart,
 			categories,
 			products,
+			main_sliders,
 			// functions
 			getProductsByCategorySlug,
 
