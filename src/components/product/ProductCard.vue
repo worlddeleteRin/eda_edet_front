@@ -10,7 +10,7 @@
 	<!-- image -->
 	<div 
 	@click="goToProductPage"
-	class="w-6/12 md:max-w-[250px] md:h-[220px] max-h-[220px] relative rounded md:w-full">
+	class="w-5/12 flex-shrink-0 max-w-[180px]  md:max-w-[250px] md:h-[220px] max-h-[220px] min-w-[50px] relative rounded md:w-full">
 		<img
 			v-lazy="product?.imgsrc[0]"
 			class="object-contain w-full md:h-[220px] md:max-h-full h-full rounded cursor-pointer"

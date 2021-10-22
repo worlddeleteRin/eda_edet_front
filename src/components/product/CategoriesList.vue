@@ -3,8 +3,7 @@
 <div v-if="categories"
 	class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-3 gap-y-1"
 >
-	<router-link
-		:to="'/#' + category.slug"
+	<a :href="'/#' + category.slug"
 		v-for="category in categories"
 		:key="category.id"
 		class="py-2 px-2 shadow-lg rounded-lg"
@@ -17,7 +16,7 @@
 				{{ category.name }}
 			</div>
 		</div>
-	</router-link>
+	</a>
 </div>
 
 
@@ -40,7 +39,13 @@ export default defineComponent({
 		}
 	},
 	setup () {
+		const goToCategory = (category_slug: string)  => {
+			return
+//			var c = document.querySelector("#" + category_slug)
+//			c?.scrollIntoView()
+		}
 		return {
+			goToCategory
 		}
 	}
 });

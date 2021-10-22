@@ -3,18 +3,6 @@
 	
 	<div class="h-[50px] md:h-[76px] flex items-center justify-between relative flex-shrink">
 
-	<!-- open mobile menu button -->
-	<div 
-	@click="openMobileMenuClick"
-	class="flex px-2 py-1"
-	>
-		<Icon
-			icon="feather:menu"
-			width="22"
-			class="block md:hidden"
-		/>
-	</div>
-	<!-- eof open mobile menu button -->
 
 	<!-- header logo -->
 	<router-link :to="'/'" 
@@ -117,19 +105,6 @@
 	</div>
 	<!-- eof header profile links -->
 
-	<!-- mobile cart -->
-	<router-link
-	:to="'/cart'"
-	class="flex px-2 py-1"
-	>
-		<Icon
-		icon="akar-icons:shopping-bag"
-		width="22"
-		class="block md:hidden"
-		/>
-	</router-link>
-	<!-- eof mobile cart -->
-
 
 	</div>
 
@@ -207,17 +182,15 @@ export default defineComponent({
 		Icon,
 		Button,
 	},
-	emits: ["open-mobile-menu", "open-call-request", "open-user-authorize"],
+	emits: ["open-call-request", "open-user-authorize"],
 	setup (props, {emit}) {
 
 		var requestCallClick  = () => emit("open-call-request")
-		var openMobileMenuClick = () => emit("open-mobile-menu")
 		var openUserAuthorizeClicked = () => emit("open-user-authorize")
 
 		return {
 			// functions
 			requestCallClick,
-			openMobileMenuClick,
 			openUserAuthorizeClicked,
 		}
 	}

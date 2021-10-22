@@ -4,15 +4,25 @@
 	<div v-if="!critical_data_loading">
 	<!-- site main header -->
 	<header-component
-		@open-mobile-menu="setMobileMenu(true)"
 		@open-call-request="setCallRequestModal(true)"
 		@open-user-authorize="setUserAuthorizeModal(true)"
 		:userAuthorized="is_user_authorized"
 		:userModuleEnabled="user_module_enabled"
 		:common-info="common_info"
-		class="px-3 mt-1 md:px-2 md:mt-4"
+		class="px-3 mt-1 md:px-2 md:mt-4 hidden md:block"
 	/>
 	<!-- eof site main header -->
+	<!-- mobile header -->
+	<el-affix
+		z-index="3"
+	>
+		<mobile-header
+			class="block md:hidden bg-white"
+			@open-mobile-menu="setMobileMenu(true)"
+			:common-info="common_info"
+		/>
+	</el-affix>
+	<!-- eof mobile header -->
 
 	<!-- mobile main header -->
 	<mobile-header-menu
@@ -79,6 +89,7 @@ import { createToast } from 'mosha-vue-toastify';
 
 // local components
 import HeaderComponent from '@/components/header/HeaderComponent.vue';
+import MobileHeader from '@/components/header/MobileHeader.vue';
 const MobileHeaderMenu  = defineAsyncComponent (() => import(/* webpackChunkName: "mobile-header" */'@/components/header/MobileHeaderMenu.vue'));
 const RequestCallModal = defineAsyncComponent ( () => import(/* webpackChunkName: "request-call-modal" */'@/components/modals/RequestCallModal.vue'));
 const UserAuthorizeModal = defineAsyncComponent( () => import(/* webpackChunkName: "authorize-modal" */ '@/components/modals/UserAuthorizeModal.vue'));
@@ -88,6 +99,7 @@ export default {
 	name: "App",
 	components: {
 		HeaderComponent,
+		MobileHeader,
 		MobileHeaderMenu,
 		RequestCallModal,
 		UserAuthorizeModal,

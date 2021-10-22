@@ -14,11 +14,15 @@ import {
 } from 'element-plus';
 import 'element-plus/dist/index.css';
 
+import { Icon } from "@iconify/vue"
+
 const app = createApp(App)
 // app.config.globalProperties.api_url = api_url
 
 // global ElementPlus components
 app.use(ElAffix)
+
+app.component("Icon", Icon)
 
 
 app.use(store)

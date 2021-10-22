@@ -5,7 +5,7 @@
 		<!-- mobile menu first -->
 		<div :class="['flex justify-between h-[50px] relative', border_bottom_class]">
 			<!-- logo -->
-			<div class="flex items-center h-full ml-3 max-w-[186px] pl-8">
+			<div class="flex items-center h-full max-w-[186px] pl-8">
 				<img 
 				:src="commonInfo?.main_logo_link" 
 				alt="logo is here"

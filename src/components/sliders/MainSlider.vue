@@ -10,7 +10,7 @@
 	:key="slider_item?.id"
 	>
 		<img 
-		class="object-cover w-full max-h-80 min-h-[110px] rounded-md"
+		class="object-contain w-full max-h-80 md:min-h-[110px] rounded-md"
 		:src="slider_item?.imgsrc[0]"/>
 	</splide-slide>
 
@@ -38,6 +38,8 @@ export default {
 		return {
 			options: {
 				type: 'loop',
+				autoHeight: true,
+				heightRatio: 0.3,
 				// rewind: true,
 				perPage: 1,
 				arrows: false,
