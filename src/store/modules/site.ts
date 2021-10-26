@@ -101,11 +101,13 @@ export default {
 		}
 		return false
 	},
-	sendRequestCallAPI(context: ActionContext<any,unknown>) {
-		console.log('run request call', context, context.state.request_call_info)
-	//	return
-		// console.log('try to send action request call API', state.request_call_info)
-		// code goes here
+	async sendRequestCallAPI(context: ActionContext<any,unknown>) {
+		console.log('run request call', context.state.request_call_info)
+		const response = await SiteDataService.sendRequestCall(context.state.request_call_info)
+		if (response && response.status == 200) {
+			return true
+		}
+		return false
 	},
   },
 }

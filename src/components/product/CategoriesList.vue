@@ -8,9 +8,9 @@
 		:key="category.id"
 		class="py-2 px-2 shadow-lg rounded-lg"
 	>
-		<div class="flex items-center">	
-			<img :src="'http://placehold.it/300x300'"
-				class="w-[80px]"
+		<div class="flex items-center justify-center h-full min-h-[80px] max-h-[90px] overflow-hidden">	
+			<img :src="category?.imgsrc[0]"
+				class="w-[80px] w-full h-full object-contain"
 			/>
 			<div class="flex flex-1 justify-center font-semibold">
 				{{ category.name }}

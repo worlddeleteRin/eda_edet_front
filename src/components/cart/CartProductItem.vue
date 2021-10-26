@@ -12,10 +12,16 @@ class="relative flex items-center w-full py-2 mx-4 mb-2 bg-white rounded-lg"
 	<!-- EOF IMG BLOCK -->
 	<!-- detail block -->
 	<div class="flex flex-col justify-around w-8/12 ml-3 mr-2">
-		<div class="text-lg font-medium">
-			{{ lineItem.product.price }} &#8381; 
+		<div class="flex">
+			<div class="text-lg font-medium"
+			:style="lineItem.product.sale_price > 0 ? 'text-decoration: line-through': ''">
+				{{ lineItem.product.price * lineItem.quantity }} &#8381; 
+			</div>
+			<div v-if="lineItem.product.sale_price && lineItem.product.sale_price > 0"
+			class="text-lg font-medium ml-2 bg-red-500 rounded-md px-1 text-white">
+				{{ lineItem.product.sale_price * lineItem.quantity }} &#8381; 
+			</div>
 		</div>
-			sale price ?
 		<div class="text-sm font-light">
 			{{ lineItem.product.name }}
 		</div>

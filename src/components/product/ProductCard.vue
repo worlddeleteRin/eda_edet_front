@@ -50,7 +50,7 @@
 				<Button
 					@button-click="addCartClick"
 					v-if="!isInCart"
-					:title="product.price + ' &#8381;'"
+					:title="getProductPrice(product) + ' &#8381;'"
 					rounded="full"
 					class="py-[0.4rem] font-medium px-8 text-defaultText bg-default bg-opacity-10 text-[14px]"
 				/>
@@ -67,7 +67,7 @@
 			<!-- desktop add cart -->
 			<div class="items-center justify-between hidden mt-4 md:flex">
 				<div class="text-xl font-semibold">
-					 {{ product.price }} &#8381;
+					 {{ getProductPrice(product) }} &#8381;
 				</div>
 				<Button
 				@button-click="addCartClick"
@@ -148,10 +148,17 @@ export default defineComponent({
 		var addCartClick = () => emit('add-to-cart', props.product)
 		var addQuantityClick = () => emit('add-item-quantity', props.cartItem)
 		var removeQuantityClick = () => emit('remove-item-quantity', props.cartItem)
+		const getProductPrice = (product: Record<string,any>) => {
+			if (product.sale_price && product.sale_price > 0) {
+				return product.sale_price
+			}
+			return product.price
+		}
 		return {
 			// computed
 			isInCart,
 			// functions
+			getProductPrice,
 			addCartClick,
 			removeFromCartClick,
 			addQuantityClick,

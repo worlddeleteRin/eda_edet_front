@@ -29,8 +29,8 @@
 				Режим работы:
 			</div>		
 			<div class="mt-1 text-medium">
-				<div>Пн-Пт: 9:00 - 19:00</div>
-				<div>Cб-Вс: 9:00 - 19:00</div>
+				<div>Пн-Пт: 10:00 - 22:00</div>
+				<div>Cб-Вс: 10:00 - 23:00</div>
 			</div>
 		</div>	
 	</div>
