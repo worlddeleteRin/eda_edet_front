@@ -86,6 +86,8 @@ class CartDataServiceClass {
 			"line_items": line_items,
 			"delivery_method": checkout_info.delivery_method,
 			"payment_method": checkout_info.payment_method.id,
+            "guest_name": checkout_info.guest_name,
+            "guest_phone_display": checkout_info.guest_phone_display,
 			"guest_phone": checkout_info.guest_phone,
 			"guest_delivery_address": guest_delivery_address,
 			"pickup_address": pickup_address,

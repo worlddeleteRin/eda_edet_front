@@ -1,4 +1,5 @@
 // import { Store } from 'vuex';
+import { ActionContext } from 'vuex';
 
 export default {
 	namespaced: true,
@@ -15,8 +16,10 @@ export default {
 	checkout_info: {
 		delivery_method: "delivery",
 		payment_method: null,
+        guest_name: null,
 		guest_delivery_address: null,
-		guest_phone: null,
+        guest_phone: null,
+		guest_phone_display: null,
 		delivery_address: null,
 		pickup_address: null,
 	},
@@ -24,6 +27,9 @@ export default {
   getters: {
   },
   mutations: {	
+    updateCheckoutInfo(state: Record<string,any>, new_checkout_info: Record<string,any>) {
+        state.checkout_info = {...new_checkout_info}
+    },
 	setCheckoutDeliveryMethods(state: Record<string,any>, delivery_methods: Array<Record<string,any>>) {
 		state.delivery_methods = delivery_methods
 	},
@@ -58,5 +64,20 @@ export default {
 	},
   },
   actions: {
+    validateCheckout(
+        context: ActionContext<any,any>
+    ) {
+        const checkout_info = context.state.checkout_info
+        if (!checkout_info.guest_phone || checkout_info.guest_phone.length != 11) {
+            return { can_make_order: false, msg: 'Корректно введите номер телефона' }
+        }
+        if (!checkout_info.guest_name || checkout_info.guest_name.trim().length == 0) {
+            return { can_make_order: false, msg: 'Введите ваше имя' }
+        }
+        if (!checkout_info.guest_delivery_address || checkout_info.guest_delivery_address.trim().length == 0) {
+            return { can_make_order: false, msg: 'Укажите адрес доставки' }
+        }
+        return { can_make_order: true, msg: 'norm' }
+    }
   },
 }

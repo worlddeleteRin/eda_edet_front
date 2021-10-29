@@ -19,14 +19,26 @@
 	</div>
 	<!-- eof select delivery method -->
 	
+    <!-- guest user name -->
+    <div
+		class="py-1 pl-4 mt-6 bg-white rounded-lg max-w-[600px]"
+    >
+        <input
+            v-model="checkout_info.guest_name"
+            placeholder="Ваше имя"
+            class="w-full px-3 py-3 rounded-lg outline-none"
+        />
+    </div>
+    <!-- eof guest user name -->
+
 	<!-- set user phone, if use if guest -->
 	<div 
-		class="py-1 pl-4 mt-6 bg-white rounded-lg max-w-[600px]"
+		class="py-1 pl-4 mt-2 bg-white rounded-lg max-w-[600px]"
 	>
 		<input
 			@maska="updateGuestPhone"
 			v-maska="'+7 ###-###-##-##'"
-			v-model="checkout_info.guest_phone"
+			v-model="checkout_info.guest_phone_display"
 			placeholder="Ваш номер телефона"
 			class="w-full px-3 py-3 rounded-lg outline-none"
 		/>
@@ -187,11 +199,9 @@ export default defineComponent({
 	setup () {
 	onBeforeMount(async () => {
 		if (!delivery_methods.value || !pickup_addresses.value || !payment_methods.value) {
-			console.log('get common checkout info')
 			await store.dispatch("cart/getCheckoutCommonInfoAPI")
 		}
 		if (!user_delivery_addresses.value) {
-			console.log('get user delivery addresses')
 			await store.dispatch("getUserDeliveryAddressAPI")
 		}
 	});
@@ -252,10 +262,16 @@ export default defineComponent({
 		const address = event.target.value
 		store.commit("checkout/setCheckoutInfoGuestDeliveryAddress", address)
 	}
-
+	const updateGuestPhone = (event: Record<string,any>) => { 
+        var phone_raw_value = event.target.getAttribute('data-mask-raw-value')
+        if (phone_raw_value.trim().length > 0) {
+            checkout_info.value['guest_phone'] = '7' + phone_raw_value
+        } else {
+            checkout_info.value['guest_phone'] = null
+        }
+	}
 
 	const deleteDeliveryAddress = async (address_id: string) => { 
-		console.log('run delete')
 		const is_deleted = await store.dispatch("deleteUserDeliveryAddressAPI", address_id)
 		if (is_deleted) {
 			return null
@@ -323,6 +339,10 @@ export default defineComponent({
 	// make order function 
 	const makeOrder = async () => {
 		// need to validate, that order could be make
+        const valid_res = await store.dispatch('checkout/validateCheckout')
+        if (!valid_res?.can_make_order) {
+            return errorToast(valid_res?.msg)
+        }
 		// 1. Check, if user authorized, if not - show authorization popup
 		// 2. Check, if user selected delivery method, delivery/pickup address, show error Toast msg if not
 		// 3. Check, if user has enough cart items, to make purchase for delivery (enough emount)
@@ -342,8 +362,6 @@ export default defineComponent({
 			const is_created = await store.dispatch('cart/createGuestOrderAPI')
 			if (is_created) { 
 				successToast("Заказ успешно создан!");
-				// load user orders
-				// route user to the profile page
 				return router.push("/");
 			}  
 			return errorToast("Возникла ошибка во время создания заказа")
@@ -364,6 +382,7 @@ export default defineComponent({
 			deleteDeliveryAddress,
 			updateDeliveryMethod,
 			updateGuestDeliveryAddress,
+            updateGuestPhone,
 			updateDeliveryAddress,
 			updatePickupAddress,
 			updatePaymentMethod,
