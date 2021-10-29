@@ -3,7 +3,7 @@
 <div class="flex flex-col items-center max-w-md mx-auto shadow-xl rounded-b-xl"> 
         <!-- stock image -->
         <div
-		class="overflow-hidden rounded-t-xl max-h-[200px]">  
+		class="overflow-hidden rounded-t-xl max-h-[100px]">  
             <img 
 			class="object-cover w-full h-full transform hover:scale-110 duration-700" 
 			:src="stock.imgsrc[0]"

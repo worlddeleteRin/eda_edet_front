@@ -33,11 +33,29 @@
 				<div>Cб-Вс: 10:00 - 23:00</div>
 			</div>
 		</div>	
+		<div class="mt-3">
+			<div class="text-xl font-medium">
+				Зоны и стоимость доставки:
+			</div>		
+			<div class="mt-1 text-medium">
+				<div>Форос - 200 руб., от 2000 руб. бесплатно</div>
+				<div>Санаторное - 200 руб., от 1800 руб. бесплатно</div>
+				<div>Олива - 150 руб., от 1800 руб. бесплатно</div>
+				<div>Кастрополь - бесплатно при заказе от 700 руб.</div>
+				<div>Парковое - 100 руб., от 1200 руб. бесплатно</div>
+				<div>Понизовка - 150 руб., от 1600 руб. бесплатно</div>
+				<div>Оползневое - 150 руб., от 1600 руб. бесплатно</div>
+				<div>Кацивели - 150 руб., от 1800 руб. бесплатно</div>
+				<div>Голубой залив - 200 руб., от 1800 руб. бесплатно</div>
+				<div>Симеиз - 250 руб., от 2000 руб. бесплатно</div>
+				<div>Алупка - 250 руб., от 2200 руб. бесплатно</div>
+			</div>
+		</div>	
 	</div>
 
-	<!-- map -->
-<div style="position:relative;overflow:hidden;"><a href="https://yandex.ru/maps/11470/yalta/?utm_medium=mapframe&utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:0px;">Ялта</a><a href="https://yandex.ru/maps/geo/yalta/1444531236/?ll=34.176932%2C44.497716&utm_medium=mapframe&utm_source=maps&z=13.56" style="color:#eee;font-size:12px;position:absolute;top:14px;">Ялта — Яндекс.Карты</a><iframe src="https://yandex.ru/map-widget/v1/-/CCUm6MBdSC" width="100%" height="300" frameborder="1" allowfullscreen="true" style="position:relative;" class="mt-5 rounded-md"></iframe></div>
-	<!-- eof map -->
+    <!-- map -->
+<iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Aaa55d08de833328b0c25b176d4b217ecdcfa0c9c93d7d719e3c0bd3d50207cbe&amp;source=constructor" width="100%" height="400" frameborder="0" class="mt-4 rounded-md"></iframe>
+    <!-- eof map -->
 
 </div>
 
