@@ -138,15 +138,18 @@
 				icon="akar-icons:instagram-fill"
 				width="35"
 				/>
-				<div class="flex flex-col ml-2">
+				<a 
+                href="https://www.instagram.com/eda_edet_kastropol/"
+                class="flex flex-col ml-2">
 					<span class="text-lg font-semibold">
 						Инстаграм	
 					</span>
 					<span class="text-sm text-gray-400">
 						Мы в Инстаграм 
 					</span>
-				</div>
+				</a>
 			</div>
+            <!--
 			<div class="flex items-center px-2 py-3 hover:bg-green-200 rounded-md select-none">
 				<Icon
 				icon="bx:bxl-vk"
@@ -161,6 +164,7 @@
 					</span>
 				</div>
 			</div>
+            -->
 		</div>
 		<!-- eof mobile menu contacts -->
 
