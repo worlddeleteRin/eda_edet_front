@@ -1,4 +1,13 @@
-<template> <div>
+<template> 
+<div>
+
+  <!-- delete in future  -->
+  <div class="max-w-screen-lg mx-auto">
+  <div class="mx-auto mx-5 mt-7 text-red-600 text-md md:text-xl">
+    ВНИМАНИЕ! c 01.01.2022 по 10.01.2022 доставка работать не будет
+  </div>
+  </div>
+  <!-- eof delete if future -->
 
 	<!-- main page slider -->
 	<MainSlider 
